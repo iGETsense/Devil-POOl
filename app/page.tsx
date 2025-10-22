@@ -7,7 +7,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
-        <Image src="/hero-pool-upscale.jpg" alt="Demon Time Pool Party" fill className="object-cover" priority />
+        <Image src="/hero-black-women-pool-2.jpg" alt="Demon Time Pool Party" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
