@@ -160,3 +160,16 @@
   color: #e6c896;
   text-shadow: 0 0 20px rgba(230, 200, 150, 0.5);
 }
+
+@keyframes scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scan {
+  animation: scan 2s linear infinite;
+}

@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { QrCode, Users, LogOut, CheckCircle, XCircle, Search, Calendar, DollarSign } from "lucide-react"
+import { QrCode, Users, LogOut, CheckCircle, XCircle, Search, Calendar, DollarSign, Camera } from "lucide-react"
+import dynamic from "next/dynamic"
+
+const QRScanner = dynamic(() => import("@/components/qr-scanner"), { ssr: false })
 
 interface Guest {
   id: string
@@ -19,7 +22,7 @@ interface Guest {
 export default function AdminDashboardPage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<"scan" | "guests">("scan")
-  const [qrInput, setQrInput] = useState("")
+  const [showScanner, setShowScanner] = useState(false)
   const [scanResult, setScanResult] = useState<{ valid: boolean; guest?: Guest; message: string } | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [mounted, setMounted] = useState(false)
@@ -71,10 +74,8 @@ export default function AdminDashboardPage() {
     router.push("/admin/login")
   }
 
-  const handleScanQR = (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    const guest = guests.find(g => g.qrCode === qrInput || g.id === qrInput)
+  const handleScanQR = (data: string) => {
+    const guest = guests.find(g => g.qrCode === data || g.id === data)
     
     if (guest) {
       if (guest.scanned) {
@@ -97,7 +98,7 @@ export default function AdminDashboardPage() {
       })
     }
     
-    setQrInput("")
+    setShowScanner(false)
   }
 
   const filteredGuests = guests.filter(guest =>
@@ -202,25 +203,18 @@ export default function AdminDashboardPage() {
               Scanner un QR Code
             </h2>
 
-            <form onSubmit={handleScanQR} className="max-w-2xl mx-auto mb-8">
-              <div className="relative">
-                <QrCode className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-white/50" />
-                <input
-                  type="text"
-                  value={qrInput}
-                  onChange={(e) => setQrInput(e.target.value)}
-                  placeholder="Scannez ou entrez le code QR..."
-                  className="w-full pl-14 pr-4 py-5 bg-black/50 border-2 border-white/20 rounded-xl text-white text-lg placeholder-white/50 focus:border-[#ff3366] focus:outline-none transition-all"
-                  autoFocus
-                />
-              </div>
+            <div className="max-w-2xl mx-auto mb-8">
               <button
-                type="submit"
-                className="w-full mt-4 py-4 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all shadow-lg"
+                onClick={() => setShowScanner(true)}
+                className="w-full py-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-xl font-semibold rounded-2xl hover:from-red-800 hover:to-red-600 transition-all shadow-2xl hover:shadow-red-500/50 flex items-center justify-center gap-4"
               >
-                Vérifier le QR Code
+                <Camera className="w-8 h-8" />
+                Ouvrir la Caméra
               </button>
-            </form>
+              <p className="text-white/60 text-center mt-4">
+                Cliquez pour activer la caméra et scanner un QR code
+              </p>
+            </div>
 
             {scanResult && (
               <div className={`max-w-2xl mx-auto p-6 rounded-2xl border-4 ${
@@ -316,6 +310,14 @@ export default function AdminDashboardPage() {
           </div>
         )}
       </div>
+
+      {/* QR Scanner Modal */}
+      {showScanner && (
+        <QRScanner
+          onScan={handleScanQR}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
     </main>
   )
 }
