@@ -12,16 +12,21 @@ interface PaymentFormProps {
 
 export default function PaymentForm({ passName, passPrice, passImage }: PaymentFormProps) {
   const [selectedOperator, setSelectedOperator] = useState<"orange" | "mtn" | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     fullName: "",
-    email: "",
     phone: "",
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle payment logic here
-    console.log("Payment data:", { ...formData, operator: selectedOperator, pass: passName })
+    setIsLoading(true)
+    // Simulate payment processing
+    setTimeout(() => {
+      console.log("Payment data:", { ...formData, operator: selectedOperator, pass: passName })
+      // Here you would handle the actual payment
+      setIsLoading(false)
+    }, 3000)
   }
 
   return (
@@ -91,18 +96,6 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                       placeholder="Nom complet"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full pl-12 pr-4 py-4 bg-black/50 border-2 border-white/20 rounded-xl text-white placeholder-white/50 focus:border-[#ff3366] focus:outline-none transition-all"
-                      required
-                    />
-                  </div>
-
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-                    <input
-                      type="email"
-                      placeholder="Adresse email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full pl-12 pr-4 py-4 bg-black/50 border-2 border-white/20 rounded-xl text-white placeholder-white/50 focus:border-[#ff3366] focus:outline-none transition-all"
                       required
                     />
@@ -198,6 +191,59 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
           </div>
         </div>
       </div>
+
+      {/* Loading Animation Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm">
+          <div className="text-center">
+            {/* Animated Logo */}
+            <div className="relative mb-8">
+              <div className="relative w-48 h-48 mx-auto">
+                {/* Pulsing outer ring */}
+                <div className="absolute inset-0 rounded-full border-4 border-[#ff3366] animate-ping opacity-75"></div>
+                
+                {/* Rotating ring */}
+                <div className="absolute inset-4 rounded-full border-4 border-t-[#ff3366] border-r-transparent border-b-[#ffcc00] border-l-transparent animate-spin"></div>
+                
+                {/* Inner glow circle */}
+                <div className="absolute inset-8 rounded-full bg-gradient-to-br from-[#ff3366]/30 to-[#ffcc00]/30 animate-pulse"></div>
+                
+                {/* Center logo text */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold gold-text mb-2" style={{ fontFamily: "var(--font-cinzel), serif" }}>
+                      DT
+                    </div>
+                    <div className="flex gap-1 justify-center">
+                      <div className="w-2 h-2 bg-[#ff3366] rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                      <div className="w-2 h-2 bg-[#ff3366] rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                      <div className="w-2 h-2 bg-[#ff3366] rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Loading text */}
+            <h2 
+              className="text-3xl font-bold gold-text mb-4 animate-pulse"
+              style={{ fontFamily: "var(--font-cinzel), serif" }}
+            >
+              Traitement en cours...
+            </h2>
+            <p className="text-white/70 text-lg">
+              Connexion avec {selectedOperator === "orange" ? "Orange Money" : "MTN MoMo"}
+            </p>
+            
+            {/* Animated flames */}
+            <div className="flex justify-center gap-4 mt-8">
+              <div className="text-[#ff3366] animate-pulse" style={{ animationDelay: "0ms" }}>🔥</div>
+              <div className="text-[#ff3366] animate-pulse" style={{ animationDelay: "200ms" }}>🔥</div>
+              <div className="text-[#ff3366] animate-pulse" style={{ animationDelay: "400ms" }}>🔥</div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

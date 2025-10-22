@@ -27,97 +27,94 @@ export default function PassesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* ONE MAN */}
-            <div
-              className="neon-border rounded-[40px] overflow-hidden flex flex-col"
-              style={{ backgroundColor: "rgba(10, 10, 10, 0.85)" }}
-            >
-              <div className="p-6 pt-8 text-center flex-1 flex flex-col">
-                <h2
-                  className="text-3xl md:text-4xl font-bold gold-text mb-2"
-                  style={{ fontFamily: "var(--font-cinzel), serif" }}
-                >
-                  ONE MAN
-                </h2>
-                <p className="text-2xl md:text-3xl neon-text font-bold mb-6">15 000 FCFA</p>
-                <div className="relative flex-1 rounded-2xl overflow-hidden mb-6 min-h-[400px]">
-                  <Image
-                    src="/stylish-man-in-leather-jacket-with-red-and-blue-dr.jpg"
-                    alt="One Man Pass"
-                    fill
-                    className="object-cover"
-                  />
+            <Link href="/passes/one-man" className="group">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff3366]/50">
+                <div className="p-8 text-center">
+                  <h3 
+                    className="text-4xl font-bold mb-2 gold-text"
+                    style={{ fontFamily: "var(--font-cinzel), serif" }}
+                  >
+                    ONE MAN
+                  </h3>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "#ff3366" }}>
+                    15 000 FCFA
+                  </p>
+                  
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
+                    <Image
+                      src="/one-man-card.jpg"
+                      alt="One Man Pass"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <button className="w-full py-4 px-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg">
+                    Sélectionner ce pass
+                  </button>
                 </div>
-                <Link
-                  href="/reservation?pass=one-man"
-                  className="block w-full py-4 px-6 text-white text-base md:text-lg rounded-full font-medium hover:opacity-90 transition-all"
-                  style={{ backgroundColor: "#5a1a1a" }}
-                >
-                  Sélectionner ce pass
-                </Link>
               </div>
-            </div>
+            </Link>
 
             {/* ONE LADY */}
-            <div
-              className="neon-border rounded-[40px] overflow-hidden flex flex-col"
-              style={{ backgroundColor: "rgba(10, 10, 10, 0.85)" }}
-            >
-              <div className="p-6 pt-8 text-center flex-1 flex flex-col">
-                <h2
-                  className="text-3xl md:text-4xl font-bold gold-text mb-2"
-                  style={{ fontFamily: "var(--font-cinzel), serif" }}
-                >
-                  ONE LADY
-                </h2>
-                <p className="text-2xl md:text-3xl neon-text font-bold mb-6">10 000 FCFA</p>
-                <div className="relative flex-1 rounded-2xl overflow-hidden mb-6 min-h-[400px]">
-                  <Image
-                    src="/elegant-woman-in-black-outfit-by-pool-at-night-wit.jpg"
-                    alt="One Lady Pass"
-                    fill
-                    className="object-cover"
-                  />
+            <Link href="/passes/one-lady" className="group">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff3366]/50">
+                <div className="p-8 text-center">
+                  <h3 
+                    className="text-4xl font-bold mb-2 gold-text"
+                    style={{ fontFamily: "var(--font-cinzel), serif" }}
+                  >
+                    ONE LADY
+                  </h3>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "#ff3366" }}>
+                    10 000 FCFA
+                  </p>
+                  
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
+                    <Image
+                      src="/one-lady-card.jpg"
+                      alt="One Lady Pass"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <button className="w-full py-4 px-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg">
+                    Sélectionner ce pass
+                  </button>
                 </div>
-                <Link
-                  href="/reservation?pass=one-lady"
-                  className="block w-full py-4 px-6 text-white text-base md:text-lg rounded-full font-medium hover:opacity-90 transition-all"
-                  style={{ backgroundColor: "#5a1a1a" }}
-                >
-                  Sélectionner ce pass
-                </Link>
               </div>
-            </div>
+            </Link>
 
             {/* FIVE QUEENS */}
-            <div
-              className="neon-border rounded-[40px] overflow-hidden flex flex-col"
-              style={{ backgroundColor: "rgba(10, 10, 10, 0.85)" }}
-            >
-              <div className="p-6 pt-8 text-center flex-1 flex flex-col">
-                <h2
-                  className="text-3xl md:text-4xl font-bold gold-text mb-2"
-                  style={{ fontFamily: "var(--font-cinzel), serif" }}
-                >
-                  FIVE QUEENS
-                </h2>
-                <p className="text-2xl md:text-3xl neon-text font-bold mb-6">5 000 FCFA</p>
-                <div className="relative flex-1 rounded-2xl overflow-hidden mb-6 min-h-[400px]">
-                  <Image
-                    src="/group-of-five-women-in-elegant-black-and-red-dress.jpg"
-                    alt="Five Queens Pass"
-                    fill
-                    className="object-cover"
-                  />
+            <Link href="/passes/five-queens" className="group">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff3366]/50">
+                <div className="p-8 text-center">
+                  <h3 
+                    className="text-4xl font-bold mb-2 gold-text"
+                    style={{ fontFamily: "var(--font-cinzel), serif" }}
+                  >
+                    FIVE QUEENS
+                  </h3>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "#ff3366" }}>
+                    5 000 FCFA
+                  </p>
+                  
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
+                    <Image
+                      src="/five-queens-card.jpg"
+                      alt="Five Queens Pass"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <button className="w-full py-4 px-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg">
+                    Sélectionner ce pass
+                  </button>
                 </div>
-                <Link
-                  href="/reservation?pass=five-queens"
-                  className="block w-full py-4 px-6 text-white text-base md:text-lg rounded-full font-medium hover:opacity-90 transition-all"
-                  style={{ backgroundColor: "#5a1a1a" }}
-                >
-                  Sélectionner ce pass
-                </Link>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
