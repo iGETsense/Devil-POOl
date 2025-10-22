@@ -75,29 +75,62 @@ export default function AdminDashboardPage() {
   }
 
   const handleScanQR = (data: string) => {
-    const guest = guests.find(g => g.qrCode === data || g.id === data)
+    // Stocker TOUTES les données scannées dans une variable
+    const scannedQRData = data
+    
+    // Log détaillé pour debug
+    console.log("🔍 Validation du QR Code...")
+    console.log("📦 Données reçues:", scannedQRData)
+    console.log("📊 Type de données:", typeof scannedQRData)
+    console.log("📏 Longueur:", scannedQRData.length)
+    
+    // Chercher dans la base de données (actuellement demo data)
+    // Recherche flexible: par QR code OU par ID
+    const guest = guests.find(g => 
+      g.qrCode === scannedQRData || 
+      g.id === scannedQRData ||
+      g.qrCode.includes(scannedQRData) ||
+      scannedQRData.includes(g.qrCode)
+    )
     
     if (guest) {
+      // QR Code VALIDE trouvé dans la base
+      console.log("✅ Invité trouvé:", guest.name)
+      
       if (guest.scanned) {
+        // Déjà scanné - REFUSER l'entrée
+        console.log("⚠️ ATTENTION: Déjà scanné le", guest.scanTime)
         setScanResult({
           valid: false,
           guest,
           message: "⚠️ Ce QR code a déjà été scanné !"
         })
       } else {
+        // Première fois - AUTORISER l'entrée
+        console.log("🎉 ACCÈS AUTORISÉ")
         setScanResult({
           valid: true,
           guest,
           message: "✅ QR Code valide ! Accès autorisé"
         })
+        
+        // TODO: Ici, appeler l'API backend pour marquer comme scanné
+        // fetch('/api/admin/validate-qr', {
+        //   method: 'POST',
+        //   body: JSON.stringify({ qrCode: scannedQRData })
+        // })
       }
     } else {
+      // QR Code INVALIDE - pas dans la base
+      console.log("❌ QR Code non trouvé dans la base de données")
+      console.log("🔍 Données recherchées:", scannedQRData)
       setScanResult({
         valid: false,
         message: "❌ QR Code invalide ou introuvable"
       })
     }
     
+    // Fermer le scanner
     setShowScanner(false)
   }
 

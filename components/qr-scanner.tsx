@@ -71,27 +71,35 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
 
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
     
-    // Utiliser jsQR pour scanner le QR code
+    // Utiliser jsQR pour scanner TOUS les types de QR codes (vrais et faux)
     try {
       if (typeof window !== 'undefined' && window.jsQR) {
+        // Essayer avec différentes options pour détecter tous les QR codes
         const code = window.jsQR(imageData.data, imageData.width, imageData.height, {
-          inversionAttempts: "dontInvert",
+          inversionAttempts: "attemptBoth",  // Essaie normal et inversé
         })
 
         if (code && code.data) {
-          // Stocker le contenu scanné dans la variable
+          // Stocker TOUT le contenu scanné (vrai ou faux)
           const qrContent = code.data
           setScannedData(qrContent)
-          console.log("QR Code scanné:", qrContent)
           
-          // Arrêter la caméra et envoyer les données
+          // Log détaillé pour debug
+          console.log("✅ QR Code détecté!")
+          console.log("📦 Contenu brut:", qrContent)
+          console.log("📍 Position:", code.location)
+          
+          // Arrêter la caméra
           stopCamera()
+          
+          // Envoyer TOUTES les données au parent pour validation
+          // Le parent décidera si c'est valide ou non
           onScan(qrContent)
           return
         }
       }
     } catch (err) {
-      console.error("Erreur de scan:", err)
+      console.error("❌ Erreur de scan:", err)
     }
 
     if (scanningRef.current) {
