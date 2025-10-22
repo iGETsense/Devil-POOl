@@ -7,7 +7,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
-        <Image src="/hero-pool-party.jpg" alt="Demon Time Pool Party" fill className="object-cover" priority />
+        <Image src="/hero-pool-upscale.jpg" alt="Demon Time Pool Party" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -36,98 +36,6 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
-      {/* Passes Preview Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <h2
-            className="text-4xl md:text-5xl font-bold text-center mb-4 gold-text"
-            style={{ fontFamily: "var(--font-cinzel), serif" }}
-          >
-            Choisis ton pass
-          </h2>
-          <p className="text-center text-white/80 mb-16 text-lg">
-            Chaque pass inclut ton accès garanti à la soirée + ton estampille officiale DT à l&apos;entrée.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* ONE MAN */}
-            <Link href="/passes/one-man" className="group">
-              <div className="neon-border rounded-3xl overflow-hidden bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
-                <div className="p-6 text-center">
-                  <h3 className="text-3xl font-bold gold-text mb-2">ONE MAN</h3>
-                  <p className="text-2xl neon-text font-bold mb-4">15 000 FCFA</p>
-                  <div className="relative h-80 rounded-2xl overflow-hidden mb-6">
-                    <Image
-                      src="/stylish-man-in-leather-jacket-with-red-and-blue-dr.jpg"
-                      alt="One Man Pass"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <button className="w-full py-3 bg-gradient-to-r from-red-900 to-red-700 text-white rounded-full font-semibold hover:from-red-800 hover:to-red-600 transition-all">
-                    Sélectionner ce pass
-                  </button>
-                </div>
-              </div>
-            </Link>
-
-            {/* ONE LADY */}
-            <Link href="/passes/one-lady" className="group">
-              <div className="neon-border rounded-3xl overflow-hidden bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
-                <div className="p-6 text-center">
-                  <h3 className="text-3xl font-bold gold-text mb-2">ONE LADY</h3>
-                  <p className="text-2xl neon-text font-bold mb-4">10 000 FCFA</p>
-                  <div className="relative h-80 rounded-2xl overflow-hidden mb-6">
-                    <Image
-                      src="/elegant-woman-in-black-outfit-by-pool-at-night-wit.jpg"
-                      alt="One Lady Pass"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <button className="w-full py-3 bg-gradient-to-r from-red-900 to-red-700 text-white rounded-full font-semibold hover:from-red-800 hover:to-red-600 transition-all">
-                    Sélectionner ce pass
-                  </button>
-                </div>
-              </div>
-            </Link>
-
-            {/* FIVE QUEENS */}
-            <Link href="/passes/five-queens" className="group">
-              <div className="neon-border rounded-3xl overflow-hidden bg-black/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
-                <div className="p-6 text-center">
-                  <h3 className="text-3xl font-bold gold-text mb-2">FIVE QUEENS</h3>
-                  <p className="text-2xl neon-text font-bold mb-4">5 000 FCFA</p>
-                  <div className="relative h-80 rounded-2xl overflow-hidden mb-6">
-                    <Image
-                      src="/group-of-five-women-in-elegant-black-and-red-dress.jpg"
-                      alt="Five Queens Pass"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <button className="w-full py-3 bg-gradient-to-r from-red-900 to-red-700 text-white rounded-full font-semibold hover:from-red-800 hover:to-red-600 transition-all">
-                    Sélectionner ce pass
-                  </button>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black border-t border-[var(--neon-red)]/30 py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="text-2xl font-bold mb-4">
-            <span className="gold-text" style={{ fontFamily: "var(--font-gothic), serif" }}>
-              Demon Time
-            </span>
-          </div>
-          <p className="text-white/60 text-sm">© 2025 Demon Time. Tous droits réservés.</p>
-        </div>
-      </footer>
     </main>
   )
 }
