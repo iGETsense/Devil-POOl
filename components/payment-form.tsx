@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Phone, User, Mail, CreditCard } from "lucide-react"
 
@@ -11,6 +12,7 @@ interface PaymentFormProps {
 }
 
 export default function PaymentForm({ passName, passPrice, passImage }: PaymentFormProps) {
+  const router = useRouter()
   const [selectedOperator, setSelectedOperator] = useState<"orange" | "mtn" | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -24,8 +26,9 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
     // Simulate payment processing
     setTimeout(() => {
       console.log("Payment data:", { ...formData, operator: selectedOperator, pass: passName })
-      // Here you would handle the actual payment
-      setIsLoading(false)
+      // Here you would handle the actual payment and backend interaction
+      // Redirect to confirmation page
+      router.push("/confirmation")
     }, 3000)
   }
 
