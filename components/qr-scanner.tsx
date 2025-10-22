@@ -13,7 +13,9 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [error, setError] = useState<string>("")
   const [isScanning, setIsScanning] = useState(false)
+  const [scannedData, setScannedData] = useState<string>("")
   const streamRef = useRef<MediaStream | null>(null)
+  const scanningRef = useRef<boolean>(true)
 
   useEffect(() => {
     startCamera()
@@ -43,15 +45,16 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
   }
 
   const stopCamera = () => {
+    scanningRef.current = false
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop())
+      streamRef.current.getTracks().forEach((track: MediaStreamTrack) => track.stop())
       streamRef.current = null
     }
     setIsScanning(false)
   }
 
   const scanQRCode = () => {
-    if (!isScanning || !videoRef.current || !canvasRef.current) return
+    if (!scanningRef.current || !videoRef.current || !canvasRef.current) return
 
     const video = videoRef.current
     const canvas = canvasRef.current
@@ -70,16 +73,20 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
     
     // Utiliser jsQR pour scanner le QR code
     try {
-      // @ts-ignore - jsQR sera chargé via CDN
       if (typeof window !== 'undefined' && window.jsQR) {
-        // @ts-ignore
         const code = window.jsQR(imageData.data, imageData.width, imageData.height, {
           inversionAttempts: "dontInvert",
         })
 
         if (code && code.data) {
+          // Stocker le contenu scanné dans la variable
+          const qrContent = code.data
+          setScannedData(qrContent)
+          console.log("QR Code scanné:", qrContent)
+          
+          // Arrêter la caméra et envoyer les données
           stopCamera()
-          onScan(code.data)
+          onScan(qrContent)
           return
         }
       }
@@ -87,7 +94,9 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
       console.error("Erreur de scan:", err)
     }
 
-    requestAnimationFrame(scanQRCode)
+    if (scanningRef.current) {
+      requestAnimationFrame(scanQRCode)
+    }
   }
 
   return (
