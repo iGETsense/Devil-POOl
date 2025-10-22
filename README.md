@@ -9,7 +9,7 @@
 
 **A premium event ticketing and reservation platform for exclusive pool party experiences**
 
-[Live Demo](#) • [Features](#features) • [Installation](#installation) • [Tech Stack](#tech-stack)
+[Live Demo](#) • [Features](#features) • [Installation](#installation) • [Backend Integration](#-backend-integration-guide)
 
 </div>
 
@@ -17,12 +17,13 @@
 
 ## 📋 Overview
 
-**Devil Pool** is a modern, full-featured event management platform designed for the "Demon Time" pool party series. The application provides a seamless ticket booking experience with QR code-based entry validation, multiple pass tiers, and an elegant dark-themed UI that captures the essence of exclusive nightlife events.
+**Devil Pool** is a modern, full-featured event management platform designed for the "Demon Time" pool party series. The application provides a seamless ticket booking experience with QR code-based entry validation, mobile camera scanning, multiple pass tiers, and an elegant dark-themed UI.
 
 ### 🎯 Key Highlights
 
 - **🎫 Multi-Tier Pass System**: Three distinct pass types (One Man, One Lady, Five Queens)
-- **📱 QR Code Integration**: Secure entry validation system
+- **📱 QR Code Integration**: Camera-based scanning with real-time validation
+- **👨‍💼 Admin Dashboard**: Secure admin panel with QR scanner and guest management
 - **🌙 Dark Theme UI**: Stunning neon-accented design with gold typography
 - **⚡ Lightning Fast**: Built on Next.js 15 with React 19
 - **📱 Fully Responsive**: Optimized for all devices
@@ -36,26 +37,39 @@
 - **ONE MAN Pass** - 15,000 FCFA: Individual entry for gentlemen
 - **ONE LADY Pass** - 10,000 FCFA: Individual entry for ladies
 - **FIVE QUEENS Pass** - 5,000 FCFA: Group entry for five ladies
+- Real-time pass selection with visual cards
+- Integrated payment flow (Orange Money & MTN MoMo)
 
 ### 🔐 Security & Validation
-- Unique QR codes for each ticket
+- Unique QR codes generated for each ticket
+- Camera-based QR scanning with jsQR library
+- Real-time validation (valid/invalid/already scanned)
+- Session-based admin authentication
 - No QR code = No entry policy
-- Secure reservation system
+
+### 👨‍💼 Admin Dashboard
+- **Password-only login** (no username required)
+- **QR Code Scanner**: Camera access with permission request
+- **Guest List Management**: Search, filter, and view all bookings
+- **Statistics Dashboard**: Total guests, scanned entries, pending, revenue
+- **No Navbar**: Clean, focused admin interface
 
 ### 🎨 User Experience
 - Immersive hero section with high-quality imagery
-- Smooth animations and transitions
+- Smooth animations and transitions (loading spinner, scan animation)
 - Interactive pass selection cards
 - Mobile-first responsive design
 - Dark mode optimized interface
+- Confirmation page with downloadable QR code
 
 ### 🛠️ Technical Features
 - Server-side rendering (SSR)
 - Type-safe development with TypeScript
 - Component-based architecture
-- Form validation with Zod
-- Modern React hooks
-- Optimized image loading
+- Dynamic imports for client-side components
+- Camera API integration
+- Real-time QR code detection
+- Session storage for admin auth
 
 ---
 
@@ -136,34 +150,65 @@ pnpm start
 
 ```
 demontimesite/
-├── app/                      # Next.js App Router
-│   ├── layout.tsx           # Root layout with providers
-│   ├── page.tsx             # Homepage with hero & passes
-│   ├── passes/              # Pass selection pages
+├── app/                          # Next.js App Router
+│   ├── layout.tsx               # Root layout with providers & fonts
+│   ├── page.tsx                 # Homepage with hero & passes preview
+│   ├── globals.css              # Global styles, CSS variables & animations
+│   │
+│   ├── passes/                  # Pass selection & booking
+│   │   ├── page.tsx            # All passes overview page
 │   │   ├── one-man/
+│   │   │   └── page.tsx        # ONE MAN pass details & payment
 │   │   ├── one-lady/
-│   │   ├── five-queens/
+│   │   │   └── page.tsx        # ONE LADY pass details & payment
+│   │   └── five-queens/
+│   │       └── page.tsx        # FIVE QUEENS pass details & payment
+│   │
+│   ├── reservation/             # Legacy reservation page
 │   │   └── page.tsx
-│   ├── reservation/         # Reservation flow
-│   │   └── page.tsx
-│   └── globals.css          # Global styles & CSS variables
-├── components/              # Reusable UI components
-│   ├── ui/                  # shadcn/ui components
-│   ├── navbar.tsx           # Navigation component
-│   └── theme-provider.tsx   # Theme context provider
-├── hooks/                   # Custom React hooks
+│   │
+│   ├── confirmation/            # Post-payment confirmation
+│   │   └── page.tsx            # QR code display & booking details
+│   │
+│   └── admin/                   # Admin panel (NO NAVBAR)
+│       ├── layout.tsx          # Admin-specific layout with jsQR script
+│       ├── login/
+│       │   └── page.tsx        # Password-only admin login
+│       └── dashboard/
+│           └── page.tsx        # QR scanner + guest list management
+│
+├── components/                  # Reusable UI components
+│   ├── ui/                     # shadcn/ui base components
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── input.tsx
+│   │   └── ...
+│   ├── navbar.tsx              # Main navigation (NOT in admin)
+│   ├── theme-provider.tsx      # Theme context provider
+│   ├── payment-form.tsx        # Payment form with Orange/MTN selection
+│   └── qr-scanner.tsx          # Camera QR scanner component
+│
+├── types/                       # TypeScript type definitions
+│   └── jsqr.d.ts               # jsQR library type declarations
+│
+├── hooks/                       # Custom React hooks
 │   ├── use-mobile.ts
 │   └── use-toast.ts
-├── lib/                     # Utility functions
+│
+├── lib/                         # Utility functions
 │   └── utils.ts
-├── public/                  # Static assets
-│   └── *.jpg                # Event images
-├── styles/                  # Additional stylesheets
-├── components.json          # shadcn/ui configuration
-├── next.config.mjs          # Next.js configuration
-├── tailwind.config.js       # Tailwind configuration
-├── tsconfig.json            # TypeScript configuration
-└── package.json             # Dependencies & scripts
+│
+├── public/                      # Static assets
+│   ├── hero-black-women-pool-2.jpg
+│   ├── one-man-card.jpg
+│   ├── one-lady-card.jpg
+│   └── five-queens-card.jpg
+│
+├── components.json              # shadcn/ui configuration
+├── next.config.mjs              # Next.js configuration
+├── tailwind.config.js           # Tailwind configuration
+├── tsconfig.json                # TypeScript configuration
+└── package.json                 # Dependencies & scripts
 ```
 
 ---
@@ -209,14 +254,398 @@ Custom CSS variables are defined in `app/globals.css`:
 
 ## 📱 Pages & Routes
 
-| Route | Description |
-|-------|-------------|
-| `/` | Homepage with hero section and pass preview |
-| `/passes` | All available passes overview |
-| `/passes/one-man` | ONE MAN pass details & booking |
-| `/passes/one-lady` | ONE LADY pass details & booking |
-| `/passes/five-queens` | FIVE QUEENS pass details & booking |
-| `/reservation` | Reservation form and checkout |
+| Route | Description | Auth Required |
+|-------|-------------|---------------|
+| `/` | Homepage with hero section and pass preview | No |
+| `/passes` | All available passes overview with cards | No |
+| `/passes/one-man` | ONE MAN pass details & payment form | No |
+| `/passes/one-lady` | ONE LADY pass details & payment form | No |
+| `/passes/five-queens` | FIVE QUEENS pass details & payment form | No |
+| `/confirmation` | QR code display & booking confirmation | No |
+| `/admin/login` | Admin password-only login | No |
+| `/admin/dashboard` | QR scanner + guest list management | Yes |
+
+---
+
+## 🔌 Backend Integration Guide
+
+### 📋 Overview for Backend Team
+
+This frontend is **ready for backend integration**. All UI components, forms, and flows are functional with **demo data**. Your task is to replace the demo data with real API calls.
+
+### 🎯 Key Integration Points
+
+#### 1️⃣ **Payment Processing** (`/app/passes/[pass-type]/page.tsx`)
+
+**Component**: `PaymentForm` (`/components/payment-form.tsx`)
+
+**Current State Variables**:
+```typescript
+const [formData, setFormData] = useState({
+  fullName: "",
+  phone: "",
+})
+const [selectedOperator, setSelectedOperator] = useState<"orange" | "mtn" | null>(null)
+```
+
+**What to Replace**:
+```typescript
+// Line 27-32 in payment-form.tsx
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault()
+  setIsLoading(true)
+  
+  // 🔴 REPLACE THIS with your API call:
+  setTimeout(() => {
+    console.log("Payment data:", { ...formData, operator: selectedOperator, pass: passName })
+    router.push("/confirmation")
+  }, 3000)
+}
+```
+
+**Backend API Endpoint Needed**:
+```typescript
+POST /api/bookings/create
+{
+  "fullName": string,
+  "phone": string,
+  "passType": "ONE MAN" | "ONE LADY" | "FIVE QUEENS",
+  "price": string,
+  "paymentOperator": "orange" | "mtn"
+}
+
+Response:
+{
+  "success": boolean,
+  "bookingId": string,
+  "qrCode": string,
+  "message": string
+}
+```
+
+**Integration Steps**:
+1. Create API route handler in `/app/api/bookings/create/route.ts`
+2. Replace `setTimeout` with `fetch()` or `axios` call
+3. Handle payment with Orange Money/MTN MoMo API
+4. Generate unique QR code (format: `DT-PASS-XXXXXXX`)
+5. Store booking in database
+6. Return booking data
+7. Redirect to `/confirmation` with booking ID
+
+---
+
+#### 2️⃣ **Confirmation Page** (`/app/confirmation/page.tsx`)
+
+**Current Demo Data** (Line 13-23):
+```typescript
+const bookingData = {
+  name: "John Doe",
+  phone: "+237 6XX XXX XXX",
+  passType: "ONE MAN",
+  price: "15 000 FCFA",
+  bookingId: "DT-2025-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+  qrCode: "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=...",
+  eventDate: "Novembre 2025",
+  eventLocation: "Pool Paradise, Douala",
+  eventTime: "20h00 - 04h00"
+}
+```
+
+**Backend API Endpoint Needed**:
+```typescript
+GET /api/bookings/:bookingId
+Response:
+{
+  "id": string,
+  "name": string,
+  "phone": string,
+  "passType": string,
+  "price": string,
+  "qrCode": string,  // QR code image URL or data
+  "bookingDate": string,
+  "eventDate": string,
+  "eventLocation": string,
+  "eventTime": string
+}
+```
+
+**Integration Steps**:
+1. Get `bookingId` from URL params or session storage
+2. Fetch booking data from API
+3. Replace demo data with API response
+4. Display QR code (can use `qrcode.react` library or API-generated image)
+
+---
+
+#### 3️⃣ **Admin Login** (`/app/admin/login/page.tsx`)
+
+**Current Auth** (Line 13):
+```typescript
+const ADMIN_PASSWORD = "DemonTime2025"  // 🔴 HARDCODED
+```
+
+**What to Replace** (Line 18-30):
+```typescript
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault()
+  setIsLoading(true)
+
+  // 🔴 REPLACE THIS with your API call:
+  setTimeout(() => {
+    if (password === ADMIN_PASSWORD) {
+      sessionStorage.setItem("adminAuth", "true")
+      router.push("/admin/dashboard")
+    } else {
+      setError("Mot de passe incorrect")
+    }
+    setIsLoading(false)
+  }, 1000)
+}
+```
+
+**Backend API Endpoint Needed**:
+```typescript
+POST /api/admin/login
+{
+  "password": string
+}
+
+Response:
+{
+  "success": boolean,
+  "token": string,  // JWT token
+  "message": string
+}
+```
+
+**Integration Steps**:
+1. Create secure admin authentication endpoint
+2. Validate password against hashed value in database
+3. Generate JWT token
+4. Store token in `sessionStorage` or `httpOnly` cookie
+5. Return success/error response
+
+---
+
+#### 4️⃣ **QR Code Scanner** (`/app/admin/dashboard/page.tsx`)
+
+**Current Validation Logic** (Line 77-102):
+```typescript
+const handleScanQR = (data: string) => {
+  // 🔴 Demo data - guests array is hardcoded
+  const guest = guests.find(g => g.qrCode === data || g.id === data)
+  
+  if (guest) {
+    if (guest.scanned) {
+      setScanResult({ valid: false, guest, message: "⚠️ Déjà scanné!" })
+    } else {
+      setScanResult({ valid: true, guest, message: "✅ Valide!" })
+    }
+  } else {
+    setScanResult({ valid: false, message: "❌ Invalide" })
+  }
+}
+```
+
+**Scanner Component** (`/components/qr-scanner.tsx`):
+- **Line 83-84**: `const qrContent = code.data` - This variable stores the scanned QR code content
+- **Line 85**: `console.log("QR Code scanné:", qrContent)` - Logs the scanned data
+- **Line 89**: `onScan(qrContent)` - Sends data to parent component
+
+**Backend API Endpoint Needed**:
+```typescript
+POST /api/admin/validate-qr
+{
+  "qrCode": string,
+  "scannedBy": string,  // Admin ID
+  "scannedAt": string   // ISO timestamp
+}
+
+Response:
+{
+  "valid": boolean,
+  "alreadyScanned": boolean,
+  "guest": {
+    "id": string,
+    "name": string,
+    "phone": string,
+    "passType": string,
+    "bookingDate": string,
+    "scanTime"?: string
+  },
+  "message": string
+}
+```
+
+**Integration Steps**:
+1. When QR code is scanned, `qrContent` variable contains the data
+2. Send `qrContent` to your validation API
+3. API checks if QR code exists in database
+4. API checks if already scanned
+5. If valid and not scanned, mark as scanned in DB
+6. Return validation result
+7. Display result to admin
+
+---
+
+#### 5️⃣ **Guest List Management** (`/app/admin/dashboard/page.tsx`)
+
+**Current Demo Data** (Line 30-58):
+```typescript
+const [guests] = useState<Guest[]>([
+  {
+    id: "DT-2025-ABC123",
+    name: "Jean Dupont",
+    phone: "+237 6XX XXX XXX",
+    passType: "ONE MAN",
+    price: "15 000 FCFA",
+    bookingDate: "2025-10-20",
+    qrCode: "DT-PASS-ABC123",
+    scanned: true,
+    scanTime: "2025-10-22 20:30"
+  },
+  // ... more demo guests
+])
+```
+
+**Backend API Endpoint Needed**:
+```typescript
+GET /api/admin/guests?search=&page=1&limit=50
+Response:
+{
+  "guests": Guest[],
+  "total": number,
+  "page": number,
+  "totalPages": number,
+  "stats": {
+    "total": number,
+    "scanned": number,
+    "pending": number,
+    "revenue": number
+  }
+}
+```
+
+**Integration Steps**:
+1. Replace `useState` with `useEffect` + API call
+2. Fetch all bookings from database
+3. Implement search/filter functionality
+4. Calculate statistics (total, scanned, pending, revenue)
+5. Update state with API data
+
+---
+
+### 🗄️ Database Schema Suggestion
+
+```typescript
+// Bookings Table
+interface Booking {
+  id: string                    // Primary key: "DT-2025-XXXXXXX"
+  fullName: string
+  phone: string
+  passType: "ONE MAN" | "ONE LADY" | "FIVE QUEENS"
+  price: number                 // In FCFA
+  paymentOperator: "orange" | "mtn"
+  paymentStatus: "pending" | "completed" | "failed"
+  qrCode: string               // Unique QR code data
+  qrCodeImage?: string         // QR code image URL
+  scanned: boolean
+  scanTime?: Date
+  scannedBy?: string           // Admin ID
+  bookingDate: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+// Admin Table
+interface Admin {
+  id: string
+  password: string             // Hashed with bcrypt
+  role: "admin" | "super_admin"
+  createdAt: Date
+  lastLogin?: Date
+}
+```
+
+---
+
+### 🔧 Environment Variables Needed
+
+Create `.env.local` file:
+
+```env
+# Database
+DATABASE_URL="your_database_connection_string"
+
+# Payment APIs
+ORANGE_MONEY_API_KEY="your_orange_money_key"
+ORANGE_MONEY_API_SECRET="your_orange_money_secret"
+MTN_MOMO_API_KEY="your_mtn_momo_key"
+MTN_MOMO_API_SECRET="your_mtn_momo_secret"
+
+# Admin
+ADMIN_PASSWORD_HASH="your_bcrypt_hashed_password"
+JWT_SECRET="your_jwt_secret_key"
+
+# QR Code
+QR_CODE_BASE_URL="https://api.qrserver.com/v1/create-qr-code/"
+# Or use qrcode library for server-side generation
+
+# App
+NEXT_PUBLIC_SITE_URL="https://demontime.com"
+NEXT_PUBLIC_EVENT_DATE="Novembre 2025"
+NEXT_PUBLIC_EVENT_LOCATION="Pool Paradise, Douala"
+NEXT_PUBLIC_EVENT_TIME="20h00 - 04h00"
+```
+
+---
+
+### 📦 Recommended Backend Libraries
+
+```json
+{
+  "dependencies": {
+    "prisma": "^5.0.0",           // Database ORM
+    "@prisma/client": "^5.0.0",
+    "bcryptjs": "^2.4.3",         // Password hashing
+    "jsonwebtoken": "^9.0.0",     // JWT tokens
+    "qrcode": "^1.5.0",           // QR code generation
+    "axios": "^1.6.0"             // HTTP requests for payment APIs
+  }
+}
+```
+
+---
+
+### 🚀 Quick Start for Backend Team
+
+1. **Clone the repo** and install dependencies
+2. **Run the frontend**: `pnpm dev` to see all flows
+3. **Create API routes** in `/app/api/` directory
+4. **Test each endpoint** with the frontend forms
+5. **Replace demo data** with API calls one by one
+6. **Test QR scanner** with real QR codes from your database
+
+---
+
+### 📞 Frontend Variables Reference
+
+**Payment Form** (`payment-form.tsx`):
+- `formData.fullName` - User's full name
+- `formData.phone` - User's phone number
+- `selectedOperator` - "orange" or "mtn"
+- `passName` - Pass type (prop)
+- `passPrice` - Pass price (prop)
+
+**QR Scanner** (`qr-scanner.tsx`):
+- `scannedData` - State variable storing QR code content
+- `qrContent` - Local variable with scanned data (line 83)
+- `onScan(qrContent)` - Callback sending data to parent
+
+**Admin Dashboard** (`admin/dashboard/page.tsx`):
+- `guests` - Array of all bookings
+- `scanResult` - Current scan validation result
+- `stats` - Dashboard statistics object
 
 ---
 
