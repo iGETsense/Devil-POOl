@@ -150,21 +150,22 @@ export default function AdminDashboardPage() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen bg-black py-8 px-4">
+    <main className="min-h-screen py-8 px-4" style={{ backgroundColor: "var(--navy)" }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 
               className="text-3xl md:text-4xl font-bold gold-text mb-2"
-              style={{ fontFamily: "var(--font-cinzel), serif" }}
+              style={{ fontFamily: "var(--font-playfair), serif" }}
             >
               Dashboard Admin
             </h1>
-            <p className="text-white/60">Gestion de l&apos;événement Demon Time</p>
+            <p style={{ color: "var(--platinum)", opacity: 0.6 }}>Gestion de l&apos;événement Genesis</p>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-6 py-3 bg-red-900/50 hover:bg-red-900 text-white rounded-full transition-all"
+            className="flex items-center gap-2 px-6 py-3 rounded-full transition-all"
+            style={{ backgroundColor: "rgba(26, 35, 50, 0.5)", color: "var(--platinum)" }}
           >
             <LogOut className="w-4 h-4" />
             Déconnexion
@@ -172,36 +173,36 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="rounded-2xl border-2 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 p-6">
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid var(--platinum)", opacity: 0.4 }}>
             <div className="flex items-center justify-between mb-2">
-              <Users className="w-8 h-8 text-[#ff3366]" />
+              <Users className="w-8 h-8" style={{ color: "var(--champagne-gold)" }} />
               <span className="text-3xl font-bold gold-text">{stats.total}</span>
             </div>
-            <p className="text-white/60 text-sm">Total Invités</p>
+            <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>Total Invités</p>
           </div>
 
-          <div className="rounded-2xl border-2 border-green-500 bg-gradient-to-b from-black/90 to-black/70 p-6">
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid #10b981" }}>
             <div className="flex items-center justify-between mb-2">
               <CheckCircle className="w-8 h-8 text-green-500" />
               <span className="text-3xl font-bold text-green-500">{stats.scanned}</span>
             </div>
-            <p className="text-white/60 text-sm">Entrées Validées</p>
+            <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>Entrées Validées</p>
           </div>
 
-          <div className="rounded-2xl border-2 border-yellow-500 bg-gradient-to-b from-black/90 to-black/70 p-6">
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid #eab308" }}>
             <div className="flex items-center justify-between mb-2">
               <Calendar className="w-8 h-8 text-yellow-500" />
               <span className="text-3xl font-bold text-yellow-500">{stats.pending}</span>
             </div>
-            <p className="text-white/60 text-sm">En Attente</p>
+            <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>En Attente</p>
           </div>
 
-          <div className="rounded-2xl border-2 border-[#ffcc00] bg-gradient-to-b from-black/90 to-black/70 p-6">
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid var(--champagne-gold)" }}>
             <div className="flex items-center justify-between mb-2">
-              <DollarSign className="w-8 h-8 text-[#ffcc00]" />
+              <DollarSign className="w-8 h-8" style={{ color: "var(--champagne-gold)" }} />
               <span className="text-2xl font-bold gold-text">{stats.revenue.toLocaleString()}</span>
             </div>
-            <p className="text-white/60 text-sm">Revenus (FCFA)</p>
+            <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>Revenus (FCFA)</p>
           </div>
         </div>
 
@@ -210,9 +211,10 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab("scan")}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${
               activeTab === "scan"
-                ? "bg-gradient-to-r from-red-900 to-red-700 text-white shadow-lg shadow-red-500/50"
-                : "bg-white/10 text-white/60 hover:bg-white/20"
+                ? "bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] shadow-lg"
+                : "hover:bg-white/20"
             }`}
+            style={activeTab === "scan" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(212, 175, 55, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
           >
             <QrCode className="w-5 h-5" />
             Scanner QR Code
@@ -221,9 +223,10 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab("guests")}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${
               activeTab === "guests"
-                ? "bg-gradient-to-r from-red-900 to-red-700 text-white shadow-lg shadow-red-500/50"
-                : "bg-white/10 text-white/60 hover:bg-white/20"
+                ? "bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] shadow-lg"
+                : "hover:bg-white/20"
             }`}
+            style={activeTab === "guests" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(212, 175, 55, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
           >
             <Users className="w-5 h-5" />
             Liste des Invités
@@ -231,20 +234,21 @@ export default function AdminDashboardPage() {
         </div>
 
         {activeTab === "scan" ? (
-          <div className="rounded-3xl border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm p-8">
-            <h2 className="text-2xl font-bold gold-text mb-6 text-center" style={{ fontFamily: "var(--font-cinzel), serif" }}>
+          <div className="rounded-3xl elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
+            <h2 className="text-2xl font-bold gold-text mb-6 text-center" style={{ fontFamily: "var(--font-playfair), serif" }}>
               Scanner un QR Code
             </h2>
 
             <div className="max-w-2xl mx-auto mb-8">
               <button
                 onClick={() => setShowScanner(true)}
-                className="w-full py-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-xl font-semibold rounded-2xl hover:from-red-800 hover:to-red-600 transition-all shadow-2xl hover:shadow-red-500/50 flex items-center justify-center gap-4"
+                className="w-full py-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-xl font-semibold rounded-2xl transition-all shadow-2xl hover:shadow-[var(--champagne-gold)]/50 flex items-center justify-center gap-4"
+                style={{ color: "var(--platinum)" }}
               >
                 <Camera className="w-8 h-8" />
                 Ouvrir la Caméra
               </button>
-              <p className="text-white/60 text-center mt-4">
+              <p className="text-center mt-4" style={{ color: "var(--platinum)", opacity: 0.6 }}>
                 Cliquez pour activer la caméra et scanner un QR code
               </p>
             </div>
@@ -264,7 +268,7 @@ export default function AdminDashboardPage() {
                       {scanResult.message}
                     </p>
                     {scanResult.guest && (
-                      <div className="space-y-2 text-white/80">
+                      <div className="space-y-2" style={{ color: "var(--platinum)", opacity: 0.8 }}>
                         <p><strong>Nom:</strong> {scanResult.guest.name}</p>
                         <p><strong>Pass:</strong> {scanResult.guest.passType}</p>
                         <p><strong>ID:</strong> {scanResult.guest.id}</p>
@@ -279,19 +283,20 @@ export default function AdminDashboardPage() {
             )}
           </div>
         ) : (
-          <div className="rounded-3xl border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm p-8">
+          <div className="rounded-3xl elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold gold-text" style={{ fontFamily: "var(--font-cinzel), serif" }}>
+              <h2 className="text-2xl font-bold gold-text" style={{ fontFamily: "var(--font-playfair), serif" }}>
                 Liste des Invités ({filteredGuests.length})
               </h2>
               <div className="relative w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: "var(--platinum)", opacity: 0.5 }} />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Rechercher..."
-                  className="w-full pl-10 pr-4 py-2 bg-black/50 border-2 border-white/20 rounded-lg text-white placeholder-white/50 focus:border-[#ff3366] focus:outline-none"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none"
+                  style={{ backgroundColor: "rgba(15, 20, 25, 0.5)", border: "2px solid rgba(229, 228, 226, 0.2)", color: "var(--platinum)" }}
                 />
               </div>
             </div>
@@ -299,29 +304,29 @@ export default function AdminDashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b-2 border-white/20">
-                    <th className="text-left py-4 px-4 text-white/80 font-semibold">ID</th>
-                    <th className="text-left py-4 px-4 text-white/80 font-semibold">Nom</th>
-                    <th className="text-left py-4 px-4 text-white/80 font-semibold">Téléphone</th>
-                    <th className="text-left py-4 px-4 text-white/80 font-semibold">Pass</th>
-                    <th className="text-left py-4 px-4 text-white/80 font-semibold">Prix</th>
-                    <th className="text-left py-4 px-4 text-white/80 font-semibold">Date</th>
-                    <th className="text-center py-4 px-4 text-white/80 font-semibold">Statut</th>
+                  <tr className="border-b-2" style={{ borderColor: "rgba(229, 228, 226, 0.2)" }}>
+                    <th className="text-left py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>ID</th>
+                    <th className="text-left py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>Nom</th>
+                    <th className="text-left py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>Téléphone</th>
+                    <th className="text-left py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>Pass</th>
+                    <th className="text-left py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>Prix</th>
+                    <th className="text-left py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>Date</th>
+                    <th className="text-center py-4 px-4 font-semibold" style={{ color: "var(--platinum)", opacity: 0.8 }}>Statut</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredGuests.map((guest) => (
-                    <tr key={guest.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                      <td className="py-4 px-4 text-white/60 font-mono text-sm">{guest.id}</td>
-                      <td className="py-4 px-4 text-white font-semibold">{guest.name}</td>
-                      <td className="py-4 px-4 text-white/60">{guest.phone}</td>
+                    <tr key={guest.id} className="border-b transition-colors hover:bg-white/5" style={{ borderColor: "rgba(229, 228, 226, 0.1)" }}>
+                      <td className="py-4 px-4 font-mono text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>{guest.id}</td>
+                      <td className="py-4 px-4 font-semibold" style={{ color: "var(--platinum)" }}>{guest.name}</td>
+                      <td className="py-4 px-4" style={{ color: "var(--platinum)", opacity: 0.6 }}>{guest.phone}</td>
                       <td className="py-4 px-4">
-                        <span className="px-3 py-1 bg-[#ff3366]/20 text-[#ff3366] rounded-full text-sm font-semibold">
+                        <span className="px-3 py-1 rounded-full text-sm font-semibold" style={{ backgroundColor: "rgba(212, 175, 55, 0.2)", color: "var(--champagne-gold)" }}>
                           {guest.passType}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-white font-semibold">{guest.price}</td>
-                      <td className="py-4 px-4 text-white/60">{guest.bookingDate}</td>
+                      <td className="py-4 px-4 font-semibold" style={{ color: "var(--platinum)" }}>{guest.price}</td>
+                      <td className="py-4 px-4" style={{ color: "var(--platinum)", opacity: 0.6 }}>{guest.bookingDate}</td>
                       <td className="py-4 px-4 text-center">
                         {guest.scanned ? (
                           <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-500 rounded-full text-sm font-semibold">

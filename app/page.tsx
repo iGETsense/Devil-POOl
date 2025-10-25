@@ -27,7 +27,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/reservation"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/40 transition-all duration-300 transform hover:scale-105 border border-[var(--platinum)]/30"
+            className="inline-block px-8 py-4 bg-transparent text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/50 transition-all duration-300 transform hover:scale-105 elegant-border"
             style={{ color: "var(--platinum)" }}
           >
             <span className="flex items-center gap-2">
