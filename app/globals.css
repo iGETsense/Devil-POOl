@@ -38,16 +38,18 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Elegant Lexus-inspired colors */
+  /* Genesis Purple Neon Theme - from logo */
   --platinum: #e5e4e2;
   --silver: #c0c0c0;
-  --champagne-gold: #d4af37;
-  --deep-blue: #1a2332;
-  --navy: #0f1419;
-  --accent-blue: #4a90e2;
-  --elegant-bg: #0f1419;
-  --card-bg: rgba(15, 20, 25, 0.90);
-  --button-bg: #1a2332;
+  --neon-purple: #c084fc;
+  --light-purple: #a78bfa;
+  --deep-purple: #7c3aed;
+  --cosmic-blue: #1e1b4b;
+  --space-dark: #0a0a1a;
+  --purple-glow: #d8b4fe;
+  --elegant-bg: #0a0a1a;
+  --card-bg: rgba(10, 10, 26, 0.90);
+  --button-bg: #1e1b4b;
 }
 
 .dark {
@@ -134,22 +136,22 @@
   }
 }
 
-/* Elegant Lexus-inspired styling */
+/* Genesis Purple Neon Styling */
 .elegant-border {
-  border: 2px solid var(--platinum);
-  box-shadow: 0 0 10px rgba(229, 228, 226, 0.3), 0 0 20px rgba(229, 228, 226, 0.2),
-    inset 0 0 15px rgba(229, 228, 226, 0.1);
-  animation: elegant-glow 3s ease-in-out infinite alternate;
+  border: 2px solid var(--neon-purple);
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.4), 0 0 30px rgba(192, 132, 252, 0.2),
+    inset 0 0 20px rgba(192, 132, 252, 0.1);
+  animation: purple-glow 3s ease-in-out infinite alternate;
 }
 
-@keyframes elegant-glow {
+@keyframes purple-glow {
   from {
-    box-shadow: 0 0 10px rgba(229, 228, 226, 0.3), 0 0 20px rgba(229, 228, 226, 0.2),
-      inset 0 0 15px rgba(229, 228, 226, 0.1);
+    box-shadow: 0 0 15px rgba(192, 132, 252, 0.4), 0 0 30px rgba(192, 132, 252, 0.2),
+      inset 0 0 20px rgba(192, 132, 252, 0.1);
   }
   to {
-    box-shadow: 0 0 15px rgba(229, 228, 226, 0.4), 0 0 30px rgba(229, 228, 226, 0.3),
-      inset 0 0 20px rgba(229, 228, 226, 0.15);
+    box-shadow: 0 0 25px rgba(192, 132, 252, 0.6), 0 0 50px rgba(192, 132, 252, 0.3),
+      inset 0 0 30px rgba(192, 132, 252, 0.15);
   }
 }
 
@@ -159,8 +161,13 @@
 }
 
 .gold-text {
-  color: var(--champagne-gold);
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4), 0 0 30px rgba(212, 175, 55, 0.2);
+  color: var(--neon-purple);
+  text-shadow: 0 0 20px rgba(192, 132, 252, 0.5), 0 0 40px rgba(192, 132, 252, 0.3);
+}
+
+.purple-glow-text {
+  color: var(--purple-glow);
+  text-shadow: 0 0 25px rgba(216, 180, 254, 0.6), 0 0 50px rgba(216, 180, 254, 0.3);
 }
 
 @keyframes scan {

@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function ReservationPage() {
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "var(--navy)" }}>
+    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "var(--space-dark)" }}>
       {/* Background with palm leaves */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96">
@@ -38,7 +38,7 @@ export default function ReservationPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* ONE MAN Card */}
             <div className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
                   <h3 
                     className="text-4xl font-bold mb-2 gold-text"
@@ -46,7 +46,7 @@ export default function ReservationPage() {
                   >
                     ONE MAN
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--neon-purple)" }}>
                     15 000 FCFA
                   </p>
                   
@@ -60,7 +60,7 @@ export default function ReservationPage() {
                   </div>
 
                   <Link href="/passes/one-man">
-                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
+                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--neon-purple)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
                       Sélectionner ce pass
                     </button>
                   </Link>
@@ -70,7 +70,7 @@ export default function ReservationPage() {
 
             {/* ONE LADY Card */}
             <div className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
                   <h3 
                     className="text-4xl font-bold mb-2 gold-text"
@@ -78,7 +78,7 @@ export default function ReservationPage() {
                   >
                     ONE LADY
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--neon-purple)" }}>
                     10 000 FCFA
                   </p>
                   
@@ -92,7 +92,7 @@ export default function ReservationPage() {
                   </div>
 
                   <Link href="/passes/one-lady">
-                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
+                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--neon-purple)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
                       Sélectionner ce pass
                     </button>
                   </Link>
@@ -102,7 +102,7 @@ export default function ReservationPage() {
 
             {/* FIVE QUEENS Card */}
             <div className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
                   <h3 
                     className="text-4xl font-bold mb-2 gold-text"
@@ -110,7 +110,7 @@ export default function ReservationPage() {
                   >
                     FIVE QUEENS
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--neon-purple)" }}>
                     5 000 FCFA
                   </p>
                   
@@ -124,7 +124,7 @@ export default function ReservationPage() {
                   </div>
 
                   <Link href="/passes/five-queens">
-                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
+                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--neon-purple)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
                       Sélectionner ce pass
                     </button>
                   </Link>

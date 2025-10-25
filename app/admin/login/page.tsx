@@ -32,12 +32,12 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "var(--navy)" }}>
+    <main className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="w-full max-w-md">
         {/* Logo/Title */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 animate-pulse" style={{ backgroundColor: "rgba(212, 175, 55, 0.2)", border: "4px solid var(--champagne-gold)" }}>
-            <Lock className="w-10 h-10" style={{ color: "var(--champagne-gold)" }} />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 animate-pulse" style={{ backgroundColor: "rgba(192, 132, 252, 0.2)", border: "4px solid var(--neon-purple)" }}>
+            <Lock className="w-10 h-10" style={{ color: "var(--neon-purple)" }} />
           </div>
           <h1 
             className="text-4xl md:text-5xl font-bold mb-2 gold-text"
@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Login Form */}
-        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
+        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-semibold mb-3" style={{ color: "var(--platinum)", opacity: 0.8 }}>
@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
               className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 ${
                 isLoading
                   ? "bg-gray-700 text-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/40 transform hover:scale-105"
+                  : "bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 transform hover:scale-105"
               }`}
               style={!isLoading ? { color: "var(--platinum)" } : {}}
             >

@@ -33,13 +33,13 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
   }
 
   return (
-    <div className="min-h-screen py-20 px-4" style={{ backgroundColor: "var(--navy)" }}>
+    <div className="min-h-screen py-20 px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Pass Summary */}
           <div className="order-2 lg:order-1">
             <div className="sticky top-24">
-              <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
+              <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
                 <h2 
                   className="text-3xl font-bold mb-4 gold-text text-center"
                   style={{ fontFamily: "var(--font-playfair), serif" }}
@@ -79,7 +79,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
 
           {/* Right Side - Payment Form */}
           <div className="order-1 lg:order-2">
-            <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
+            <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
               <h2 
                 className="text-4xl font-bold mb-8 gold-text text-center"
                 style={{ fontFamily: "var(--font-playfair), serif" }}
@@ -183,7 +183,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                   disabled={!selectedOperator}
                   className={`w-full py-5 rounded-full font-bold text-lg transition-all duration-300 ${
                     selectedOperator
-                      ? "bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/50 transform hover:scale-105"
+                      ? "bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transform hover:scale-105"
                       : "bg-gray-700 cursor-not-allowed"
                   }`}
                   style={selectedOperator ? { color: "var(--platinum)" } : { color: "#9ca3af" }}
@@ -208,13 +208,13 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
             <div className="relative mb-8">
               <div className="relative w-48 h-48 mx-auto">
                 {/* Pulsing outer ring */}
-                <div className="absolute inset-0 rounded-full animate-ping opacity-75" style={{ border: "4px solid var(--champagne-gold)" }}></div>
+                <div className="absolute inset-0 rounded-full animate-ping opacity-75" style={{ border: "4px solid var(--neon-purple)" }}></div>
                 
                 {/* Rotating ring */}
-                <div className="absolute inset-4 rounded-full border-4 border-transparent animate-spin" style={{ borderTopColor: "var(--champagne-gold)", borderBottomColor: "var(--accent-blue)" }}></div>
+                <div className="absolute inset-4 rounded-full border-4 border-transparent animate-spin" style={{ borderTopColor: "var(--neon-purple)", borderBottomColor: "var(--deep-purple)" }}></div>
                 
                 {/* Inner glow circle */}
-                <div className="absolute inset-8 rounded-full bg-gradient-to-br animate-pulse" style={{ backgroundImage: "linear-gradient(to bottom right, rgba(212, 175, 55, 0.3), rgba(74, 144, 226, 0.3))" }}></div>
+                <div className="absolute inset-8 rounded-full bg-gradient-to-br animate-pulse" style={{ backgroundImage: "linear-gradient(to bottom right, rgba(192, 132, 252, 0.3), rgba(74, 144, 226, 0.3))" }}></div>
                 
                 {/* Center logo text */}
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -223,9 +223,9 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                       Genesis
                     </div>
                     <div className="flex gap-1 justify-center">
-                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: "var(--champagne-gold)", animationDelay: "0ms" }}></div>
-                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: "var(--champagne-gold)", animationDelay: "150ms" }}></div>
-                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: "var(--champagne-gold)", animationDelay: "300ms" }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: "var(--neon-purple)", animationDelay: "0ms" }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: "var(--neon-purple)", animationDelay: "150ms" }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: "var(--neon-purple)", animationDelay: "300ms" }}></div>
                     </div>
                   </div>
                 </div>
@@ -245,9 +245,9 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
             
             {/* Animated sparkles */}
             <div className="flex justify-center gap-4 mt-8">
-              <div className="animate-pulse" style={{ color: "var(--champagne-gold)", animationDelay: "0ms" }}>✨</div>
-              <div className="animate-pulse" style={{ color: "var(--champagne-gold)", animationDelay: "200ms" }}>✨</div>
-              <div className="animate-pulse" style={{ color: "var(--champagne-gold)", animationDelay: "400ms" }}>✨</div>
+              <div className="animate-pulse" style={{ color: "var(--neon-purple)", animationDelay: "0ms" }}>✨</div>
+              <div className="animate-pulse" style={{ color: "var(--neon-purple)", animationDelay: "200ms" }}>✨</div>
+              <div className="animate-pulse" style={{ color: "var(--neon-purple)", animationDelay: "400ms" }}>✨</div>
             </div>
           </div>
         </div>

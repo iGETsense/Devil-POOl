@@ -150,7 +150,7 @@ export default function AdminDashboardPage() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen py-8 px-4" style={{ backgroundColor: "var(--navy)" }}>
+    <main className="min-h-screen py-8 px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -173,15 +173,15 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid var(--platinum)", opacity: 0.4 }}>
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 p-6" style={{ border: "2px solid var(--platinum)", opacity: 0.4 }}>
             <div className="flex items-center justify-between mb-2">
-              <Users className="w-8 h-8" style={{ color: "var(--champagne-gold)" }} />
+              <Users className="w-8 h-8" style={{ color: "var(--neon-purple)" }} />
               <span className="text-3xl font-bold gold-text">{stats.total}</span>
             </div>
             <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>Total Invités</p>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid #10b981" }}>
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 p-6" style={{ border: "2px solid #10b981" }}>
             <div className="flex items-center justify-between mb-2">
               <CheckCircle className="w-8 h-8 text-green-500" />
               <span className="text-3xl font-bold text-green-500">{stats.scanned}</span>
@@ -189,7 +189,7 @@ export default function AdminDashboardPage() {
             <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>Entrées Validées</p>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid #eab308" }}>
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 p-6" style={{ border: "2px solid #eab308" }}>
             <div className="flex items-center justify-between mb-2">
               <Calendar className="w-8 h-8 text-yellow-500" />
               <span className="text-3xl font-bold text-yellow-500">{stats.pending}</span>
@@ -197,9 +197,9 @@ export default function AdminDashboardPage() {
             <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>En Attente</p>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 p-6" style={{ border: "2px solid var(--champagne-gold)" }}>
+          <div className="rounded-2xl bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 p-6" style={{ border: "2px solid var(--neon-purple)" }}>
             <div className="flex items-center justify-between mb-2">
-              <DollarSign className="w-8 h-8" style={{ color: "var(--champagne-gold)" }} />
+              <DollarSign className="w-8 h-8" style={{ color: "var(--neon-purple)" }} />
               <span className="text-2xl font-bold gold-text">{stats.revenue.toLocaleString()}</span>
             </div>
             <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>Revenus (FCFA)</p>
@@ -211,10 +211,10 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab("scan")}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${
               activeTab === "scan"
-                ? "bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] shadow-lg"
+                ? "bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] shadow-lg"
                 : "hover:bg-white/20"
             }`}
-            style={activeTab === "scan" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(212, 175, 55, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
+            style={activeTab === "scan" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(192, 132, 252, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
           >
             <QrCode className="w-5 h-5" />
             Scanner QR Code
@@ -223,10 +223,10 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab("guests")}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${
               activeTab === "guests"
-                ? "bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] shadow-lg"
+                ? "bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] shadow-lg"
                 : "hover:bg-white/20"
             }`}
-            style={activeTab === "guests" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(212, 175, 55, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
+            style={activeTab === "guests" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(192, 132, 252, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
           >
             <Users className="w-5 h-5" />
             Liste des Invités
@@ -234,7 +234,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {activeTab === "scan" ? (
-          <div className="rounded-3xl elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
+          <div className="rounded-3xl elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
             <h2 className="text-2xl font-bold gold-text mb-6 text-center" style={{ fontFamily: "var(--font-playfair), serif" }}>
               Scanner un QR Code
             </h2>
@@ -242,7 +242,7 @@ export default function AdminDashboardPage() {
             <div className="max-w-2xl mx-auto mb-8">
               <button
                 onClick={() => setShowScanner(true)}
-                className="w-full py-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-xl font-semibold rounded-2xl transition-all shadow-2xl hover:shadow-[var(--champagne-gold)]/50 flex items-center justify-center gap-4"
+                className="w-full py-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-xl font-semibold rounded-2xl transition-all shadow-2xl hover:shadow-[var(--neon-purple)]/50 flex items-center justify-center gap-4"
                 style={{ color: "var(--platinum)" }}
               >
                 <Camera className="w-8 h-8" />
@@ -283,7 +283,7 @@ export default function AdminDashboardPage() {
             )}
           </div>
         ) : (
-          <div className="rounded-3xl elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
+          <div className="rounded-3xl elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold gold-text" style={{ fontFamily: "var(--font-playfair), serif" }}>
                 Liste des Invités ({filteredGuests.length})
@@ -321,7 +321,7 @@ export default function AdminDashboardPage() {
                       <td className="py-4 px-4 font-semibold" style={{ color: "var(--platinum)" }}>{guest.name}</td>
                       <td className="py-4 px-4" style={{ color: "var(--platinum)", opacity: 0.6 }}>{guest.phone}</td>
                       <td className="py-4 px-4">
-                        <span className="px-3 py-1 rounded-full text-sm font-semibold" style={{ backgroundColor: "rgba(212, 175, 55, 0.2)", color: "var(--champagne-gold)" }}>
+                        <span className="px-3 py-1 rounded-full text-sm font-semibold" style={{ backgroundColor: "rgba(192, 132, 252, 0.2)", color: "var(--neon-purple)" }}>
                           {guest.passType}
                         </span>
                       </td>

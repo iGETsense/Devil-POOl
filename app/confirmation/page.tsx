@@ -27,7 +27,7 @@ export default function ConfirmationPage() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen py-20 px-4" style={{ backgroundColor: "var(--navy)" }}>
+    <main className="min-h-screen py-20 px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="max-w-4xl mx-auto">
         {/* Success Header */}
         <div className="text-center mb-12 animate-fade-in">
@@ -46,11 +46,11 @@ export default function ConfirmationPage() {
         </div>
 
         {/* Main Card */}
-        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8 md:p-12 mb-8">
+        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8 md:p-12 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Left Side - QR Code */}
             <div className="flex flex-col items-center justify-center">
-              <div className="bg-white p-6 rounded-2xl mb-6 shadow-2xl shadow-[var(--champagne-gold)]/30">
+              <div className="bg-white p-6 rounded-2xl mb-6 shadow-2xl shadow-[var(--neon-purple)]/30">
                 <Image
                   src={bookingData.qrCode}
                   alt="QR Code"
@@ -63,7 +63,7 @@ export default function ConfirmationPage() {
                 Scanne ce QR code à l&apos;entrée
               </p>
               <div className="flex gap-4">
-                <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] rounded-full hover:shadow-lg hover:shadow-[var(--champagne-gold)]/20 transition-all" style={{ color: "var(--platinum)" }}>
+                <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] rounded-full hover:shadow-lg hover:shadow-[var(--neon-purple)]/20 transition-all" style={{ color: "var(--platinum)" }}>
                   <Download className="w-4 h-4" />
                   Télécharger
                 </button>
@@ -108,7 +108,7 @@ export default function ConfirmationPage() {
 
                 <div className="pb-4 border-b border-white/20">
                   <p className="text-sm mb-1" style={{ color: "var(--platinum)", opacity: 0.6 }}>Montant payé</p>
-                  <p className="text-2xl font-bold" style={{ color: "var(--champagne-gold)" }}>{bookingData.price}</p>
+                  <p className="text-2xl font-bold" style={{ color: "var(--neon-purple)" }}>{bookingData.price}</p>
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function ConfirmationPage() {
         </div>
 
         {/* Event Information */}
-        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8 mb-8">
+        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8 mb-8">
           <h3 
             className="text-2xl font-bold mb-6 gold-text text-center"
             style={{ fontFamily: "var(--font-playfair), serif" }}
@@ -126,8 +126,8 @@ export default function ConfirmationPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(212, 175, 55, 0.2)" }}>
-                <Calendar className="w-6 h-6" style={{ color: "var(--champagne-gold)" }} />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(192, 132, 252, 0.2)" }}>
+                <Calendar className="w-6 h-6" style={{ color: "var(--neon-purple)" }} />
               </div>
               <div>
                 <p className="text-white/60 text-sm mb-1">Date</p>
@@ -136,8 +136,8 @@ export default function ConfirmationPage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(212, 175, 55, 0.2)" }}>
-                <Clock className="w-6 h-6" style={{ color: "var(--champagne-gold)" }} />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(192, 132, 252, 0.2)" }}>
+                <Clock className="w-6 h-6" style={{ color: "var(--neon-purple)" }} />
               </div>
               <div>
                 <p className="text-white/60 text-sm mb-1">Horaire</p>
@@ -146,8 +146,8 @@ export default function ConfirmationPage() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(212, 175, 55, 0.2)" }}>
-                <MapPin className="w-6 h-6" style={{ color: "var(--champagne-gold)" }} />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(192, 132, 252, 0.2)" }}>
+                <MapPin className="w-6 h-6" style={{ color: "var(--neon-purple)" }} />
               </div>
               <div>
                 <p className="text-white/60 text-sm mb-1">Lieu</p>
@@ -186,7 +186,7 @@ export default function ConfirmationPage() {
         <div className="text-center mt-12">
           <a
             href="/"
-            className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/40 transition-all duration-300"
+            className="inline-block px-10 py-4 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 transition-all duration-300"
             style={{ color: "var(--platinum)" }}
           >
             Retour à l&apos;accueil

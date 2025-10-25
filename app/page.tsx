@@ -4,20 +4,22 @@ import { Sparkles } from "lucide-react"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen" style={{ backgroundColor: "var(--navy)" }}>
+    <main className="min-h-screen" style={{ backgroundColor: "var(--space-dark)" }}>
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
         <Image src="/hero-pool-sophisticated.jpg" alt="Genesis Exclusive Event" fill className="object-cover" priority />
-        {/* Elegant blue overlay matching theme */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--deep-blue)]/60 via-[var(--navy)]/40 to-[var(--navy)]/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-blue)]/10 to-transparent" />
+        {/* Purple neon overlay matching Genesis logo */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--cosmic-blue)]/70 via-[var(--space-dark)]/50 to-[var(--space-dark)]/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--deep-purple)]/20 to-transparent" />
+        {/* Purple glow effect */}
+        <div className="absolute inset-0 bg-radial-gradient" style={{ background: "radial-gradient(circle at center, rgba(192, 132, 252, 0.15) 0%, transparent 70%)" }} />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1
             className="text-5xl md:text-7xl font-bold mb-6 gold-text drop-shadow-2xl"
             style={{
               fontFamily: "var(--font-playfair), serif",
-              textShadow: "0 0 30px rgba(212, 175, 55, 0.5), 0 0 60px rgba(212, 175, 55, 0.3)",
+              textShadow: "0 0 30px rgba(192, 132, 252, 0.6), 0 0 60px rgba(192, 132, 252, 0.4)",
             }}
           >
             Bienvenue dans l&apos;univers Genesis.
@@ -29,7 +31,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/reservation"
-            className="inline-block px-8 py-4 bg-transparent text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/50 transition-all duration-300 transform hover:scale-105 elegant-border"
+            className="inline-block px-8 py-4 bg-transparent text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-300 transform hover:scale-105 elegant-border"
             style={{ color: "var(--platinum)" }}
           >
             <span className="flex items-center gap-2">
