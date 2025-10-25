@@ -34,13 +34,19 @@ export default function HomePage() {
               textShadow: "0 0 30px rgba(192, 132, 252, 0.6), 0 0 60px rgba(192, 132, 252, 0.4)",
             }}
           >
-            Genesis
+            🌴 GENESIS VOL.I 🌊
           </h1>
-          <p className="text-xl md:text-2xl mb-4 font-light animate-fade-in-up delay-200" style={{ color: "var(--platinum)", letterSpacing: "0.05em" }}>
-            VOL I. - Soirée à Hawaï
+          <p className="text-2xl md:text-3xl mb-6 font-light animate-fade-in-up delay-200" style={{ color: "var(--platinum)", letterSpacing: "0.05em", fontStyle: "italic" }}>
+            Hawaiian Summer Party
           </p>
-          <p className="text-base md:text-lg mb-8 max-w-2xl mx-auto animate-fade-in-up delay-300" style={{ color: "var(--platinum)", opacity: 0.9 }}>
-            14 Février 2026 • 22h - 6h30 • Tenue d&apos;été élégante
+          <p className="text-base md:text-lg mb-6 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-300" style={{ color: "var(--platinum)", opacity: 0.95 }}>
+            Prépare-toi à vivre la soirée de l&apos;année ! Plonge dans une ambiance luxueuse et festive, où chaque lumière, chaque cocktail et chaque beat t&apos;embarque pour un voyage inoubliable sous le soleil hawaïen.
+          </p>
+          <p className="text-base md:text-lg mb-6 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400" style={{ color: "var(--platinum)", opacity: 0.95 }}>
+            Luxe tropical, ose les couleurs, les textures et ton style unique avec une ambiance et des musiques qui te feront danser jusqu&apos;au bout de la nuit.
+          </p>
+          <p className="text-xl md:text-2xl mb-8 font-semibold animate-fade-in-up delay-500" style={{ color: "var(--neon-purple)", textShadow: "0 0 20px rgba(192, 132, 252, 0.4)" }}>
+            💥 Prêt(e) pour la soirée de tes rêves ?
           </p>
           <Link
             href="/reservation"
