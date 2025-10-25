@@ -47,6 +47,15 @@ export default function PassesPage() {
                       fill
                       className="object-cover"
                     />
+                    {/* Elegant overlay with Genesis theme */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-[var(--deep-blue)]/30 via-transparent to-[var(--navy)]/60" />
+                    <div className="absolute inset-0 elegant-border rounded-2xl" style={{ border: "3px solid var(--champagne-gold)", opacity: 0.4 }} />
+                    {/* Genesis watermark */}
+                    <div className="absolute top-4 right-4">
+                      <span className="text-2xl font-bold gold-text" style={{ fontFamily: "var(--font-playfair), serif", textShadow: "0 0 10px rgba(212, 175, 55, 0.8)" }}>
+                        Genesis
+                      </span>
+                    </div>
                   </div>
 
                   <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>

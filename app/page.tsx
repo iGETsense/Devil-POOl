@@ -7,7 +7,7 @@ export default function HomePage() {
     <main className="min-h-screen" style={{ backgroundColor: "var(--navy)" }}>
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
-        <Image src="/hero-black-women-pool-2.jpg" alt="Genesis Exclusive Event" fill className="object-cover" priority />
+        <Image src="/hero-pool-elegant.jpg" alt="Genesis Exclusive Event" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--navy)]/40 via-transparent to-[var(--navy)]/70" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
