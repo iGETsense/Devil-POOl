@@ -29,34 +29,34 @@ export default function AdminDashboardPage() {
 
   const [guests] = useState<Guest[]>([
     {
-      id: "DT-2025-ABC123",
+      id: "GEN-2025-ABC123",
       name: "Jean Dupont",
       phone: "+237 6XX XXX XXX",
       passType: "ONE MAN",
       price: "15 000 FCFA",
       bookingDate: "2025-10-20",
-      qrCode: "DT-PASS-ABC123",
+      qrCode: "GEN-PASS-ABC123",
       scanned: true,
       scanTime: "2025-10-22 20:30"
     },
     {
-      id: "DT-2025-DEF456",
+      id: "GEN-2025-DEF456",
       name: "Marie Kamga",
       phone: "+237 6YY YYY YYY",
       passType: "ONE LADY",
       price: "10 000 FCFA",
       bookingDate: "2025-10-21",
-      qrCode: "DT-PASS-DEF456",
+      qrCode: "GEN-PASS-DEF456",
       scanned: false
     },
     {
-      id: "DT-2025-GHI789",
+      id: "GEN-2025-GHI789",
       name: "Sophie & Friends",
       phone: "+237 6ZZ ZZZ ZZZ",
       passType: "FIVE QUEENS",
       price: "5 000 FCFA",
       bookingDate: "2025-10-21",
-      qrCode: "DT-PASS-GHI789",
+      qrCode: "GEN-PASS-GHI789",
       scanned: false
     }
   ])

@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function ReservationPage() {
   return (
-    <main className="min-h-screen bg-black relative overflow-hidden">
+    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "var(--navy)" }}>
       {/* Background with palm leaves */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96">
@@ -25,12 +25,12 @@ export default function ReservationPage() {
           <div className="text-center mb-16">
             <h1 
               className="text-5xl md:text-6xl font-bold mb-6 gold-text"
-              style={{ fontFamily: "var(--font-cinzel), serif" }}
+              style={{ fontFamily: "var(--font-playfair), serif" }}
             >
               Choisis ton pass
             </h1>
-            <p className="text-white/90 text-lg md:text-xl max-w-3xl mx-auto">
-              Chaque pass inclut ton accès garanti à the soirée + ton estampille officiale DT à l&apos;entrée.
+            <p className="text-lg md:text-xl max-w-3xl mx-auto" style={{ color: "var(--platinum)", opacity: 0.9 }}>
+              Chaque pass inclut votre accès garanti à l&apos;événement + votre badge exclusif Genesis à l&apos;entrée.
             </p>
           </div>
 
@@ -38,15 +38,15 @@ export default function ReservationPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* ONE MAN Card */}
             <div className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff3366]/50">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
                 <div className="p-8 text-center">
                   <h3 
                     className="text-4xl font-bold mb-2 gold-text"
-                    style={{ fontFamily: "var(--font-cinzel), serif" }}
+                    style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
                     ONE MAN
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "#ff3366" }}>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
                     15 000 FCFA
                   </p>
                   
@@ -60,7 +60,7 @@ export default function ReservationPage() {
                   </div>
 
                   <Link href="/passes/one-man">
-                    <button className="w-full py-4 px-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg">
+                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
                       Sélectionner ce pass
                     </button>
                   </Link>
@@ -70,15 +70,15 @@ export default function ReservationPage() {
 
             {/* ONE LADY Card */}
             <div className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff3366]/50">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
                 <div className="p-8 text-center">
                   <h3 
                     className="text-4xl font-bold mb-2 gold-text"
-                    style={{ fontFamily: "var(--font-cinzel), serif" }}
+                    style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
                     ONE LADY
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "#ff3366" }}>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
                     10 000 FCFA
                   </p>
                   
@@ -92,7 +92,7 @@ export default function ReservationPage() {
                   </div>
 
                   <Link href="/passes/one-lady">
-                    <button className="w-full py-4 px-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg">
+                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
                       Sélectionner ce pass
                     </button>
                   </Link>
@@ -102,15 +102,15 @@ export default function ReservationPage() {
 
             {/* FIVE QUEENS Card */}
             <div className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#ff3366]/50">
+              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
                 <div className="p-8 text-center">
                   <h3 
                     className="text-4xl font-bold mb-2 gold-text"
-                    style={{ fontFamily: "var(--font-cinzel), serif" }}
+                    style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
                     FIVE QUEENS
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "#ff3366" }}>
+                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
                     5 000 FCFA
                   </p>
                   
@@ -124,7 +124,7 @@ export default function ReservationPage() {
                   </div>
 
                   <Link href="/passes/five-queens">
-                    <button className="w-full py-4 px-8 bg-gradient-to-r from-red-900 to-red-700 text-white text-lg font-semibold rounded-full hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg">
+                    <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
                       Sélectionner ce pass
                     </button>
                   </Link>

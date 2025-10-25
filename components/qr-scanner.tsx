@@ -14,12 +14,32 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
   const [error, setError] = useState<string>("")
   const [isScanning, setIsScanning] = useState(false)
   const [scannedData, setScannedData] = useState<string>("")
+  const [jsQRLoaded, setJsQRLoaded] = useState(false)
   const streamRef = useRef<MediaStream | null>(null)
   const scanningRef = useRef<boolean>(true)
 
   useEffect(() => {
+    // Vérifier si jsQR est chargé
+    const checkJsQR = setInterval(() => {
+      if (typeof window !== 'undefined' && window.jsQR) {
+        console.log("✅ jsQR library loaded successfully")
+        setJsQRLoaded(true)
+        clearInterval(checkJsQR)
+      }
+    }, 100)
+
+    // Timeout après 5 secondes
+    setTimeout(() => {
+      clearInterval(checkJsQR)
+      if (!jsQRLoaded) {
+        console.error("❌ jsQR library failed to load")
+        setError("Erreur de chargement du scanner. Veuillez recharger la page.")
+      }
+    }, 5000)
+
     startCamera()
     return () => {
+      clearInterval(checkJsQR)
       stopCamera()
     }
   }, [])
