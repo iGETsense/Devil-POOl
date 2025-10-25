@@ -8,7 +8,9 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
         <Image src="/hero-pool-elegant.jpg" alt="Genesis Exclusive Event" fill className="object-cover" priority />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--navy)]/40 via-transparent to-[var(--navy)]/70" />
+        {/* Elegant blue overlay matching theme */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--deep-blue)]/60 via-[var(--navy)]/40 to-[var(--navy)]/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-blue)]/10 to-transparent" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1

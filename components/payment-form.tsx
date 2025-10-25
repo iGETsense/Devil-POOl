@@ -79,7 +79,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
 
           {/* Right Side - Payment Form */}
           <div className="order-1 lg:order-2">
-            <div className="rounded-3xl overflow-hidden border-4 border-[#ff3366] bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm p-8">
+            <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm p-8">
               <h2 
                 className="text-4xl font-bold mb-8 gold-text text-center"
                 style={{ fontFamily: "var(--font-playfair), serif" }}
