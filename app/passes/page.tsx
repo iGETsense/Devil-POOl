@@ -20,7 +20,7 @@ export default function PassesPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <h1
-            className="text-5xl md:text-7xl font-bold text-center mb-6 gold-text animate-fade-in"
+            className="text-5xl md:text-7xl font-bold text-center mb-6 gold-text animate-fade-in-up"
             style={{ 
               fontFamily: "var(--font-playfair), serif",
               letterSpacing: "0.02em",
@@ -29,13 +29,13 @@ export default function PassesPage() {
           >
             Choisis ton pass
           </h1>
-          <p className="text-center mb-16 text-lg max-w-3xl mx-auto leading-relaxed" style={{ color: "var(--platinum)", opacity: 0.9 }}>
+          <p className="text-center mb-16 text-lg max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-200" style={{ color: "var(--platinum)", opacity: 0.9 }}>
             Chaque pass inclut votre accès garanti à l&apos;événement + votre badge exclusif Genesis à l&apos;entrée.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* ONE MAN */}
-            <Link href="/passes/one-man" className="group">
+            <Link href="/passes/one-man" className="group animate-scale-in delay-300">
               <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 hover:border-[var(--neon-purple)]">
                 <div className="p-8 text-center">
                   <h3 
@@ -54,13 +54,7 @@ export default function PassesPage() {
                       alt="One Man Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      style={{
-                        filter: "saturate(1.5) contrast(1.25) brightness(0.92) hue-rotate(270deg) sepia(0.3)"
-                      }}
                     />
-                    {/* Purple clothing effect */}
-                    <div className="absolute inset-0 bg-[var(--neon-purple)]/25 mix-blend-color" />
-                    <div className="absolute inset-0 bg-[var(--deep-purple)]/15 mix-blend-multiply" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
@@ -79,7 +73,7 @@ export default function PassesPage() {
             </Link>
 
             {/* ONE LADY */}
-            <Link href="/passes/one-lady" className="group">
+            <Link href="/passes/one-lady" className="group animate-scale-in delay-400">
               <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 hover:border-[var(--neon-purple)]">
                 <div className="p-8 text-center">
                   <h3 
@@ -98,13 +92,7 @@ export default function PassesPage() {
                       alt="One Lady Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      style={{
-                        filter: "saturate(1.5) contrast(1.25) brightness(0.92) hue-rotate(270deg) sepia(0.3)"
-                      }}
                     />
-                    {/* Purple clothing effect */}
-                    <div className="absolute inset-0 bg-[var(--neon-purple)]/25 mix-blend-color" />
-                    <div className="absolute inset-0 bg-[var(--deep-purple)]/15 mix-blend-multiply" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
@@ -123,7 +111,7 @@ export default function PassesPage() {
             </Link>
 
             {/* FIVE QUEENS */}
-            <Link href="/passes/five-queens" className="group">
+            <Link href="/passes/five-queens" className="group animate-scale-in delay-500">
               <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 hover:border-[var(--neon-purple)]">
                 <div className="p-8 text-center">
                   <h3 
@@ -142,13 +130,7 @@ export default function PassesPage() {
                       alt="Five Queens Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      style={{
-                        filter: "saturate(1.5) contrast(1.25) brightness(0.92) hue-rotate(270deg) sepia(0.3)"
-                      }}
                     />
-                    {/* Purple clothing effect */}
-                    <div className="absolute inset-0 bg-[var(--neon-purple)]/25 mix-blend-color" />
-                    <div className="absolute inset-0 bg-[var(--deep-purple)]/15 mix-blend-multiply" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
