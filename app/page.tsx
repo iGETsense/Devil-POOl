@@ -27,15 +27,19 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[var(--space-dark)]/70" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <h1
-            className="text-5xl md:text-7xl font-bold mb-6 gold-text drop-shadow-2xl animate-fade-in-up"
-            style={{
-              fontFamily: "var(--font-playfair), serif",
-              textShadow: "0 0 30px rgba(192, 132, 252, 0.6), 0 0 60px rgba(192, 132, 252, 0.4)",
-            }}
-          >
-            🌴 GENESIS VOL.I 🌊
-          </h1>
+          <div className="inline-block mb-6 px-8 py-4 rounded-3xl animate-fade-in-up" style={{ backgroundColor: "rgba(10, 10, 26, 0.85)", backdropFilter: "blur(10px)" }}>
+            <h1
+              className="text-6xl md:text-8xl font-black tracking-wider"
+              style={{
+                fontFamily: "var(--font-playfair), serif",
+                color: "#d8b4fe",
+                textShadow: "0 0 40px rgba(216, 180, 254, 0.9), 0 0 80px rgba(216, 180, 254, 0.6), 0 4px 20px rgba(0, 0, 0, 0.8)",
+                WebkitTextStroke: "2px rgba(124, 58, 237, 0.8)",
+              }}
+            >
+              🌴 GENESIS VOL.I 🌊
+            </h1>
+          </div>
           <p className="text-2xl md:text-3xl mb-6 font-light animate-fade-in-up delay-200" style={{ color: "var(--platinum)", letterSpacing: "0.05em", fontStyle: "italic" }}>
             Hawaiian Summer Party
           </p>
