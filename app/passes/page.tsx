@@ -16,41 +16,53 @@ export default function PassesPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <h1
-            className="text-5xl md:text-7xl font-bold text-center mb-6 gold-text"
-            style={{ fontFamily: "var(--font-playfair), serif" }}
+            className="text-5xl md:text-7xl font-bold text-center mb-6 gold-text animate-fade-in"
+            style={{ 
+              fontFamily: "var(--font-playfair), serif",
+              letterSpacing: "0.02em",
+              textShadow: "0 0 40px rgba(212, 175, 55, 0.4), 0 0 80px rgba(212, 175, 55, 0.2)"
+            }}
           >
             Choisis ton pass
           </h1>
-          <p className="text-center mb-16 text-lg max-w-3xl mx-auto" style={{ color: "var(--platinum)" }}>
+          <p className="text-center mb-16 text-lg max-w-3xl mx-auto leading-relaxed" style={{ color: "var(--platinum)", opacity: 0.9 }}>
             Chaque pass inclut votre accès garanti à l&apos;événement + votre badge exclusif Genesis à l&apos;entrée.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* ONE MAN */}
             <Link href="/passes/one-man" className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
+              <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/40 hover:border-[var(--champagne-gold)]">
                 <div className="p-8 text-center">
                   <h3 
-                    className="text-4xl font-bold mb-2 gold-text"
-                    style={{ fontFamily: "var(--font-playfair), serif" }}
+                    className="text-4xl font-bold mb-2 gold-text transition-all duration-300 group-hover:scale-105"
+                    style={{ fontFamily: "var(--font-playfair), serif", letterSpacing: "0.02em" }}
                   >
                     ONE MAN
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
+                  <p className="text-3xl font-bold mb-6 transition-all duration-300 group-hover:text-shadow-lg" style={{ color: "var(--champagne-gold)", textShadow: "0 0 20px rgba(212, 175, 55, 0.3)" }}>
                     15 000 FCFA
                   </p>
                   
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
                     <Image
                       src="/one-man-card.jpg"
                       alt="One Man Pass"
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    {/* Elegant gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/80 via-transparent to-[var(--deep-blue)]/40 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+                    {/* Subtle border glow */}
+                    <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 30px rgba(212, 175, 55, 0.1)" }} />
                   </div>
 
-                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
-                    Sélectionner ce pass
+                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <span>Sélectionner ce pass</span>
+                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--champagne-gold)]/0 to-[var(--champagne-gold)]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
                   </button>
                 </div>
               </div>
@@ -58,29 +70,37 @@ export default function PassesPage() {
 
             {/* ONE LADY */}
             <Link href="/passes/one-lady" className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
+              <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/40 hover:border-[var(--champagne-gold)]">
                 <div className="p-8 text-center">
                   <h3 
-                    className="text-4xl font-bold mb-2 gold-text"
-                    style={{ fontFamily: "var(--font-playfair), serif" }}
+                    className="text-4xl font-bold mb-2 gold-text transition-all duration-300 group-hover:scale-105"
+                    style={{ fontFamily: "var(--font-playfair), serif", letterSpacing: "0.02em" }}
                   >
                     ONE LADY
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
+                  <p className="text-3xl font-bold mb-6 transition-all duration-300 group-hover:text-shadow-lg" style={{ color: "var(--champagne-gold)", textShadow: "0 0 20px rgba(212, 175, 55, 0.3)" }}>
                     10 000 FCFA
                   </p>
                   
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
                     <Image
                       src="/one-lady-card.jpg"
                       alt="One Lady Pass"
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    {/* Elegant gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/80 via-transparent to-[var(--deep-blue)]/40 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+                    {/* Subtle border glow */}
+                    <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 30px rgba(212, 175, 55, 0.1)" }} />
                   </div>
 
-                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
-                    Sélectionner ce pass
+                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <span>Sélectionner ce pass</span>
+                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--champagne-gold)]/0 to-[var(--champagne-gold)]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
                   </button>
                 </div>
               </div>
@@ -88,29 +108,37 @@ export default function PassesPage() {
 
             {/* FIVE QUEENS */}
             <Link href="/passes/five-queens" className="group">
-              <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/30">
+              <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--deep-blue)]/90 to-[var(--navy)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/40 hover:border-[var(--champagne-gold)]">
                 <div className="p-8 text-center">
                   <h3 
-                    className="text-4xl font-bold mb-2 gold-text"
-                    style={{ fontFamily: "var(--font-playfair), serif" }}
+                    className="text-4xl font-bold mb-2 gold-text transition-all duration-300 group-hover:scale-105"
+                    style={{ fontFamily: "var(--font-playfair), serif", letterSpacing: "0.02em" }}
                   >
                     FIVE QUEENS
                   </h3>
-                  <p className="text-3xl font-bold mb-6" style={{ color: "var(--champagne-gold)" }}>
+                  <p className="text-3xl font-bold mb-6 transition-all duration-300 group-hover:text-shadow-lg" style={{ color: "var(--champagne-gold)", textShadow: "0 0 20px rgba(212, 175, 55, 0.3)" }}>
                     5 000 FCFA
                   </p>
                   
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
                     <Image
                       src="/five-queens-card.jpg"
                       alt="Five Queens Pass"
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    {/* Elegant gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/80 via-transparent to-[var(--deep-blue)]/40 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+                    {/* Subtle border glow */}
+                    <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 30px rgba(212, 175, 55, 0.1)" }} />
                   </div>
 
-                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-xl hover:shadow-[var(--champagne-gold)]/20 transition-all duration-300" style={{ color: "var(--platinum)" }}>
-                    Sélectionner ce pass
+                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--deep-blue)] to-[var(--accent-blue)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--champagne-gold)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <span>Sélectionner ce pass</span>
+                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--champagne-gold)]/0 to-[var(--champagne-gold)]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
                   </button>
                 </div>
               </div>
