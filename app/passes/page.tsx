@@ -51,10 +51,10 @@ export default function PassesPage() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Elegant gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/80 via-transparent to-[var(--cosmic-blue)]/40 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                    {/* Subtle border glow */}
-                    <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 30px rgba(192, 132, 252, 0.1)" }} />
+                    {/* Subtle purple glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Purple border glow */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: "inset 0 0 40px rgba(192, 132, 252, 0.3)" }} />
                   </div>
 
                   <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
@@ -89,10 +89,10 @@ export default function PassesPage() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Elegant gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/80 via-transparent to-[var(--cosmic-blue)]/40 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                    {/* Subtle border glow */}
-                    <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 30px rgba(192, 132, 252, 0.1)" }} />
+                    {/* Subtle purple glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Purple border glow */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: "inset 0 0 40px rgba(192, 132, 252, 0.3)" }} />
                   </div>
 
                   <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
@@ -127,10 +127,10 @@ export default function PassesPage() {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Elegant gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/80 via-transparent to-[var(--cosmic-blue)]/40 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                    {/* Subtle border glow */}
-                    <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 30px rgba(192, 132, 252, 0.1)" }} />
+                    {/* Subtle purple glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Purple border glow */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: "inset 0 0 40px rgba(192, 132, 252, 0.3)" }} />
                   </div>
 
                   <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>

@@ -8,11 +8,8 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
         <Image src="/hero-pool-sophisticated.jpg" alt="Genesis Exclusive Event" fill className="object-cover" priority />
-        {/* Purple neon overlay matching Genesis logo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--cosmic-blue)]/70 via-[var(--space-dark)]/50 to-[var(--space-dark)]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--deep-purple)]/20 to-transparent" />
-        {/* Purple glow effect */}
-        <div className="absolute inset-0 bg-radial-gradient" style={{ background: "radial-gradient(circle at center, rgba(192, 132, 252, 0.15) 0%, transparent 70%)" }} />
+        {/* Minimal gradient for text readability only */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--space-dark)]/60" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1
