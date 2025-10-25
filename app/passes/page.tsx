@@ -11,7 +11,11 @@ export default function PassesPage() {
           alt="Palm trees background"
           fill
           className="object-cover opacity-40"
+          style={{
+            filter: "saturate(1.2) contrast(1.1) brightness(0.8) hue-rotate(260deg)"
+          }}
         />
+        <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-color" />
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--space-dark)] via-transparent to-[var(--space-dark)]" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
@@ -46,16 +50,17 @@ export default function PassesPage() {
                   
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
                     <Image
-                      src="/one-man-card.jpg"
+                      src="/hero-pool-upscale.jpg"
                       alt="One Man Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       style={{
-                        filter: "saturate(1.3) contrast(1.15) brightness(0.95) hue-rotate(250deg)"
+                        filter: "saturate(1.35) contrast(1.2) brightness(0.9) hue-rotate(255deg)"
                       }}
                     />
-                    {/* Purple tint overlay */}
-                    <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-overlay" />
+                    {/* Purple theme overlay */}
+                    <div className="absolute inset-0 bg-[var(--neon-purple)]/15 mix-blend-overlay" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[var(--cosmic-blue)]/20 to-transparent" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
@@ -89,16 +94,17 @@ export default function PassesPage() {
                   
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
                     <Image
-                      src="/one-lady-card.jpg"
+                      src="/hero-pool-elegant.jpg"
                       alt="One Lady Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       style={{
-                        filter: "saturate(1.3) contrast(1.15) brightness(0.95) hue-rotate(250deg)"
+                        filter: "saturate(1.35) contrast(1.2) brightness(0.9) hue-rotate(255deg)"
                       }}
                     />
-                    {/* Purple tint overlay */}
-                    <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-overlay" />
+                    {/* Purple theme overlay */}
+                    <div className="absolute inset-0 bg-[var(--neon-purple)]/15 mix-blend-overlay" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[var(--cosmic-blue)]/20 to-transparent" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
@@ -132,16 +138,17 @@ export default function PassesPage() {
                   
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
                     <Image
-                      src="/five-queens-card.jpg"
+                      src="/hero-pool-party.jpg"
                       alt="Five Queens Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       style={{
-                        filter: "saturate(1.3) contrast(1.15) brightness(0.95) hue-rotate(250deg)"
+                        filter: "saturate(1.35) contrast(1.2) brightness(0.9) hue-rotate(255deg)"
                       }}
                     />
-                    {/* Purple tint overlay */}
-                    <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-overlay" />
+                    {/* Purple theme overlay */}
+                    <div className="absolute inset-0 bg-[var(--neon-purple)]/15 mix-blend-overlay" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[var(--cosmic-blue)]/20 to-transparent" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}

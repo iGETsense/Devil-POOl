@@ -8,19 +8,19 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
         <Image 
-          src="/hero-black-women-pool-3.jpg" 
+          src="/hero-pool-upscale.jpg" 
           alt="Genesis Exclusive Event" 
           fill 
           className="object-cover" 
           priority 
           style={{
-            filter: "saturate(1.4) contrast(1.2) brightness(0.85) hue-rotate(260deg)",
+            filter: "saturate(1.3) contrast(1.15) brightness(0.88) hue-rotate(255deg)",
             mixBlendMode: "normal"
           }}
         />
-        {/* Purple neon color overlay for cosmic theme */}
-        <div className="absolute inset-0 bg-[var(--neon-purple)]/20 mix-blend-color" />
-        <div className="absolute inset-0 bg-[var(--cosmic-blue)]/25 mix-blend-multiply" />
+        {/* Elegant purple theme overlay */}
+        <div className="absolute inset-0 bg-[var(--neon-purple)]/18 mix-blend-color" />
+        <div className="absolute inset-0 bg-[var(--cosmic-blue)]/20 mix-blend-multiply" />
         {/* Minimal gradient for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--space-dark)]/60" />
 
@@ -32,12 +32,13 @@ export default function HomePage() {
               textShadow: "0 0 30px rgba(192, 132, 252, 0.6), 0 0 60px rgba(192, 132, 252, 0.4)",
             }}
           >
-            Bienvenue dans l&apos;univers Genesis.
+            Genesis
           </h1>
-          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: "var(--platinum)" }}>
-            Découvrez l&apos;excellence et le raffinement. Réservez votre pass, recevez votre QR unique, et
-            préparez-vous à vivre une expérience d&apos;exception en Novembre 2025. Les places sont limitées. Pas de QR, pas
-            d&apos;entrée. L&apos;élégance dans sa forme la plus pure.
+          <p className="text-xl md:text-2xl mb-4 font-light" style={{ color: "var(--platinum)", letterSpacing: "0.05em" }}>
+            L&apos;excellence redéfinie
+          </p>
+          <p className="text-base md:text-lg mb-8 max-w-2xl mx-auto" style={{ color: "var(--platinum)", opacity: 0.9 }}>
+            Réservez votre pass • Recevez votre QR unique • Novembre 2025
           </p>
           <Link
             href="/reservation"
