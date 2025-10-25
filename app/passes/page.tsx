@@ -50,7 +50,12 @@ export default function PassesPage() {
                       alt="One Man Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      style={{
+                        filter: "saturate(1.3) contrast(1.15) brightness(0.95) hue-rotate(250deg)"
+                      }}
                     />
+                    {/* Purple tint overlay */}
+                    <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-overlay" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
@@ -88,7 +93,12 @@ export default function PassesPage() {
                       alt="One Lady Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      style={{
+                        filter: "saturate(1.3) contrast(1.15) brightness(0.95) hue-rotate(250deg)"
+                      }}
                     />
+                    {/* Purple tint overlay */}
+                    <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-overlay" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}
@@ -126,7 +136,12 @@ export default function PassesPage() {
                       alt="Five Queens Pass"
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      style={{
+                        filter: "saturate(1.3) contrast(1.15) brightness(0.95) hue-rotate(250deg)"
+                      }}
                     />
+                    {/* Purple tint overlay */}
+                    <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-overlay" />
                     {/* Subtle purple glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     {/* Purple border glow */}

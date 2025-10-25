@@ -7,8 +7,20 @@ export default function HomePage() {
     <main className="min-h-screen" style={{ backgroundColor: "var(--space-dark)" }}>
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
-        <Image src="/hero-pool-sophisticated.jpg" alt="Genesis Exclusive Event" fill className="object-cover" priority />
-        {/* Minimal gradient for text readability only */}
+        <Image 
+          src="/hero-pool-sophisticated.jpg" 
+          alt="Genesis Exclusive Event" 
+          fill 
+          className="object-cover" 
+          priority 
+          style={{
+            filter: "saturate(1.2) contrast(1.1) brightness(0.9) hue-rotate(250deg)",
+            mixBlendMode: "normal"
+          }}
+        />
+        {/* Purple color overlay for theme matching */}
+        <div className="absolute inset-0 bg-[var(--deep-purple)]/15 mix-blend-multiply" />
+        {/* Minimal gradient for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--space-dark)]/60" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
