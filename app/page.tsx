@@ -8,18 +8,19 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-end overflow-hidden pb-20">
         <Image 
-          src="/hero-pool-sophisticated.jpg" 
+          src="/hero-black-women-pool-3.jpg" 
           alt="Genesis Exclusive Event" 
           fill 
           className="object-cover" 
           priority 
           style={{
-            filter: "saturate(1.2) contrast(1.1) brightness(0.9) hue-rotate(250deg)",
+            filter: "saturate(1.4) contrast(1.2) brightness(0.85) hue-rotate(260deg)",
             mixBlendMode: "normal"
           }}
         />
-        {/* Purple color overlay for theme matching */}
-        <div className="absolute inset-0 bg-[var(--deep-purple)]/15 mix-blend-multiply" />
+        {/* Purple neon color overlay for cosmic theme */}
+        <div className="absolute inset-0 bg-[var(--neon-purple)]/20 mix-blend-color" />
+        <div className="absolute inset-0 bg-[var(--cosmic-blue)]/25 mix-blend-multiply" />
         {/* Minimal gradient for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--space-dark)]/60" />
 
