@@ -24,12 +24,12 @@ export default function ReservationPage() {
           {/* Title Section */}
           <div className="text-center mb-16">
             <h1 
-              className="text-5xl md:text-6xl font-bold mb-6 gold-text"
+              className="text-5xl md:text-6xl font-bold mb-6 gold-text animate-fade-in-up"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
               Choisis ton pass
             </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto" style={{ color: "var(--platinum)", opacity: 0.9 }}>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto animate-fade-in-up delay-200" style={{ color: "var(--platinum)", opacity: 0.9 }}>
               Chaque pass inclut votre accès garanti à l&apos;événement + votre badge exclusif Genesis à l&apos;entrée.
             </p>
           </div>
@@ -37,7 +37,7 @@ export default function ReservationPage() {
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* ONE MAN Card */}
-            <div className="group">
+            <div className="group animate-scale-in delay-300">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
                   <h3 
@@ -69,7 +69,7 @@ export default function ReservationPage() {
             </div>
 
             {/* ONE LADY Card */}
-            <div className="group">
+            <div className="group animate-scale-in delay-400">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
                   <h3 
@@ -101,7 +101,7 @@ export default function ReservationPage() {
             </div>
 
             {/* FIVE QUEENS Card */}
-            <div className="group">
+            <div className="group animate-scale-in delay-500">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
                   <h3 

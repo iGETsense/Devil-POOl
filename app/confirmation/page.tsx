@@ -30,23 +30,23 @@ export default function ConfirmationPage() {
     <main className="min-h-screen py-20 px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="max-w-4xl mx-auto">
         {/* Success Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 border-4 border-green-500 mb-6 animate-bounce">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 border-4 border-green-500 mb-6 animate-scale-in">
             <CheckCircle className="w-10 h-10 text-green-500" />
           </div>
           <h1 
-            className="text-4xl md:text-5xl font-bold mb-4 gold-text"
+            className="text-4xl md:text-5xl font-bold mb-4 gold-text animate-fade-in-up delay-200"
             style={{ fontFamily: "var(--font-playfair), serif" }}
           >
             Réservation Confirmée !
           </h1>
-          <p className="text-lg" style={{ color: "var(--platinum)", opacity: 0.8 }}>
+          <p className="text-lg animate-fade-in-up delay-300" style={{ color: "var(--platinum)", opacity: 0.8 }}>
             Votre pass Genesis est prêt. Préparez-vous pour une expérience d&apos;exception ✨
           </p>
         </div>
 
         {/* Main Card */}
-        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8 md:p-12 mb-8">
+        <div className="rounded-3xl overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8 md:p-12 mb-8 animate-scale-in delay-400">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Left Side - QR Code */}
             <div className="flex flex-col items-center justify-center">

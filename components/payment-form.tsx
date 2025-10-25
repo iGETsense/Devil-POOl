@@ -37,7 +37,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Pass Summary */}
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 animate-slide-in-left">
             <div className="sticky top-24">
               <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
                 <h2 
@@ -78,7 +78,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
           </div>
 
           {/* Right Side - Payment Form */}
-          <div className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2 animate-slide-in-right">
             <div className="rounded-3xl overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm p-8">
               <h2 
                 className="text-4xl font-bold mb-8 gold-text text-center"
