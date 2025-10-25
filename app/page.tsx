@@ -37,7 +37,7 @@ export default function HomePage() {
                 WebkitTextStroke: "2px rgba(124, 58, 237, 0.8)",
               }}
             >
-              🌴 GENESIS VOL.I 🌊
+               GENESIS VOL.I 
             </h1>
           </div>
           <p className="text-2xl md:text-3xl mb-6 font-light animate-fade-in-up delay-200" style={{ color: "var(--platinum)", letterSpacing: "0.05em", fontStyle: "italic" }}>
@@ -50,7 +50,7 @@ export default function HomePage() {
             Luxe tropical, ose les couleurs, les textures et ton style unique avec une ambiance et des musiques qui te feront danser jusqu&apos;au bout de la nuit.
           </p>
           <p className="text-xl md:text-2xl mb-8 font-semibold animate-fade-in-up delay-500" style={{ color: "var(--neon-purple)", textShadow: "0 0 20px rgba(192, 132, 252, 0.4)" }}>
-            💥 Prêt(e) pour la soirée de tes rêves ?
+             Prêt(e) pour la soirée de tes rêves ?
           </p>
           <Link
             href="/reservation"
