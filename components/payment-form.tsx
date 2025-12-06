@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { Loader2, CreditCard } from "lucide-react"
+import crypto from "crypto"
 
 interface PaymentFormProps {
   passName: string
@@ -27,6 +28,16 @@ export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
     operator: "",
   })
 
+  // Sanitize input to prevent XSS
+  const sanitizeInput = (input: string): string => {
+    return input
+      .trim()
+      .replace(/[<>]/g, '') // Remove potential HTML tags
+      .replace(/[\r\n]/g, '') // Remove line breaks
+      .replace(/[\"']/g, '') // Remove quotes
+      .substring(0, 100) // Limit length
+  }
+
   // Validate form fields
   const validateForm = (): boolean => {
     const newErrors = {
@@ -36,17 +47,21 @@ export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
     }
 
     // Validate full name
-    if (!formData.fullName.trim()) {
+    const sanitizedName = sanitizeInput(formData.fullName)
+    if (!sanitizedName) {
       newErrors.fullName = "Le nom complet est requis"
-    } else if (formData.fullName.trim().length < 3) {
+    } else if (sanitizedName.length < 3) {
       newErrors.fullName = "Le nom doit contenir au moins 3 caractères"
+    } else if (!/^[a-zA-Z\s\-']+$/.test(sanitizedName)) {
+      newErrors.fullName = "Le nom ne doit contenir que des lettres, espaces, tirets et apostrophes"
     }
 
     // Validate phone number (Cameroon format)
     const phoneRegex = /^(\+237|237)?[26]\d{8}$/
-    if (!formData.phone.trim()) {
+    const cleanedPhone = formData.phone.replace(/\s/g, "")
+    if (!cleanedPhone) {
       newErrors.phone = "Le numéro de téléphone est requis"
-    } else if (!phoneRegex.test(formData.phone.replace(/\s/g, ""))) {
+    } else if (!phoneRegex.test(cleanedPhone)) {
       newErrors.phone = "Numéro invalide (ex: 6XXXXXXXX ou 237XXXXXXXXX)"
     }
 
@@ -71,12 +86,20 @@ export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
     }
   }
 
-  // Generate unique booking ID
+  // Generate secure booking ID
   const generateBookingId = (): string => {
     const timestamp = Date.now().toString(36).toUpperCase()
-    const random = Math.random().toString(36).substr(2, 5).toUpperCase()
+    const random = crypto.randomBytes(4).toString('hex').toUpperCase()
     return `2025-${timestamp}-${random}`
   }
+
+  // Generate CSRF token
+  const [csrfToken, setCsrfToken] = useState<string>("")
+  
+  useEffect(() => {
+    const token = crypto.randomBytes(32).toString('hex')
+    setCsrfToken(token)
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

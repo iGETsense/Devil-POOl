@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,7 +21,7 @@ interface BookingData {
   eventTime: string
 }
 
-export default function ConfirmationPage() {
+function ConfirmationContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [bookingData, setBookingData] = useState<BookingData | null>(null)
@@ -44,7 +44,7 @@ export default function ConfirmationPage() {
         if (bookingId) {
           // In production, fetch from API: GET /api/bookings/${bookingId}
           const storedBooking = sessionStorage.getItem(`booking_${bookingId}`)
-          
+
           if (storedBooking) {
             data = JSON.parse(storedBooking)
           } else if (fullName && phone && passType && price) {
@@ -63,7 +63,7 @@ export default function ConfirmationPage() {
               eventLocation: "Pool Paradise, Douala",
               eventTime: "20h00 - 04h00"
             }
-            
+
             // Store in sessionStorage (in production, this comes from your database)
             sessionStorage.setItem(`booking_${newBookingId}`, JSON.stringify(data))
           } else {
@@ -87,7 +87,7 @@ export default function ConfirmationPage() {
             eventLocation: "Pool Paradise, Douala",
             eventTime: "20h00 - 04h00"
           }
-          
+
           sessionStorage.setItem(`booking_${newBookingId}`, JSON.stringify(data))
         } else {
           // No data available
@@ -130,7 +130,7 @@ export default function ConfirmationPage() {
   // Generate unique booking ID
   const generateBookingId = (): string => {
     const timestamp = Date.now().toString(36).toUpperCase()
-    const random = Math.random().toString(36).substr(2, 5).toUpperCase()
+    const random = Math.random().toString(36).substring(2, 7).toUpperCase()
     return `2025-${timestamp}-${random}`
   }
 
@@ -182,7 +182,7 @@ export default function ConfirmationPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button 
+            <Button
               onClick={() => router.push("/passes")}
               className="w-full bg-[#FF0000] hover:bg-red-700"
             >
@@ -226,9 +226,9 @@ export default function ConfirmationPage() {
               {/* QR Code */}
               <div className="bg-white p-4 rounded-lg">
                 {qrCodeImage && (
-                  <img 
-                    src={qrCodeImage} 
-                    alt="QR Code" 
+                  <img
+                    src={qrCodeImage}
+                    alt="QR Code"
                     className="w-full h-auto"
                   />
                 )}
@@ -243,7 +243,7 @@ export default function ConfirmationPage() {
               </div>
 
               {/* Download Button */}
-              <Button 
+              <Button
                 onClick={handleDownload}
                 className="w-full bg-[#FF0000] hover:bg-red-700 text-white"
               >
@@ -297,7 +297,7 @@ export default function ConfirmationPage() {
 
               <div className="border-t border-gray-700 pt-4">
                 <h3 className="text-[#FFD700] font-semibold mb-3">Détails de l'Événement</h3>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <Calendar className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
@@ -373,5 +373,24 @@ export default function ConfirmationPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#FF0000] mx-auto mb-4"></div>
+        <p className="text-white text-lg">Chargement...</p>
+      </div>
+    </div>
+  )
+}
+
+export default function ConfirmationPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <ConfirmationContent />
+    </Suspense>
   )
 }
