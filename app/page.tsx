@@ -27,41 +27,41 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[var(--space-dark)]/70" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="inline-block mb-6 px-8 py-4 rounded-3xl animate-fade-in-up" style={{ backgroundColor: "rgba(10, 10, 26, 0.85)", backdropFilter: "blur(10px)" }}>
-            <h1
-              className="text-6xl md:text-8xl font-black tracking-wider"
-              style={{
-                fontFamily: "var(--font-playfair), serif",
-                color: "#d8b4fe",
-                textShadow: "0 0 40px rgba(216, 180, 254, 0.9), 0 0 80px rgba(216, 180, 254, 0.6), 0 4px 20px rgba(0, 0, 0, 0.8)",
-                WebkitTextStroke: "2px rgba(124, 58, 237, 0.8)",
-              }}
-            >
-              GENESIS VOL.I
-            </h1>
+          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
+            <div className="glass-panel px-10 py-6 rounded-[2rem] mb-8 animate-reveal">
+              <h1 className="heading-xl text-6xl md:text-8xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-platinum to-stardust">
+                GENESIS VOL.I
+              </h1>
+            </div>
+
+            <p className="text-2xl md:text-3xl mb-8 font-light italic tracking-widest text-gold animate-reveal delay-200">
+              Hawaiian Summer Party
+            </p>
+
+            <div className="max-w-2xl mx-auto space-y-6 mb-12">
+              <p className="text-lg md:text-xl text-platinum/90 leading-relaxed animate-reveal delay-300">
+                Prépare-toi à vivre la soirée de l&apos;année ! Plonge dans une ambiance luxueuse et festive, où chaque lumière, chaque cocktail et chaque beat t&apos;embarque pour un voyage inoubliable.
+              </p>
+              <p className="text-lg md:text-xl text-platinum/80 leading-relaxed animate-reveal delay-400">
+                Luxe tropical, ose les couleurs et ton style unique pour danser jusqu&apos;au bout de la nuit sous le soleil hawaïen.
+              </p>
+            </div>
+
+            <div className="animate-reveal delay-500">
+              <p className="text-xl md:text-2xl mb-8 font-semibold text-holographic drop-shadow-[0_0_15px_rgba(192,132,252,0.5)]">
+                Prêt(e) pour la soirée de tes rêves ?
+              </p>
+
+              <Link
+                href="/reservation"
+                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-royal-purple text-white text-lg font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(124,58,237,0.5)]"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                <Sparkles className="w-5 h-5 animate-pulse" />
+                <span>Je réserve maintenant</span>
+              </Link>
+            </div>
           </div>
-          <p className="text-2xl md:text-3xl mb-6 font-light animate-fade-in-up delay-200" style={{ color: "var(--platinum)", letterSpacing: "0.05em", fontStyle: "italic" }}>
-            Hawaiian Summer Party
-          </p>
-          <p className="text-base md:text-lg mb-6 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-300" style={{ color: "var(--platinum)", opacity: 0.95 }}>
-            Prépare-toi à vivre la soirée de l&apos;année ! Plonge dans une ambiance luxueuse et festive, où chaque lumière, chaque cocktail et chaque beat t&apos;embarque pour un voyage inoubliable sous le soleil hawaïen.
-          </p>
-          <p className="text-base md:text-lg mb-6 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400" style={{ color: "var(--platinum)", opacity: 0.95 }}>
-            Luxe tropical, ose les couleurs, les textures et ton style unique avec une ambiance et des musiques qui te feront danser jusqu&apos;au bout de la nuit.
-          </p>
-          <p className="text-xl md:text-2xl mb-8 font-semibold animate-fade-in-up delay-500" style={{ color: "var(--neon-purple)", textShadow: "0 0 20px rgba(192, 132, 252, 0.4)" }}>
-            Prêt(e) pour la soirée de tes rêves ?
-          </p>
-          <Link
-            href="/reservation"
-            className="inline-block px-8 py-4 bg-transparent text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-300 transform hover:scale-105 elegant-border animate-scale-in delay-400"
-            style={{ color: "var(--platinum)" }}
-          >
-            <span className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5" />
-              Je réserve maintenant
-            </span>
-          </Link>
         </div>
       </section>
     </main>
