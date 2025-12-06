@@ -3,17 +3,17 @@ import Link from "next/link"
 
 export default function ReservationPage() {
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "var(--space-dark)" }}>
+    <main className="min-h-screen pt-24 relative overflow-hidden" style={{ backgroundColor: "var(--space-dark)" }}>
       {/* Background with palm leaves */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96">
           <svg viewBox="0 0 200 200" className="w-full h-full">
-            <path d="M100,100 Q80,50 60,20 M100,100 Q70,60 50,40 M100,100 Q90,70 80,50" stroke="white" strokeWidth="2" fill="none" opacity="0.3"/>
+            <path d="M100,100 Q80,50 60,20 M100,100 Q70,60 50,40 M100,100 Q90,70 80,50" stroke="white" strokeWidth="2" fill="none" opacity="0.3" />
           </svg>
         </div>
         <div className="absolute top-0 right-0 w-96 h-96">
           <svg viewBox="0 0 200 200" className="w-full h-full">
-            <path d="M100,100 Q120,50 140,20 M100,100 Q130,60 150,40 M100,100 Q110,70 120,50" stroke="white" strokeWidth="2" fill="none" opacity="0.3"/>
+            <path d="M100,100 Q120,50 140,20 M100,100 Q130,60 150,40 M100,100 Q110,70 120,50" stroke="white" strokeWidth="2" fill="none" opacity="0.3" />
           </svg>
         </div>
       </div>
@@ -23,7 +23,7 @@ export default function ReservationPage() {
         <div className="max-w-7xl mx-auto">
           {/* Title Section */}
           <div className="text-center mb-16">
-            <h1 
+            <h1
               className="text-5xl md:text-6xl font-bold mb-6 gold-text animate-fade-in-up"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
@@ -40,7 +40,7 @@ export default function ReservationPage() {
             <div className="group animate-scale-in delay-300">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
-                  <h3 
+                  <h3
                     className="text-4xl font-bold mb-2 gold-text"
                     style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
@@ -49,7 +49,7 @@ export default function ReservationPage() {
                   <p className="text-3xl font-bold mb-6" style={{ color: "var(--neon-purple)" }}>
                     15 000 FCFA
                   </p>
-                  
+
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
                     <Image
                       src="/one-man-card.jpg"
@@ -72,7 +72,7 @@ export default function ReservationPage() {
             <div className="group animate-scale-in delay-400">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
-                  <h3 
+                  <h3
                     className="text-4xl font-bold mb-2 gold-text"
                     style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
@@ -81,7 +81,7 @@ export default function ReservationPage() {
                   <p className="text-3xl font-bold mb-6" style={{ color: "var(--neon-purple)" }}>
                     10 000 FCFA
                   </p>
-                  
+
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
                     <Image
                       src="/one-lady-card.jpg"
@@ -104,7 +104,7 @@ export default function ReservationPage() {
             <div className="group animate-scale-in delay-500">
               <div className="relative rounded-[2.5rem] overflow-hidden border-2 border-[var(--platinum)]/40 bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--neon-purple)]/30">
                 <div className="p-8 text-center">
-                  <h3 
+                  <h3
                     className="text-4xl font-bold mb-2 gold-text"
                     style={{ fontFamily: "var(--font-playfair), serif" }}
                   >
@@ -113,7 +113,7 @@ export default function ReservationPage() {
                   <p className="text-3xl font-bold mb-6" style={{ color: "var(--neon-purple)" }}>
                     5 000 FCFA
                   </p>
-                  
+
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8">
                     <Image
                       src="/five-queens-card.jpg"
@@ -138,7 +138,7 @@ export default function ReservationPage() {
       {/* Decorative star */}
       <div className="absolute bottom-10 right-10 opacity-30">
         <svg width="60" height="60" viewBox="0 0 60 60" fill="white">
-          <path d="M30,0 L35,25 L60,30 L35,35 L30,60 L25,35 L0,30 L25,25 Z"/>
+          <path d="M30,0 L35,25 L60,30 L35,35 L30,60 L25,35 L0,30 L25,25 Z" />
         </svg>
       </div>
     </main>

@@ -4,7 +4,7 @@ import { Home, Search, ArrowLeft } from "lucide-react"
 export default function NotFound() {
     return (
         <main
-            className="min-h-screen flex items-center justify-center px-4"
+            className="min-h-screen pt-24 flex items-center justify-center px-4"
             style={{ backgroundColor: "var(--space-dark)" }}
         >
             <div className="max-w-md w-full text-center">

@@ -195,7 +195,7 @@ function ConfirmationContent() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white py-12 px-4">
+    <div className="min-h-screen bg-black text-white pt-24 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Success Header */}
         <div className="text-center mb-8">

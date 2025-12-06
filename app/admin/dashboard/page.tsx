@@ -77,26 +77,26 @@ export default function AdminDashboardPage() {
   const handleScanQR = (data: string) => {
     // Stocker TOUTES les données scannées dans une variable
     const scannedQRData = data
-    
+
     // Log détaillé pour debug
     console.log("🔍 Validation du QR Code...")
     console.log("📦 Données reçues:", scannedQRData)
     console.log("📊 Type de données:", typeof scannedQRData)
     console.log("📏 Longueur:", scannedQRData.length)
-    
+
     // Chercher dans la base de données (actuellement demo data)
     // Recherche flexible: par QR code OU par ID
-    const guest = guests.find(g => 
-      g.qrCode === scannedQRData || 
+    const guest = guests.find(g =>
+      g.qrCode === scannedQRData ||
       g.id === scannedQRData ||
       g.qrCode.includes(scannedQRData) ||
       scannedQRData.includes(g.qrCode)
     )
-    
+
     if (guest) {
       // QR Code VALIDE trouvé dans la base
       console.log("✅ Invité trouvé:", guest.name)
-      
+
       if (guest.scanned) {
         // Déjà scanné - REFUSER l'entrée
         console.log("⚠️ ATTENTION: Déjà scanné le", guest.scanTime)
@@ -113,7 +113,7 @@ export default function AdminDashboardPage() {
           guest,
           message: "✅ QR Code valide ! Accès autorisé"
         })
-        
+
         // TODO: Ici, appeler l'API backend pour marquer comme scanné
         // fetch('/api/admin/validate-qr', {
         //   method: 'POST',
@@ -129,7 +129,7 @@ export default function AdminDashboardPage() {
         message: "❌ QR Code invalide ou introuvable"
       })
     }
-    
+
     // Fermer le scanner
     setShowScanner(false)
   }
@@ -150,11 +150,11 @@ export default function AdminDashboardPage() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen py-8 px-4" style={{ backgroundColor: "var(--space-dark)" }}>
+    <main className="min-h-screen pt-24 py-8 px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 
+            <h1
               className="text-3xl md:text-4xl font-bold gold-text mb-2"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
@@ -209,11 +209,10 @@ export default function AdminDashboardPage() {
         <div className="flex gap-4 mb-6">
           <button
             onClick={() => setActiveTab("scan")}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${
-              activeTab === "scan"
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${activeTab === "scan"
                 ? "bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] shadow-lg"
                 : "hover:bg-white/20"
-            }`}
+              }`}
             style={activeTab === "scan" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(192, 132, 252, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
           >
             <QrCode className="w-5 h-5" />
@@ -221,11 +220,10 @@ export default function AdminDashboardPage() {
           </button>
           <button
             onClick={() => setActiveTab("guests")}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${
-              activeTab === "guests"
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${activeTab === "guests"
                 ? "bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] shadow-lg"
                 : "hover:bg-white/20"
-            }`}
+              }`}
             style={activeTab === "guests" ? { color: "var(--platinum)", boxShadow: "0 0 20px rgba(192, 132, 252, 0.5)" } : { backgroundColor: "rgba(255, 255, 255, 0.1)", color: "rgba(229, 228, 226, 0.6)" }}
           >
             <Users className="w-5 h-5" />
@@ -254,9 +252,8 @@ export default function AdminDashboardPage() {
             </div>
 
             {scanResult && (
-              <div className={`max-w-2xl mx-auto p-6 rounded-2xl border-4 ${
-                scanResult.valid ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"
-              }`}>
+              <div className={`max-w-2xl mx-auto p-6 rounded-2xl border-4 ${scanResult.valid ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"
+                }`}>
                 <div className="flex items-start gap-4">
                   {scanResult.valid ? (
                     <CheckCircle className="w-12 h-12 text-green-500 flex-shrink-0" />

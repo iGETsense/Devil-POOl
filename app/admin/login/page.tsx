@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "var(--space-dark)" }}>
+    <main className="min-h-screen pt-24 flex items-center justify-center px-4" style={{ backgroundColor: "var(--space-dark)" }}>
       <div className="w-full max-w-md">
         {/* Logo/Title */}
         <div className="text-center mb-8">
