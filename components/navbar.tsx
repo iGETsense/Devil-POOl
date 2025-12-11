@@ -1,84 +1,102 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
-import { Menu, X, Sparkles } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Menu, X, Sparkles, Ticket } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false)
 
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--space-dark)]/90 backdrop-blur-md border-b border-[var(--neon-purple)]/20 animate-fade-in">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center">
-            <div className="text-2xl md:text-3xl font-bold tracking-wider">
-              <span className="gold-text flex items-center gap-3" style={{ fontFamily: "var(--font-playfair), serif" }}>
-                <Sparkles className="text-[var(--neon-purple)] w-6 h-6 md:w-7 md:h-7" />
-                <span className="relative">
-                  Genesis
-                </span>
-                <Sparkles className="text-[var(--neon-purple)] w-6 h-6 md:w-7 md:h-7" />
-              </span>
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20)
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    return (
+        <nav className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-in-out ${scrolled ? "top-6" : "top-0"
+            }`}>
+            <div className={`mx-auto px-4 transition-all duration-500 ease-in-out ${scrolled ? "max-w-5xl" : "max-w-7xl"
+                }`}>
+                <div className={`
+          flex items-center justify-between px-6 transition-all duration-500 ease-in-out
+          ${scrolled
+                        ? 'h-16 md:h-20 rounded-full bg-space-dark/80 backdrop-blur-xl border border-neon-purple/30 shadow-[0_0_20px_rgba(168,85,247,0.15)]'
+                        : 'h-24 bg-transparent border border-transparent'
+                    }
+        `}>
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center group">
+                        <span
+                            className="text-2xl md:text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-white drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"
+                            style={{ fontFamily: "var(--font-inter), sans-serif", textShadow: "0 0 20px rgba(168,85,247,0.5)" }}
+                        >
+                            GENESIS
+                        </span>
+                    </Link>
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-8">
+                        <Link href="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-wider">
+                            Acceuil
+                        </Link>
+                        <Link href="/passes" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-wider">
+                            Passes
+                        </Link>
+                        {/* Feature: Check Ticket - Could link to a lookup page or just be a placeholder for now */}
+                        <Link href="/passes" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-wider">
+                            Voir mon Ticket
+                        </Link>
+                    </div>
+
+                    <Link href="/passes">
+                        <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-6 backdrop-blur-md transition-all">
+                            Réserver
+                        </Button>
+                    </Link>
+
+                    {/* Mobile menu button */}
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="md:hidden text-white p-2"
+                    >
+                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
-          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-[var(--platinum)] hover:text-[var(--neon-purple)] transition-colors duration-300 font-medium">
-              Accueil
-            </Link>
-            <Link
-              href="/passes"
-              className="text-[var(--platinum)] hover:text-[var(--neon-purple)] transition-colors duration-300 font-medium"
-            >
-              Passes
-            </Link>
-            <Link
-              href="/reservation"
-              className="px-6 py-2.5 bg-gradient-to-r from-[var(--deep-purple)] to-[var(--neon-purple)] text-[var(--platinum)] rounded-full font-semibold hover:shadow-lg hover:shadow-[var(--neon-purple)]/50 transition-all duration-300 flex items-center gap-2"
-            >
-              <Sparkles className="w-4 h-4" />
-              Réserver
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-[var(--platinum)] p-2">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden bg-[var(--space-dark)]/95 border-t border-[var(--neon-purple)]/20">
-          <div className="px-4 pt-2 pb-4 space-y-3">
-            <Link
-              href="/"
-              className="block py-2 text-[var(--platinum)] hover:text-[var(--neon-purple)] transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Accueil
-            </Link>
-            <Link
-              href="/passes"
-              className="block py-2 text-[var(--platinum)] hover:text-[var(--neon-purple)] transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Passes
-            </Link>
-            <Link
-              href="/reservation"
-              className="block py-3 px-6 bg-gradient-to-r from-[var(--deep-purple)] to-[var(--neon-purple)] text-[var(--platinum)] rounded-full font-semibold text-center flex items-center justify-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <Sparkles className="w-4 h-4" />
-              Réserver
-            </Link>
-          </div>
-        </div>
-      )}
-    </nav>
-  )
+            {/* Mobile Navigation */}
+            <div className={`md:hidden transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+                }`}>
+                <div className="bg-space-dark/98 backdrop-blur-xl border-t border-neon-purple/20 px-4 py-4 space-y-2">
+                    <Link
+                        href="/"
+                        className="block py-3 px-4 text-platinum hover:bg-neon-purple/10 rounded-lg transition-all"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        Accueil
+                    </Link>
+                    <Link
+                        href="/passes"
+                        className="block py-3 px-4 text-platinum hover:bg-neon-purple/10 rounded-lg transition-all"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        Passes
+                    </Link>
+                    <Link
+                        href="/passes"
+                        className="flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-royal-purple to-neon-purple text-white rounded-full font-semibold"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        <Ticket className="w-4 h-4" />
+                        Réserver maintenant
+                    </Link>
+                </div>
+            </div>
+        </nav>
+    )
 }

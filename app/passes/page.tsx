@@ -2,166 +2,147 @@ import Link from "next/link"
 import Image from "next/image"
 
 export default function PassesPage() {
-  return (
-    <main className="min-h-screen pt-20" style={{ backgroundColor: "var(--space-dark)" }}>
-      {/* Hero with palm trees background */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <Image
-          src="/dark-night-sky-with-palm-tree-silhouettes.jpg"
-          alt="Palm trees background"
-          fill
-          className="object-cover opacity-40"
-          style={{
-            filter: "saturate(1.2) contrast(1.1) brightness(0.8) hue-rotate(260deg)"
-          }}
-        />
-        <div className="absolute inset-0 bg-[var(--neon-purple)]/10 mix-blend-color" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--space-dark)] via-transparent to-[var(--space-dark)]" />
+    return (
+        <main className="min-h-screen pt-24 bg-[#050010] font-sans relative overflow-hidden flex flex-col items-center">
+            {/* Background - Exact Geometric Dark Purple */}
+            <div className="fixed inset-0 z-0">
+                <div className="absolute inset-0 bg-[#050010]" />
 
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <h1
-            className="text-5xl md:text-7xl font-bold text-center mb-6 gold-text animate-fade-in-up"
-            style={{ 
-              fontFamily: "var(--font-playfair), serif",
-              letterSpacing: "0.02em",
-              textShadow: "0 0 40px rgba(192, 132, 252, 0.4), 0 0 80px rgba(192, 132, 252, 0.2)"
-            }}
-          >
-            Choisis ton pass
-          </h1>
-          <p className="text-center mb-16 text-lg max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-200" style={{ color: "var(--platinum)", opacity: 0.9 }}>
-            Chaque pass inclut votre accès garanti à l&apos;événement + votre badge exclusif Genesis à l&apos;entrée.
-          </p>
+                {/* Subtle Geometric Texture Pattern */}
+                <div className="absolute inset-0 opacity-20"
+                    style={{
+                        backgroundImage: `radial-gradient(circle at 50% 50%, #2e1065 0%, transparent 60%)`,
+                    }}
+                />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* ONE MAN */}
-            <Link href="/passes/one-man" className="group animate-scale-in delay-300">
-              <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 hover:border-[var(--neon-purple)]">
-                <div className="p-8 text-center">
-                  <h3 
-                    className="text-4xl font-bold mb-2 gold-text transition-all duration-300 group-hover:scale-105"
-                    style={{ fontFamily: "var(--font-playfair), serif", letterSpacing: "0.02em" }}
-                  >
-                    ONE MAN
-                  </h3>
-                  <p className="text-3xl font-bold mb-6 transition-all duration-300 group-hover:text-shadow-lg" style={{ color: "var(--neon-purple)", textShadow: "0 0 20px rgba(192, 132, 252, 0.3)" }}>
-                    15 000 FCFA
-                  </p>
-                  
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
-                    <Image
-                      src="/one-man-card.jpg"
-                      alt="One Man Pass"
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    {/* Subtle purple glow on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    {/* Purple border glow */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: "inset 0 0 40px rgba(192, 132, 252, 0.3)" }} />
-                  </div>
-
-                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <span>Sélectionner ce pass</span>
-                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-purple)]/0 to-[var(--neon-purple)]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                  </button>
+                {/* Geometric Polygons (CSS only approximation of the reference) */}
+                <div className="absolute inset-0 opacity-5 pointer-events-none">
+                    <svg width="100%" height="100%">
+                        <defs>
+                            <pattern id="poly" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                                <path d="M0 0L50 50L0 100" stroke="white" strokeWidth="0.5" fill="none" />
+                                <path d="M100 0L50 50L100 100" stroke="white" strokeWidth="0.5" fill="none" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#poly)" />
+                    </svg>
                 </div>
-              </div>
-            </Link>
 
-            {/* ONE LADY */}
-            <Link href="/passes/one-lady" className="group animate-scale-in delay-400">
-              <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 hover:border-[var(--neon-purple)]">
-                <div className="p-8 text-center">
-                  <h3 
-                    className="text-4xl font-bold mb-2 gold-text transition-all duration-300 group-hover:scale-105"
-                    style={{ fontFamily: "var(--font-playfair), serif", letterSpacing: "0.02em" }}
-                  >
-                    ONE LADY
-                  </h3>
-                  <p className="text-3xl font-bold mb-6 transition-all duration-300 group-hover:text-shadow-lg" style={{ color: "var(--neon-purple)", textShadow: "0 0 20px rgba(192, 132, 252, 0.3)" }}>
-                    10 000 FCFA
-                  </p>
-                  
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
-                    <Image
-                      src="/one-lady-card.jpg"
-                      alt="One Lady Pass"
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    {/* Subtle purple glow on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    {/* Purple border glow */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: "inset 0 0 40px rgba(192, 132, 252, 0.3)" }} />
-                  </div>
+                {/* Major Neon Beams */}
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-purple-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <span>Sélectionner ce pass</span>
-                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-purple)]/0 to-[var(--neon-purple)]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                  </button>
+                {/* Laser Lines matching reference layout */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-[20%] right-[-10%] w-[120%] h-[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent -rotate-12 blur-[1px] opacity-70" />
+                    <div className="absolute bottom-[20%] left-[-10%] w-[120%] h-[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent -rotate-12 blur-[1px] opacity-70" />
                 </div>
-              </div>
-            </Link>
+            </div>
 
-            {/* FIVE QUEENS */}
-            <Link href="/passes/five-queens" className="group animate-scale-in delay-500">
-              <div className="relative rounded-[2.5rem] overflow-hidden elegant-border bg-gradient-to-b from-[var(--cosmic-blue)]/90 to-[var(--space-dark)]/70 backdrop-blur-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:shadow-[var(--neon-purple)]/40 hover:border-[var(--neon-purple)]">
-                <div className="p-8 text-center">
-                  <h3 
-                    className="text-4xl font-bold mb-2 gold-text transition-all duration-300 group-hover:scale-105"
-                    style={{ fontFamily: "var(--font-playfair), serif", letterSpacing: "0.02em" }}
-                  >
-                    FIVE QUEENS
-                  </h3>
-                  <p className="text-3xl font-bold mb-6 transition-all duration-300 group-hover:text-shadow-lg" style={{ color: "var(--neon-purple)", textShadow: "0 0 20px rgba(192, 132, 252, 0.3)" }}>
-                    5 000 FCFA
-                  </p>
-                  
-                  <div className="relative h-[400px] rounded-2xl overflow-hidden mb-8 group-hover:shadow-xl transition-all duration-500">
-                    <Image
-                      src="/five-queens-card.jpg"
-                      alt="Five Queens Pass"
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    {/* Subtle purple glow on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--space-dark)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    {/* Purple border glow */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: "inset 0 0 40px rgba(192, 132, 252, 0.3)" }} />
-                  </div>
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-4 text-center">
+                {/* Title */}
+                <h1 className="text-5xl md:text-7xl text-white mb-20 tracking-wider drop-shadow-lg" style={{ fontFamily: "var(--font-playfair), serif" }}>
+                    Choisis ton pass
+                </h1>
 
-                  <button className="w-full py-4 px-8 bg-gradient-to-r from-[var(--cosmic-blue)] to-[var(--deep-purple)] text-lg font-semibold rounded-full hover:shadow-2xl hover:shadow-[var(--neon-purple)]/50 transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden group/btn" style={{ color: "var(--platinum)" }}>
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <span>Sélectionner ce pass</span>
-                      <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-purple)]/0 to-[var(--neon-purple)]/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                  </button>
+                {/* Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 justify-items-center">
+
+                    {/* ONE MAN */}
+                    <Link href="/passes/one-man" className="group">
+                        <div className="relative w-80 h-[550px] rounded-[2.5rem] p-5 flex flex-col items-center bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)]">
+                            {/* Card Neon Glow Border */}
+                            <div className="absolute inset-0 rounded-[2.5rem] border border-purple-500/30 group-hover:border-purple-500/80 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-500" />
+
+                            {/* Image */}
+                            <div className="relative w-full h-[60%] rounded-[1.5rem] overflow-hidden mb-6 z-10 shadow-2xl">
+                                <Image
+                                    src="/one-man-neon.png"
+                                    alt="One Man"
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                            </div>
+
+                            {/* Content */}
+                            <div className="relative z-10 text-center w-full mt-2">
+                                <h2 className="text-2xl text-white mb-3 tracking-[0.2em] font-light" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                                    ONE MAN
+                                </h2>
+                                <p className="text-4xl font-bold text-fuchsia-500 mb-8 drop-shadow-md tracking-tight">
+                                    15,000 FCFA
+                                </p>
+                                <div className="w-full py-4 rounded-full bg-black/40 border border-white/20 text-white text-sm font-medium tracking-[0.15em] uppercase transition-all group-hover:bg-purple-600/20 group-hover:border-purple-400">
+                                    SÉLECTIONNER CE PASS
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* ONE LADY */}
+                    <Link href="/passes/one-lady" className="group">
+                        <div className="relative w-80 h-[550px] rounded-[2.5rem] p-5 flex flex-col items-center bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)]">
+                            {/* Card Neon Glow Border */}
+                            <div className="absolute inset-0 rounded-[2.5rem] border border-purple-500/30 group-hover:border-purple-500/80 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-500" />
+
+                            {/* Image */}
+                            <div className="relative w-full h-[60%] rounded-[1.5rem] overflow-hidden mb-6 z-10 shadow-2xl">
+                                <Image
+                                    src="/one-lady-neon.png"
+                                    alt="One Lady"
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                            </div>
+
+                            {/* Content */}
+                            <div className="relative z-10 text-center w-full mt-2">
+                                <h2 className="text-2xl text-white mb-3 tracking-[0.2em] font-light" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                                    ONE LADY
+                                </h2>
+                                <p className="text-4xl font-bold text-fuchsia-500 mb-8 drop-shadow-md tracking-tight">
+                                    10,000 FCFA
+                                </p>
+                                <div className="w-full py-4 rounded-full bg-black/40 border border-white/20 text-white text-sm font-medium tracking-[0.15em] uppercase transition-all group-hover:bg-purple-600/20 group-hover:border-purple-400">
+                                    SÉLECTIONNER CE PASS
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* FIVE QUEENS */}
+                    <Link href="/passes/five-queens" className="group">
+                        <div className="relative w-80 h-[550px] rounded-[2.5rem] p-5 flex flex-col items-center bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)]">
+                            {/* Card Neon Glow Border */}
+                            <div className="absolute inset-0 rounded-[2.5rem] border border-purple-500/30 group-hover:border-purple-500/80 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-500" />
+
+                            {/* Image */}
+                            <div className="relative w-full h-[60%] rounded-[1.5rem] overflow-hidden mb-6 z-10 shadow-2xl">
+                                <Image
+                                    src="/five-queens-neon.png"
+                                    alt="Five Queens"
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                            </div>
+
+                            {/* Content */}
+                            <div className="relative z-10 text-center w-full mt-2">
+                                <h2 className="text-2xl text-white mb-3 tracking-[0.2em] font-light" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                                    FIVE QUEENS
+                                </h2>
+                                <p className="text-4xl font-bold text-fuchsia-500 mb-8 drop-shadow-md tracking-tight">
+                                    5,000 FCFA
+                                </p>
+                                <div className="w-full py-4 rounded-full bg-black/40 border border-white/20 text-white text-sm font-medium tracking-[0.15em] uppercase transition-all group-hover:bg-purple-600/20 group-hover:border-purple-400">
+                                    SÉLECTIONNER CE PASS
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+
                 </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-[var(--platinum)]/20 py-12 mt-20" style={{ backgroundColor: "var(--space-dark)" }}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="text-2xl font-bold mb-4">
-            <span className="gold-text" style={{ fontFamily: "var(--font-playfair), serif" }}>
-              Genesis
-            </span>
-          </div>
-          <p className="text-sm" style={{ color: "var(--platinum)", opacity: 0.6 }}>© 2025 Genesis. Tous droits réservés.</p>
-        </div>
-      </footer>
-    </main>
-  )
+            </div>
+        </main>
+    )
 }

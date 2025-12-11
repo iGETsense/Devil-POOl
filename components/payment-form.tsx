@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,9 +13,10 @@ import crypto from "crypto"
 interface PaymentFormProps {
   passName: string
   passPrice: string
+  passImage: string
 }
 
-export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
+export default function PaymentForm({ passName, passPrice, passImage }: PaymentFormProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -95,7 +97,7 @@ export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
 
   // Generate CSRF token
   const [csrfToken, setCsrfToken] = useState<string>("")
-  
+
   useEffect(() => {
     const token = crypto.randomBytes(32).toString('hex')
     setCsrfToken(token)
@@ -182,7 +184,7 @@ export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    
+
     // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: "" }))
@@ -196,138 +198,171 @@ export default function PaymentForm({ passName, passPrice }: PaymentFormProps) {
     }
   }
 
+  // Descriptions mapping
+  const descriptions: Record<string, string> = {
+    "ONE MAN": "Accès exclusif pour un homme. Profitez de l'ambiance piscine, des cocktails et de la musique live.",
+    "ONE LADY": "Accès élégant pour une femme. Une soirée inoubliable avec welcome drink offert.",
+    "FIVE QUEENS": "Pack spécial pour 5 amis. Célébrez ensemble avec une table réservée et bouteille offerte."
+  }
+
+  const description = descriptions[passName] || "Accès à l'événement Genesis Pool Party."
+
   return (
-    <div className="w-full max-w-md mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Full Name Input */}
-        <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-white">
-            Nom Complet <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            id="fullName"
-            name="fullName"
-            type="text"
-            placeholder="Jean Dupont"
-            value={formData.fullName}
-            onChange={handleInputChange}
-            className={`bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 ${
-              errors.fullName ? "border-red-500" : ""
-            }`}
-            disabled={isLoading}
-            required
-          />
-          {errors.fullName && (
-            <p className="text-red-500 text-sm">{errors.fullName}</p>
-          )}
-        </div>
+    <div className="min-h-screen flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
+      {/* Background - Deep Purple Geometric */}
+      <div className="fixed inset-0 z-0 bg-[#050010]">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-purple-900/20" />
+        <div className="absolute top-[-20%] right-[-20%] w-[80%] h-[80%] bg-purple-600/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-600/5 rounded-full blur-[100px]" />
+      </div>
 
-        {/* Phone Number Input */}
-        <div className="space-y-2">
-          <Label htmlFor="phone" className="text-white">
-            Numéro de Téléphone <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            id="phone"
-            name="phone"
-            type="tel"
-            placeholder="+237 6XX XXX XXX"
-            value={formData.phone}
-            onChange={handleInputChange}
-            className={`bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 ${
-              errors.phone ? "border-red-500" : ""
-            }`}
-            disabled={isLoading}
-            required
-          />
-          {errors.phone && (
-            <p className="text-red-500 text-sm">{errors.phone}</p>
-          )}
-        </div>
+      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
-        {/* Payment Operator Selection */}
-        <div className="space-y-3">
-          <Label className="text-white">
-            Mode de Paiement <span className="text-red-500">*</span>
-          </Label>
-          
-          <div className="grid grid-cols-2 gap-3">
-            {/* Orange Money */}
-            <Card
-              className={`cursor-pointer transition-all ${
-                selectedOperator === "orange"
-                  ? "border-2 border-orange-500 bg-orange-500/10"
-                  : "border-gray-700 hover:border-orange-500/50 bg-gray-800"
-              } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              onClick={() => !isLoading && handleOperatorSelect("orange")}
-            >
-              <CardContent className="p-4 text-center">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-                    <CreditCard className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="text-white font-semibold">Orange Money</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* MTN MoMo */}
-            <Card
-              className={`cursor-pointer transition-all ${
-                selectedOperator === "mtn"
-                  ? "border-2 border-yellow-500 bg-yellow-500/10"
-                  : "border-gray-700 hover:border-yellow-500/50 bg-gray-800"
-              } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-              onClick={() => !isLoading && handleOperatorSelect("mtn")}
-            >
-              <CardContent className="p-4 text-center">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                    <CreditCard className="w-6 h-6 text-black" />
-                  </div>
-                  <span className="text-white font-semibold">MTN MoMo</span>
-                </div>
-              </CardContent>
-            </Card>
+        {/* LEFT COLUMN: Pass Image & Description Card */}
+        <div className="glass-card rounded-[2rem] overflow-hidden p-6 border border-white/10 bg-white/5 backdrop-blur-xl animate-slide-right">
+          <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-6 shadow-2xl">
+            <Image
+              src={passImage}
+              alt={passName}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 text-white">
+              <h2 className="text-3xl font-bold mb-1" style={{ fontFamily: "var(--font-playfair), serif" }}>{passName}</h2>
+              <p className="text-fuchsia-400 font-bold text-xl">{passPrice}</p>
+            </div>
           </div>
-
-          {errors.operator && (
-            <p className="text-red-500 text-sm">{errors.operator}</p>
-          )}
-        </div>
-
-        {/* Price Display */}
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-400">Montant Total:</span>
-            <span className="text-2xl font-bold text-[#FFD700]">{passPrice}</span>
+          <div className="space-y-4">
+            <h3 className="text-white text-lg font-semibold uppercase tracking-wider border-b border-white/10 pb-2">Détails du Pass</h3>
+            <p className="text-platinum/80 leading-relaxed font-light">
+              {description}
+            </p>
+            <div className="flex items-center gap-2 text-sm text-stardust/70 pt-2">
+              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span>Places limitées disponibles</span>
+            </div>
           </div>
         </div>
 
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          className="w-full bg-[#FF0000] hover:bg-red-700 text-white text-lg py-6"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Traitement en cours...
-            </>
-          ) : (
-            <>
-              <CreditCard className="mr-2 h-5 w-5" />
-              Procéder au Paiement
-            </>
-          )}
-        </Button>
+        {/* RIGHT COLUMN: The Form (Exact Match) */}
+        <div className="glass-card rounded-[2rem] p-8 border border-white/10 bg-white/5 backdrop-blur-xl md:sticky md:top-8 animate-slide-left">
+          <form onSubmit={handleSubmit} className="space-y-6">
 
-        {/* Security Notice */}
-        <p className="text-xs text-gray-500 text-center">
-          🔒 Paiement sécurisé. Vos informations sont protégées.
-        </p>
-      </form>
+            {/* Name Input */}
+            <div className="space-y-2">
+              <Label htmlFor="fullName" className="text-platinum/80 text-sm tracking-wide">Name</Label>
+              <div className="relative group">
+                <Input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  placeholder="Entrez votre nom"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.fullName ? "border-red-500/50" : ""}`}
+                  disabled={isLoading}
+                  required
+                />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity" />
+              </div>
+              {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
+            </div>
+
+            {/* Phone Input */}
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-platinum/80 text-sm tracking-wide">Phone Number</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="+237 ..."
+                value={formData.phone}
+                onChange={handleInputChange}
+                className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.phone ? "border-red-500/50" : ""}`}
+                disabled={isLoading}
+                required
+              />
+              {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
+            </div>
+
+            {/* Selected Pass Display (Exact Match) */}
+            <div className="space-y-2 pt-2">
+              <Label className="text-platinum/80 text-sm tracking-wide">Selected Pass</Label>
+              <div className="bg-white/10 border border-white/5 rounded-xl p-3 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-7 bg-white/10 rounded flex items-center justify-center">
+                    <CreditCard className="w-4 h-4 text-white/70" />
+                  </div>
+                  <span className="text-white font-medium">{passName}</span>
+                </div>
+                <span className="text-white font-bold">{passPrice}</span>
+              </div>
+            </div>
+
+            {/* Operator Selection */}
+            <div className="space-y-3 pt-2">
+              <Label className="text-platinum/80 text-sm tracking-wide">Select Payment Operator</Label>
+              <div className="grid grid-cols-3 gap-3">
+                {/* MTN */}
+                <button
+                  type="button"
+                  onClick={() => !isLoading && handleOperatorSelect("mtn")}
+                  className={`relative p-3 rounded-xl border transition-all duration-300 flex items-center justify-center group overflow-hidden ${selectedOperator === "mtn"
+                    ? "bg-yellow-500/20 border-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.3)]"
+                    : "bg-black/20 border-white/10 hover:bg-white/5 hover:border-white/30"
+                    }`}
+                >
+                  <span className={`text-sm font-bold ${selectedOperator === "mtn" ? "text-yellow-400" : "text-white/70"}`}>MTN</span>
+                </button>
+
+                {/* Orange */}
+                <button
+                  type="button"
+                  onClick={() => !isLoading && handleOperatorSelect("orange")}
+                  className={`relative p-3 rounded-xl border transition-all duration-300 flex items-center justify-center group overflow-hidden ${selectedOperator === "orange"
+                    ? "bg-orange-500/20 border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.3)]"
+                    : "bg-black/20 border-white/10 hover:bg-white/5 hover:border-white/30"
+                    }`}
+                >
+                  <span className={`text-sm font-bold ${selectedOperator === "orange" ? "text-orange-400" : "text-white/70"}`}>Orange</span>
+                </button>
+
+                {/* Cash */}
+                <button
+                  type="button"
+                  disabled
+                  className="p-3 rounded-xl border border-white/5 bg-white/5 flex items-center justify-center opacity-50 cursor-not-allowed"
+                >
+                  <span className="text-sm font-bold text-white/40">Cash</span>
+                </button>
+              </div>
+              {errors.operator && <p className="text-red-400 text-xs text-center">{errors.operator}</p>}
+            </div>
+
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold tracking-wider py-6 rounded-xl shadow-lg shadow-purple-900/40 transition-all hover:scale-[1.02] mt-4"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  PROCESSING...
+                </>
+              ) : (
+                "CONFIRM BOOKING"
+              )}
+            </Button>
+
+          </form>
+        </div>
+      </div>
+
+      <div className="absolute bottom-4 text-white/20 text-xs">
+        SECURE CHECKOUT
+      </div>
     </div>
   )
 }

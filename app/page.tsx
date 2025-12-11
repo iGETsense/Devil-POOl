@@ -1,69 +1,121 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Sparkles } from "lucide-react"
+import { Sparkles, Calendar, MapPin, Shirt, Music, Star, Waves, PartyPopper } from "lucide-react"
 
 export default function HomePage() {
-  return (
-    <main className="min-h-screen" style={{ backgroundColor: "var(--space-dark)" }}>
-      {/* Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
-        <Image
-          src="/hero-pool-upscale.jpg"
-          alt="Genesis Exclusive Event"
-          fill
-          className="object-cover"
-          priority
-          style={{
-            filter: "saturate(1.3) contrast(1.15) brightness(0.88) hue-rotate(255deg)",
-            mixBlendMode: "normal"
-          }}
-        />
-        {/* Subtle dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/30" />
-        {/* Elegant purple theme overlay */}
-        <div className="absolute inset-0 bg-[var(--neon-purple)]/12 mix-blend-color" />
-        <div className="absolute inset-0 bg-[var(--cosmic-blue)]/15 mix-blend-multiply" />
-        {/* Gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[var(--space-dark)]/70" />
+    return (
+        <main className="min-h-screen bg-space-dark font-sans selection:bg-neon-purple/30">
+            {/* Hero Section */}
+            <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/pool-party-hero.jpg"
+                        alt="Genesis Pool Party"
+                        fill
+                        className="object-cover"
+                        priority
+                        style={{
+                            filter: "brightness(0.6) contrast(1.2) saturate(1.4)",
+                        }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-space-dark/30 via-transparent to-space-dark" />
+                </div>
 
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-            <div className="glass-panel px-10 py-6 rounded-[2rem] mb-8 animate-reveal">
-              <h1 className="heading-xl text-6xl md:text-8xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-platinum to-stardust">
-                GENESIS VOL.I
-              </h1>
-            </div>
+                {/* Content */}
+                <div className="relative z-10 text-center px-4 max-w-7xl mx-auto w-full flex flex-col items-center pt-32 md:pt-40">
 
-            <p className="text-2xl md:text-3xl mb-8 font-light italic tracking-widest text-gold animate-reveal delay-200">
-              Hawaiian Summer Party
-            </p>
+                    {/* Main Title - Outline Neon Style */}
+                    <div className="mb-8 animate-reveal">
+                        <h1 className="text-6xl sm:text-7xl md:text-9xl font-bold tracking-wider text-transparent stroke-neon"
+                            style={{
+                                fontFamily: "var(--font-inter), sans-serif",
+                                WebkitTextStroke: "2px #a855f7",
+                                textShadow: "0 0 30px rgba(168,85,247,0.5)"
+                            }}>
+                            GENESIS VOL.I
+                        </h1>
+                    </div>
 
-            <div className="max-w-2xl mx-auto space-y-6 mb-12">
-              <p className="text-lg md:text-xl text-platinum/90 leading-relaxed animate-reveal delay-300">
-                Prépare-toi à vivre la soirée de l&apos;année ! Plonge dans une ambiance luxueuse et festive, où chaque lumière, chaque cocktail et chaque beat t&apos;embarque pour un voyage inoubliable.
-              </p>
-              <p className="text-lg md:text-xl text-platinum/80 leading-relaxed animate-reveal delay-400">
-                Luxe tropical, ose les couleurs et ton style unique pour danser jusqu&apos;au bout de la nuit sous le soleil hawaïen.
-              </p>
-            </div>
+                    {/* Tagline */}
+                    <p className="text-2xl md:text-4xl text-white font-medium tracking-wide mb-16 animate-reveal delay-200 drop-shadow-md">
+                        Hawaiian Summer Party
+                    </p>
 
-            <div className="animate-reveal delay-500">
-              <p className="text-xl md:text-2xl mb-8 font-semibold text-holographic drop-shadow-[0_0_15px_rgba(192,132,252,0.5)]">
-                Prêt(e) pour la soirée de tes rêves ?
-              </p>
+                    {/* CTA Button - Glowing Pill */}
+                    <div className="mb-24 animate-reveal delay-300">
+                        <Link
+                            href="/reservation"
+                            className="inline-block px-12 py-4 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#d946ef] text-white text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] hover:scale-105 transition-all duration-300 border border-white/20"
+                        >
+                            Réserver maintenant
+                        </Link>
+                    </div>
 
-              <Link
-                href="/reservation"
-                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-royal-purple text-white text-lg font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(124,58,237,0.5)]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                <Sparkles className="w-5 h-5 animate-pulse" />
-                <span>Je réserve maintenant</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  )
+                    {/* Bottom Info Cards - Glass Pills */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl animate-reveal delay-500">
+                        {/* Date Card */}
+                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 transition-colors group">
+                            <div className="p-3 rounded-lg bg-white/5 mb-3 group-hover:bg-neon-purple/20 transition-colors">
+                                <Calendar className="w-6 h-6 text-neon-purple" />
+                            </div>
+                            <p className="text-platinum text-lg font-medium">27 décembre - 2024</p>
+                        </div>
+
+                        {/* Lineup Card */}
+                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 transition-colors group">
+                            <div className="p-3 rounded-lg bg-white/5 mb-3 group-hover:bg-neon-purple/20 transition-colors">
+                                <Music className="w-6 h-6 text-neon-purple" />
+                            </div>
+                            <p className="text-platinum text-lg font-medium">Lineup dévoilé</p>
+                        </div>
+
+                        {/* Dress Code Card */}
+                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 transition-colors group">
+                            <div className="p-3 rounded-lg bg-white/5 mb-3 group-hover:bg-neon-purple/20 transition-colors">
+                                <MapPin className="w-6 h-6 text-neon-purple" />
+                            </div>
+                            <p className="text-platinum text-lg font-medium">Hawaiian party</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* About Section - Kept consistent but simplified */}
+            <section id="info" className="relative py-24 px-4 overflow-hidden">
+                <div className="relative z-10 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="glass-panel rounded-2xl p-8 text-center group hover:scale-105 transition-transform duration-300 border-t border-neon-purple/30">
+                            <Waves className="w-12 h-12 mx-auto mb-4 text-neon-purple" />
+                            <h3 className="text-xl font-bold text-platinum mb-2">Piscine Exclusive</h3>
+                        </div>
+                        <div className="glass-panel rounded-2xl p-8 text-center group hover:scale-105 transition-transform duration-300 border-t border-neon-purple/30">
+                            <Music className="w-12 h-12 mx-auto mb-4 text-neon-purple" />
+                            <h3 className="text-xl font-bold text-platinum mb-2">DJs Live</h3>
+                        </div>
+                        <div className="glass-panel rounded-2xl p-8 text-center group hover:scale-105 transition-transform duration-300 border-t border-neon-purple/30">
+                            <Star className="w-12 h-12 mx-auto mb-4 text-neon-purple" />
+                            <h3 className="text-xl font-bold text-platinum mb-2">Ambiance VIP</h3>
+                        </div>
+                        <div className="glass-panel rounded-2xl p-8 text-center group hover:scale-105 transition-transform duration-300 border-t border-neon-purple/30">
+                            <PartyPopper className="w-12 h-12 mx-auto mb-4 text-neon-purple" />
+                            <h3 className="text-xl font-bold text-platinum mb-2">Célébration</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="border-t border-white/5 py-12 bg-black/40 backdrop-blur-md">
+                <div className="max-w-7xl mx-auto px-4 text-center">
+                    <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-white" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                        GENESIS
+                    </span>
+                    <p className="text-stardust/60 text-sm mt-4">
+                        © 2024 Genesis. Hawaiian Summer Party.
+                    </p>
+                </div>
+            </footer>
+        </main>
+    )
 }
