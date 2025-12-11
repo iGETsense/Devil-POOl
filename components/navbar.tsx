@@ -2,12 +2,14 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { Menu, X, Sparkles, Ticket } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+    const pathname = usePathname()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -16,6 +18,9 @@ export function Navbar() {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
+
+    // Do not render navbar on admin pages
+    if (pathname?.startsWith("/admin")) return null
 
     return (
         <nav className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-in-out ${scrolled ? "top-6" : "top-0"
