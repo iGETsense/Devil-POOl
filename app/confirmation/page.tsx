@@ -232,7 +232,7 @@ function ConfirmationContent() {
       <div style={{ position: "absolute", left: "-9999px", top: 0, width: "800px", height: "350px", overflow: "hidden" }}>
         <div
           ref={ticketRef}
-          className="w-[800px] h-[350px] bg-[#0a0a0a] flex relative border border-purple-500 overflow-hidden"
+          className="w-[800px] h-[350px] bg-[#0a0a0a] flex relative border border-[#a855f7] overflow-hidden"
         >
           {/* Left: Image (Standard img for html2canvas compatibility) */}
           <div className="w-[30%] h-full relative">
@@ -241,30 +241,31 @@ function ConfirmationContent() {
               alt="Pass"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-purple-900/30 mix-blend-overlay" />
+            {/* Replaced bg-purple-900/30 mix-blend-overlay with explicit RGBA and no blend mode for safety, or safe hex with opacity */}
+            <div className="absolute inset-0 bg-[#581c874d]" />
           </div>
           {/* Right: Info */}
           <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-r from-[#0a0a0a] to-[#1a1a2e]">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-neon-purple text-sm font-bold tracking-[0.3em] mb-2 uppercase">Boarding Pass</h2>
-                <h1 className="text-white text-3xl font-bold tracking-wider" style={{ fontFamily: "var(--font-playfair), serif" }}>GENESIS VOL.I</h1>
+                <h2 className="text-[#a855f7] text-sm font-bold tracking-[0.3em] mb-2 uppercase">Boarding Pass</h2>
+                <h1 className="text-[#ffffff] text-3xl font-bold tracking-wider" style={{ fontFamily: "var(--font-playfair), serif" }}>GENESIS VOL.I</h1>
               </div>
-              <div className="bg-white/10 px-3 py-1 rounded border border-white/20">
-                <span className="text-white font-mono font-bold">{bookingData.id}</span>
+              <div className="bg-[#ffffff1a] px-3 py-1 rounded border border-[#ffffff33]">
+                <span className="text-[#ffffff] font-mono font-bold">{bookingData.id}</span>
               </div>
             </div>
             <div className="flex gap-8 mt-4">
-              <div><p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Invité</p><p className="text-white text-lg font-bold">{bookingData.fullName}</p></div>
-              <div><p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Pass</p><p className="text-fuchsia-400 text-lg font-bold">{bookingData.passType}</p></div>
-              <div><p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Prix</p><p className="text-white text-lg font-bold">{bookingData.price}</p></div>
+              <div><p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-1">Invité</p><p className="text-[#ffffff] text-lg font-bold">{bookingData.fullName}</p></div>
+              <div><p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-1">Pass</p><p className="text-[#e879f9] text-lg font-bold">{bookingData.passType}</p></div>
+              <div><p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-1">Prix</p><p className="text-[#ffffff] text-lg font-bold">{bookingData.price}</p></div>
             </div>
             <div className="flex justify-between items-end">
               <div className="space-y-2">
-                <p className="text-gray-300 text-sm flex items-center"><Calendar className="inline w-4 h-4 mr-2" />{bookingData.eventDate}</p>
-                <p className="text-gray-300 text-sm flex items-center"><MapPin className="inline w-4 h-4 mr-2" />Pool Paradise</p>
+                <p className="text-[#d1d5db] text-sm flex items-center"><Calendar className="inline w-4 h-4 mr-2" />{bookingData.eventDate}</p>
+                <p className="text-[#d1d5db] text-sm flex items-center"><MapPin className="inline w-4 h-4 mr-2" />Pool Paradise</p>
               </div>
-              <div className="bg-white p-2 rounded-xl"><img src={bookingData.qrCode} className="w-48 h-48 object-contain" /></div>
+              <div className="bg-[#ffffff] p-2 rounded-xl"><img src={bookingData.qrCode} className="w-48 h-48 object-contain" /></div>
             </div>
           </div>
         </div>
