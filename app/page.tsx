@@ -45,7 +45,7 @@ export default function HomePage() {
                     {/* CTA Button - Glowing Pill */}
                     <div className="mb-24 animate-reveal delay-300">
                         <Link
-                            href="/reservation"
+                            href="/passes"
                             className="inline-block px-12 py-4 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#d946ef] text-white text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] hover:scale-105 transition-all duration-300 border border-white/20"
                         >
                             Réserver maintenant
