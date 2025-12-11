@@ -241,32 +241,58 @@ function ConfirmationContent() {
               alt="Pass"
               className="w-full h-full object-cover"
             />
-            {/* Replaced bg-purple-900/30 mix-blend-overlay with explicit RGBA and no blend mode for safety, or safe hex with opacity */}
+            {/* Replaced bg-purple-900/30 mix-blend-overlay with explicit RGBA */}
             <div className="absolute inset-0 bg-[#581c874d]" />
           </div>
           {/* Right: Info */}
-          <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-r from-[#0a0a0a] to-[#1a1a2e]">
+          <div className="flex-1 px-10 py-6 flex flex-col justify-between bg-gradient-to-r from-[#0a0a0a] to-[#1a1a2e]">
+
+            {/* Header Area */}
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-[#a855f7] text-sm font-bold tracking-[0.3em] mb-2 uppercase">Boarding Pass</h2>
-                <h1 className="text-[#ffffff] text-3xl font-bold tracking-wider" style={{ fontFamily: "var(--font-playfair), serif" }}>GENESIS VOL.I</h1>
+                <h2 className="text-[#a855f7] text-sm font-bold tracking-[0.3em] mb-1 uppercase">Boarding Pass</h2>
+                <h1 className="text-[#ffffff] text-4xl font-bold tracking-wider" style={{ fontFamily: "var(--font-playfair), serif" }}>GENESIS VOL.I</h1>
               </div>
-              <div className="bg-[#ffffff1a] px-3 py-1 rounded border border-[#ffffff33]">
-                <span className="text-[#ffffff] font-mono font-bold">{bookingData.id}</span>
+              <div className="bg-[#ffffff1a] px-4 py-2 rounded border border-[#ffffff33] mt-2">
+                <span className="text-[#ffffff] font-mono font-bold text-lg">{bookingData.id}</span>
               </div>
             </div>
-            <div className="flex gap-8 mt-4">
-              <div><p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-1">Invité</p><p className="text-[#ffffff] text-lg font-bold">{bookingData.fullName}</p></div>
-              <div><p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-1">Pass</p><p className="text-[#e879f9] text-lg font-bold">{bookingData.passType}</p></div>
-              <div><p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-1">Prix</p><p className="text-[#ffffff] text-lg font-bold">{bookingData.price}</p></div>
+
+            {/* Middle Details - Centered vertically in available space */}
+            <div className="flex gap-12 my-auto items-center">
+              <div>
+                <p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-2">Invité</p>
+                <p className="text-[#ffffff] text-xl font-bold">{bookingData.fullName}</p>
+              </div>
+              <div>
+                <p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-2">Pass</p>
+                <p className="text-[#e879f9] text-xl font-bold">{bookingData.passType}</p>
+              </div>
+              <div>
+                <p className="text-[#9ca3af] text-xs uppercase tracking-wider mb-2">Prix</p>
+                <p className="text-[#ffffff] text-xl font-bold">{bookingData.price}</p>
+              </div>
             </div>
+
+            {/* Footer with QR - Reduced QR size to fit */}
             <div className="flex justify-between items-end">
-              <div className="space-y-2">
-                <p className="text-[#d1d5db] text-sm flex items-center"><Calendar className="inline w-4 h-4 mr-2" />{bookingData.eventDate}</p>
-                <p className="text-[#d1d5db] text-sm flex items-center"><MapPin className="inline w-4 h-4 mr-2" />Pool Paradise</p>
+              <div className="space-y-3 pb-2">
+                <p className="text-[#d1d5db] text-base flex items-center font-medium">
+                  <span className="text-[#a855f7] mr-3">📅</span> {bookingData.eventDate}
+                </p>
+                <p className="text-[#d1d5db] text-base flex items-center font-medium">
+                  <span className="text-[#a855f7] mr-3">📍</span> {bookingData.eventLocation}
+                </p>
+                <p className="text-[#d1d5db] text-base flex items-center font-medium">
+                  <span className="text-[#a855f7] mr-3">⏰</span> {bookingData.eventTime}
+                </p>
               </div>
-              <div className="bg-[#ffffff] p-2 rounded-xl"><img src={bookingData.qrCode} className="w-48 h-48 object-contain" /></div>
+              <div className="bg-[#ffffff] p-2 rounded-xl shadow-lg">
+                {/* Reduced from w-48 to w-32 (128px) to prevent layout break */}
+                <img src={bookingData.qrCode} className="w-32 h-32 object-contain" />
+              </div>
             </div>
+
           </div>
         </div>
       </div>
