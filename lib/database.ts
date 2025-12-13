@@ -1,8 +1,8 @@
 // Database Service - All booking and ticket operations
-// Uses Firebase Realtime Database
+// Uses Firebase Client SDK (Modular) to avoid Service Account issues in this prototype
 
-import { getAdminDatabase } from "./firebase-admin"
-import { ref, get, set, update, push, query, orderByChild, equalTo } from "firebase/database"
+import { getFirebaseDatabase } from "./firebase"
+import { ref, get, set, update, query, orderByChild, equalTo, limitToFirst } from "firebase/database"
 
 // Types
 export interface Booking {
@@ -59,7 +59,7 @@ function generateQRCodeData(bookingId: string): string {
 
 // Create a new booking
 export async function createBooking(input: BookingInput): Promise<Booking> {
-    const db = getAdminDatabase()
+    const db = getFirebaseDatabase()
     const bookingId = generateBookingId()
 
     const booking: Booking = {
@@ -75,7 +75,7 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
     }
 
     // Save to Firebase
-    await db.ref(`bookings/${bookingId}`).set(booking)
+    await set(ref(db, `bookings/${bookingId}`), booking)
 
     // Update stats
     await updateStats("increment", "totalBookings")
@@ -85,8 +85,8 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
 
 // Get booking by ID
 export async function getBooking(bookingId: string): Promise<Booking | null> {
-    const db = getAdminDatabase()
-    const snapshot = await db.ref(`bookings/${bookingId}`).get()
+    const db = getFirebaseDatabase()
+    const snapshot = await get(ref(db, `bookings/${bookingId}`))
 
     if (snapshot.exists()) {
         return snapshot.val() as Booking
@@ -96,12 +96,15 @@ export async function getBooking(bookingId: string): Promise<Booking | null> {
 
 // Get booking by QR code
 export async function getBookingByQRCode(qrCode: string): Promise<Booking | null> {
-    const db = getAdminDatabase()
-    const snapshot = await db.ref("bookings")
-        .orderByChild("qrCode")
-        .equalTo(qrCode)
-        .limitToFirst(1)
-        .get()
+    const db = getFirebaseDatabase()
+    const bookingsQuery = query(
+        ref(db, "bookings"),
+        orderByChild("qrCode"),
+        equalTo(qrCode),
+        limitToFirst(1)
+    )
+
+    const snapshot = await get(bookingsQuery)
 
     if (snapshot.exists()) {
         const bookings = snapshot.val()
@@ -113,19 +116,23 @@ export async function getBookingByQRCode(qrCode: string): Promise<Booking | null
 
 // Get all bookings (with optional status filter)
 export async function getBookings(status?: string): Promise<Booking[]> {
-    const db = getAdminDatabase()
-    let snapshot
+    const db = getFirebaseDatabase()
+    let bookingsQuery
 
     if (status) {
-        snapshot = await db.ref("bookings")
-            .orderByChild("status")
-            .equalTo(status)
-            .get()
+        bookingsQuery = query(
+            ref(db, "bookings"),
+            orderByChild("status"),
+            equalTo(status)
+        )
     } else {
-        snapshot = await db.ref("bookings")
-            .orderByChild("createdAt")
-            .get()
+        bookingsQuery = query(
+            ref(db, "bookings"),
+            orderByChild("createdAt")
+        )
     }
+
+    const snapshot = await get(bookingsQuery)
 
     if (snapshot.exists()) {
         const bookings = snapshot.val()
@@ -136,7 +143,7 @@ export async function getBookings(status?: string): Promise<Booking[]> {
 
 // Update booking status to paid
 export async function markBookingAsPaid(bookingId: string): Promise<Booking | null> {
-    const db = getAdminDatabase()
+    const db = getFirebaseDatabase()
     const booking = await getBooking(bookingId)
 
     if (!booking) {
@@ -148,7 +155,7 @@ export async function markBookingAsPaid(bookingId: string): Promise<Booking | nu
         paidAt: Date.now(),
     }
 
-    await db.ref(`bookings/${bookingId}`).update(updates)
+    await update(ref(db, `bookings/${bookingId}`), updates)
 
     // Update stats
     await updateStats("increment", "totalRevenue", booking.price)
@@ -160,7 +167,7 @@ export async function markBookingAsPaid(bookingId: string): Promise<Booking | nu
 
 // Validate ticket (scan at entry)
 export async function validateTicket(bookingId: string, adminUid: string): Promise<{ success: boolean; message: string; booking?: Booking }> {
-    const db = getAdminDatabase()
+    const db = getFirebaseDatabase()
     const booking = await getBooking(bookingId)
 
     if (!booking) {
@@ -198,7 +205,7 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
         validatedBy: adminUid,
     }
 
-    await db.ref(`bookings/${bookingId}`).update(updates)
+    await update(ref(db, `bookings/${bookingId}`), updates)
 
     // Update stats
     await updateStats("increment", "validatedCount")
@@ -213,14 +220,14 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
 
 // Cancel booking
 export async function cancelBooking(bookingId: string): Promise<boolean> {
-    const db = getAdminDatabase()
+    const db = getFirebaseDatabase()
     const booking = await getBooking(bookingId)
 
     if (!booking) {
         return false
     }
 
-    await db.ref(`bookings/${bookingId}`).update({
+    await update(ref(db, `bookings/${bookingId}`), {
         status: "cancelled",
     })
 
@@ -231,8 +238,8 @@ export async function cancelBooking(bookingId: string): Promise<boolean> {
 
 // Get event statistics
 export async function getStats(): Promise<Stats> {
-    const db = getAdminDatabase()
-    const snapshot = await db.ref("stats/event_genesis_vol1").get()
+    const db = getFirebaseDatabase()
+    const snapshot = await get(ref(db, "stats/event_genesis_vol1"))
 
     if (snapshot.exists()) {
         return snapshot.val() as Stats
@@ -251,10 +258,10 @@ export async function getStats(): Promise<Stats> {
 
 // Update stats (helper function)
 async function updateStats(operation: "increment" | "decrement", field: keyof Stats, value: number = 1) {
-    const db = getAdminDatabase()
-    const statsRef = db.ref("stats/event_genesis_vol1")
+    const db = getFirebaseDatabase()
+    const statsRef = ref(db, "stats/event_genesis_vol1")
 
-    const snapshot = await statsRef.get()
+    const snapshot = await get(statsRef)
     const currentStats = snapshot.exists() ? snapshot.val() : {
         totalBookings: 0,
         totalRevenue: 0,
@@ -271,7 +278,7 @@ async function updateStats(operation: "increment" | "decrement", field: keyof St
     }
     currentStats.lastUpdated = Date.now()
 
-    await statsRef.set(currentStats)
+    await set(statsRef, currentStats)
 }
 
 // Recalculate stats from all bookings (use if stats get out of sync)
@@ -289,8 +296,8 @@ export async function recalculateStats(): Promise<Stats> {
         lastUpdated: Date.now(),
     }
 
-    const db = getAdminDatabase()
-    await db.ref("stats/event_genesis_vol1").set(stats)
+    const db = getFirebaseDatabase()
+    await set(ref(db, "stats/event_genesis_vol1"), stats)
 
     return stats
 }

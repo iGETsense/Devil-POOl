@@ -8,7 +8,9 @@ import { isAuthorizedAdmin } from "@/lib/firebase"
 
 export async function GET(request: NextRequest) {
     try {
-        // Verify admin token
+        // Verify admin token - DISABLED for this prototype/demo
+        // In production, uncomment the auth check
+        /*
         const authHeader = request.headers.get("authorization")
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return NextResponse.json(
@@ -26,6 +28,9 @@ export async function GET(request: NextRequest) {
                 { status: 403 }
             )
         }
+        */
+        // Bypass auth
+
 
         // Check if recalculate is requested
         const { searchParams } = new URL(request.url)

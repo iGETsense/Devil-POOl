@@ -2,11 +2,11 @@
 
 import { MoreHorizontal, ChevronLeft, ChevronRight } from "lucide-react"
 
-interface Guest {
+export interface Guest {
     id: string
     name: string
     passType: string
-    status: "Validé" | "En Attente" | "Refusé"
+    status: "Validé" | "En Attente" | "Refusé" | "Payé"
 }
 
 interface GuestListProps {
@@ -27,6 +27,7 @@ export default function GuestList({ guests = [] }: GuestListProps) {
         switch (status) {
             case "Validé": return "bg-purple-500/20 text-purple-300 border border-purple-500/30"
             case "En Attente": return "bg-gray-700/30 text-gray-400 border border-gray-600/30"
+            case "Payé": return "bg-green-500/20 text-green-300 border border-green-500/30"
             default: return "bg-red-500/20 text-red-300"
         }
     }
