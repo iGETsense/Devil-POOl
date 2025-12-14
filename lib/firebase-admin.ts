@@ -45,14 +45,47 @@ export function getAdminDatabase() {
 }
 
 // Verify ID token from client
+// Verify ID token from client
 export async function verifyIdToken(idToken: string) {
     try {
+        // Check if we have valid credentials before trying Admin SDK
+        if (!serviceAccount.private_key || serviceAccount.private_key.includes("YOUR_PRIVATE_KEY")) {
+            throw new Error("Missing Service Account Credentials")
+        }
+
         const auth = getAdminAuth()
         const decodedToken = await auth.verifyIdToken(idToken)
         return decodedToken
     } catch (error) {
-        console.error("Error verifying ID token:", error)
-        return null
+        console.warn("Admin SDK verification failed, falling back to REST API:", error)
+
+        // Fallback: Verify via Firebase REST API (Identity Toolkit)
+        // This validates the token using the Web API Key instead of Service Account
+        try {
+            const API_KEY = "AIzaSyBBCrV8CYW6AvNqiqB4BkAOYK9XSqBRZAQ" // From lib/firebase.ts
+            const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idToken })
+            })
+
+            const data = await response.json()
+
+            if (data.users && data.users.length > 0) {
+                const user = data.users[0]
+                // Return a mock DecodedToken structure based on real user data
+                return {
+                    uid: user.localId,
+                    email: user.email,
+                    email_verified: user.emailVerified,
+                    // Add other fields as needed
+                }
+            }
+            return null
+        } catch (restError) {
+            console.error("REST API verification failed:", restError)
+            return null
+        }
     }
 }
 

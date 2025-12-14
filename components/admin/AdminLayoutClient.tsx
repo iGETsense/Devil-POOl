@@ -1,11 +1,22 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import Sidebar from "@/components/admin/Sidebar"
 import { Menu, X } from "lucide-react"
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const pathname = usePathname()
+
+    // Full screen layout for Login page
+    if (pathname.includes("/login")) {
+        return (
+            <div className="min-h-screen bg-[#020617] text-white">
+                {children}
+            </div>
+        )
+    }
 
     return (
         <div className="min-h-screen bg-[#020617] text-white flex">

@@ -20,7 +20,8 @@ const firebaseConfig = {
 
 // Authorized admin user IDs
 export const AUTHORIZED_ADMINS = [
-    "Gb3LYN68z2ferB56IWg4uRvpRtm2" // Main admin
+    "Gb3LYN68z2ferB56IWg4uRvpRtm2", // Main admin
+    "6RVta5IaTpMTLHQrIOOeOEPQTBf2" // User provided admin
 ]
 
 let app: FirebaseApp

@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             success: true,
             message: "Authentification réussie",
             user: {
@@ -45,6 +45,17 @@ export async function POST(request: NextRequest) {
                 email: decodedToken.email,
             },
         })
+
+        // Set secure HTTP-only cookie
+        response.cookies.set("admin_session", idToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24 * 5, // 5 days
+            path: "/",
+        })
+
+        return response
 
     } catch (error) {
         console.error("Auth error:", error)
