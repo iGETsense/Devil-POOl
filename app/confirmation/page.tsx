@@ -49,7 +49,7 @@ function ConfirmationContent() {
           return
         }
 
-        const bookingId = `GEN-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`
+        const bookingId = searchParams.get("bookingId") || `GEN-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`
 
         // Use provided booking data
         const data: BookingData = {
@@ -65,12 +65,9 @@ function ConfirmationContent() {
           eventTime: "20h00 - 04h00"
         }
 
-        // Generate QR
-        const qrDataString = JSON.stringify({
-          id: data.id,
-          name: data.fullName,
-          pass: data.passType
-        })
+        // Generate QR (STANDARD FORMAT)
+        // Match the backend expectation: "GENESIS-{bookingId}"
+        const qrDataString = `GENESIS-${data.id}`
 
         const qrImage = await QRCode.toDataURL(qrDataString, {
           width: 600,

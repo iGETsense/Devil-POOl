@@ -95,6 +95,7 @@ export async function getBooking(bookingId: string): Promise<Booking | null> {
 }
 
 // Get booking by QR code
+// Get booking by QR code
 export async function getBookingByQRCode(qrCode: string): Promise<Booking | null> {
     if (!qrCode) return null
 
@@ -108,10 +109,48 @@ export async function getBookingByQRCode(qrCode: string): Promise<Booking | null
 
     // Case 2: Raw Booking ID (starts with GEN-)
     if (cleanCode.startsWith("GEN-")) {
-        return await getBooking(cleanCode)
+        const booking = await getBooking(cleanCode)
+        if (booking) return booking
     }
 
-    // Case 3: Fallback - try as ID anyway
+    // Case 3: JSON Format (Legacy/Incorrect QR Codes)
+    if (cleanCode.startsWith("{") && cleanCode.endsWith("}")) {
+        try {
+            // Fix malformed JSON if necessary (e.g. replacing ; with :)
+            // The user report showed {"id";"GEN..."} which is invalid JSON
+            let jsonString = cleanCode
+            if (jsonString.includes(";") && !jsonString.includes(":")) {
+                jsonString = jsonString.replace(/;/g, ":")
+            }
+            // Fix single quotes if present
+            if (jsonString.includes("'")) {
+                jsonString = jsonString.replace(/'/g, '"')
+            }
+
+            const data = JSON.parse(jsonString)
+
+            // Try ID from JSON
+            if (data.id) {
+                const booking = await getBooking(data.id)
+                if (booking) return booking
+            }
+
+            // Fallback: Try Name from JSON
+            if (data.name) {
+                const bookings = await getBookings()
+                // Loose match on name
+                const match = bookings.find(b =>
+                    b.fullName.toLowerCase().includes(data.name.toLowerCase()) ||
+                    data.name.toLowerCase().includes(b.fullName.toLowerCase())
+                )
+                if (match) return match
+            }
+        } catch (e) {
+            console.error("Failed to parse JSON QR:", e)
+        }
+    }
+
+    // Case 4: Fallback - try as ID anyway (last resort)
     const booking = await getBooking(cleanCode)
     if (booking) return booking
 
