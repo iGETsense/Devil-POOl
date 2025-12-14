@@ -1,0 +1,75 @@
+{
+    "rules": {
+        ".read": true,
+        ".write": true,
+        "bookings": {
+            ".indexOn": [
+                "createdAt",
+                "qrCode",
+                "status"
+            ],
+            "$bookingId": {
+                ".validate": "newData.hasChildren(['id', 'fullName', 'phone', 'passType', 'price', 'status', 'qrCode', 'createdAt'])",
+                "id": {
+                    ".validate": "newData.isString()"
+                },
+                "fullName": {
+                    ".validate": "newData.isString() && newData.val().length > 0"
+                },
+                "phone": {
+                    ".validate": "newData.isString()"
+                },
+                "passType": {
+                    ".validate": "newData.val().matches(/^(ONE_MAN|ONE_LADY|FIVE_QUEENS)$/)"
+                },
+                "operator": {
+                    ".validate": "!newData.exists() || newData.val().matches(/^(orange|mtn|cash)$/)"
+                },
+                "price": {
+                    ".validate": "newData.isNumber() && newData.val() >= 0"
+                },
+                "status": {
+                    ".validate": "newData.val().matches(/^(pending|paid|validated|cancelled)$/)"
+                },
+                "qrCode": {
+                    ".validate": "newData.isString()"
+                },
+                "createdAt": {
+                    ".validate": "newData.isNumber()"
+                },
+                "paidAt": {
+                    ".validate": "!newData.exists() || newData.isNumber()"
+                },
+                "validatedAt": {
+                    ".validate": "!newData.exists() || newData.isNumber()"
+                },
+                "validatedBy": {
+                    ".validate": "!newData.exists() || newData.isString()"
+                }
+            }
+        },
+        "stats": {
+            "event_genesis_vol1": {
+                ".validate": "newData.hasChildren(['totalBookings', 'totalRevenue', 'validatedCount', 'pendingCount', 'paidCount', 'lastUpdated'])",
+                "totalBookings": {
+                    ".validate": "newData.isNumber()"
+                },
+                "totalRevenue": {
+                    ".validate": "newData.isNumber()"
+                },
+                "validatedCount": {
+                    ".validate": "newData.isNumber()"
+                },
+                "pendingCount": {
+                    ".validate": "newData.isNumber()"
+                },
+                "paidCount": {
+                    ".validate": "newData.isNumber()"
+                },
+                "lastUpdated": {
+                    ".validate": "newData.isNumber()"
+                }
+            }
+        }
+    }
+}

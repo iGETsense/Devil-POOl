@@ -96,14 +96,25 @@ export async function getBooking(bookingId: string): Promise<Booking | null> {
 
 // Get booking by QR code
 export async function getBookingByQRCode(qrCode: string): Promise<Booking | null> {
-    // Optimization: Extract ID directly from QR code string to avoid index requirements
-    // Format is "GENESIS-{bookingId}"
-    if (qrCode && qrCode.startsWith("GENESIS-")) {
-        const bookingId = qrCode.replace("GENESIS-", "")
+    if (!qrCode) return null
+
+    const cleanCode = qrCode.trim()
+
+    // Case 1: Standard QR Code (starts with GENESIS-)
+    if (cleanCode.startsWith("GENESIS-")) {
+        const bookingId = cleanCode.replace("GENESIS-", "")
         return await getBooking(bookingId)
     }
 
-    // Fallback or invalid format
+    // Case 2: Raw Booking ID (starts with GEN-)
+    if (cleanCode.startsWith("GEN-")) {
+        return await getBooking(cleanCode)
+    }
+
+    // Case 3: Fallback - try as ID anyway
+    const booking = await getBooking(cleanCode)
+    if (booking) return booking
+
     return null
 }
 
