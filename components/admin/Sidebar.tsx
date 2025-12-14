@@ -12,9 +12,9 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
     const pathname = usePathname()
 
     const menuItems = [
-        { icon: Home, label: "Vue d'ensemble", path: "/admin/dashboard" },
-        { icon: Users, label: "Réservations", path: "/admin/guests" },
-        { icon: Smartphone, label: "Scanner Billet", path: "/admin/scanner" },
+        { icon: Home, label: "Vue d'ensemble", path: "/admin-88y12d/dashboard" },
+        { icon: Users, label: "Réservations", path: "/admin-88y12d/guests" },
+        { icon: Smartphone, label: "Scanner Billet", path: "/admin-88y12d/scanner" },
     ]
 
     return (
@@ -33,7 +33,7 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
             {/* Menu */}
             <nav className="space-y-2 flex-1">
                 {menuItems.map((item, index) => {
-                    const isActive = pathname === item.path || (item.path !== "/admin/dashboard" && pathname.startsWith(item.path))
+                    const isActive = pathname === item.path || (item.path !== "/admin-88y12d/dashboard" && pathname.startsWith(item.path))
 
                     return (
                         <Link
