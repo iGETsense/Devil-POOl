@@ -147,8 +147,8 @@ export default function AdminDashboardPage() {
             color="green"
           />
           <StatsCard
-            title="Non Validés (Payés)"
-            value={(stats.paidCount).toLocaleString()}
+            title="En Attente (Pending)"
+            value={(stats.pendingCount).toLocaleString()}
             icon={Clock}
             trend="En attente scan"
             trendUp={false}
