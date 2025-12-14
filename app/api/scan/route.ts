@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
         if (!booking) {
             return NextResponse.json(
-                { success: false, message: "Billet non trouvé dans la base de données" },
+                { success: false, message: `Billet non trouvé pour: "${qrCode}"` },
                 { status: 404 }
             )
         }
