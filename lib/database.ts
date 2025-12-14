@@ -96,47 +96,34 @@ export async function getBooking(bookingId: string): Promise<Booking | null> {
 
 // Get booking by QR code
 export async function getBookingByQRCode(qrCode: string): Promise<Booking | null> {
-    const db = getFirebaseDatabase()
-    const bookingsQuery = query(
-        ref(db, "bookings"),
-        orderByChild("qrCode"),
-        equalTo(qrCode),
-        limitToFirst(1)
-    )
-
-    const snapshot = await get(bookingsQuery)
-
-    if (snapshot.exists()) {
-        const bookings = snapshot.val()
-        const bookingId = Object.keys(bookings)[0]
-        return bookings[bookingId] as Booking
+    // Optimization: Extract ID directly from QR code string to avoid index requirements
+    // Format is "GENESIS-{bookingId}"
+    if (qrCode && qrCode.startsWith("GENESIS-")) {
+        const bookingId = qrCode.replace("GENESIS-", "")
+        return await getBooking(bookingId)
     }
+
+    // Fallback or invalid format
     return null
 }
 
 // Get all bookings (with optional status filter)
 export async function getBookings(status?: string): Promise<Booking[]> {
     const db = getFirebaseDatabase()
-    let bookingsQuery
 
-    if (status) {
-        bookingsQuery = query(
-            ref(db, "bookings"),
-            orderByChild("status"),
-            equalTo(status)
-        )
-    } else {
-        bookingsQuery = query(
-            ref(db, "bookings"),
-            orderByChild("createdAt")
-        )
-    }
-
-    const snapshot = await get(bookingsQuery)
+    // Fetch all bookings directly (avoid index issues)
+    const snapshot = await get(ref(db, "bookings"))
 
     if (snapshot.exists()) {
-        const bookings = snapshot.val()
-        return Object.values(bookings) as Booking[]
+        const bookingsMap = snapshot.val()
+        let bookings = Object.values(bookingsMap) as Booking[]
+
+        // Filter by status if provided
+        if (status) {
+            bookings = bookings.filter(b => b.status === status)
+        }
+
+        return bookings
     }
     return []
 }
