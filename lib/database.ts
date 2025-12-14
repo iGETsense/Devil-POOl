@@ -219,13 +219,14 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
         }
     }
 
-    if (booking.status === "pending") {
-        return {
-            success: false,
-            message: "Ce billet n'a pas encore été payé",
-            booking
-        }
-    }
+    // ALLOW validation of pending tickets (Scan-to-Pay/Validate)
+    // if (booking.status === "pending") {
+    //     return {
+    //         success: false,
+    //         message: "Ce billet n'a pas encore été payé",
+    //         booking
+    //     }
+    // }
 
     if (booking.status === "cancelled") {
         return {
@@ -234,6 +235,9 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
             booking
         }
     }
+
+    // Capture previous status for stats update
+    const previousStatus = booking.status
 
     // Mark as validated
     const updates = {
@@ -246,7 +250,14 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
 
     // Update stats
     await updateStats("increment", "validatedCount")
-    await updateStats("decrement", "paidCount")
+
+    if (previousStatus === "pending") {
+        await updateStats("decrement", "pendingCount")
+        // If it was pending, it's now effectively "paid" via validation, so add to revenue
+        await updateStats("increment", "totalRevenue", booking.price)
+    } else if (previousStatus === "paid") {
+        await updateStats("decrement", "paidCount")
+    }
 
     return {
         success: true,
