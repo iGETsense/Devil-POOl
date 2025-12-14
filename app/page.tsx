@@ -38,8 +38,8 @@ export default function HomePage() {
                     </div>
 
                     {/* Tagline */}
-                    <p className="text-2xl md:text-4xl text-white font-medium tracking-wide mb-16 animate-reveal delay-200 drop-shadow-md">
-                        Hawaiian Summer Party
+                    <p className="text-2xl md:text-3xl text-white font-medium tracking-wide mb-16 animate-reveal delay-200 drop-shadow-md">
+                        Hawaiian Summer Pool Party • Cameroun
                     </p>
 
                     {/* CTA Button - Glowing Pill */}

@@ -80,15 +80,18 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md relative z-10 flex flex-col items-center">
 
         {/* Logo/Title */}
-        <div className="text-center mb-10 animate-in fade-in slide-in-from-top-12 duration-1000">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 relative group cursor-pointer transition-transform hover:scale-110 duration-500">
-            <div className="absolute inset-0 bg-gradient-to-tr from-purple-600 to-blue-600 rounded-full opacity-20 group-hover:opacity-40 blur-xl transition-all"></div>
-            <div className="relative z-10 bg-[#0f172a] p-5 rounded-full border border-purple-500/50 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
-              <Lock className="w-10 h-10 text-purple-400 group-hover:text-purple-300 transition-colors" />
-            </div>
+        <div className="text-center mb-10 animate-in fade-in slide-in-from-top-12 duration-1000 flex flex-col items-center">
+          <div className="relative w-40 h-40 mb-6 transition-transform hover:scale-105 duration-500">
+            <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-xl animate-pulse"></div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/genesis-logo.jpg"
+              alt="Genesis Logo"
+              className="relative z-10 w-full h-full object-contain rounded-full border-4 border-purple-500/30 shadow-2xl"
+            />
           </div>
           <h1
-            className="text-5xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-white drop-shadow-lg"
+            className="text-4xl font-bold mb-3 text-white drop-shadow-lg"
             style={{ fontFamily: "var(--font-playfair), serif" }}
           >
             Administration

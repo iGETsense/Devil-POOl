@@ -26,12 +26,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://genesis-events.com"),
   title: {
-    default: "Genesis - Événements Exclusifs",
-    template: "%s | Genesis Events"
+    default: "Genesis Pool Party - Événements Exclusifs Cameroun",
+    template: "%s | Genesis Pool Party"
   },
-  description: "Réservez votre pass pour la soirée la plus exclusive de l'année. Luxe, ambiance et prestige.",
+  description: "Réservez votre pass pour la Genesis Pool Party au Cameroun. La soirée la plus exclusive de l'année. Luxe, ambiance et prestige.",
   applicationName: "Genesis Events",
-  keywords: ["soirée", "événement", "luxe", "pool party", "étudiant", "genesis", "cameroun"],
+  keywords: ["genesis pool party", "genesis pool party cameroon", "soirée cameroun", "événement yaoundé", "douala", "luxe", "étudiant"],
   authors: [{ name: "Genesis Team" }],
   creator: "Genesis Team",
   publisher: "Genesis Events",
