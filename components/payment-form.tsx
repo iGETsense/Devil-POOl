@@ -114,69 +114,45 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
     setIsLoading(true)
 
     try {
-      // Generate unique booking ID
-      const bookingId = generateBookingId()
       const formattedPhone = formatPhoneNumber(formData.phone)
 
-      // Prepare booking data
-      const bookingData = {
-        id: bookingId,
-        fullName: formData.fullName.trim(),
-        phone: formattedPhone,
-        passType: passName,
-        price: passPrice,
-        paymentOperator: selectedOperator,
-        bookingDate: new Date().toISOString(),
-        eventDate: "30 Novembre 2025",
-        eventLocation: "Pool Paradise, Douala",
-        eventTime: "20h00 - 04h00",
-      }
-
-      // 🔴 BACKEND INTEGRATION POINT:
-      // Replace this section with actual API call to your backend
-      // Example:
-      /*
-      const response = await fetch("/api/bookings/create", {
+      // 🔴 REAL BACKEND CALL
+      const response = await fetch("/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fullName: bookingData.fullName,
-          phone: bookingData.phone,
-          passType: bookingData.passType,
-          price: bookingData.price,
-          paymentOperator: bookingData.paymentOperator,
+          fullName: formData.fullName.trim(),
+          phone: formattedPhone,
+          passType: passName === "ONE MAN" ? "ONE_MAN" : passName === "ONE LADY" ? "ONE_LADY" : "FIVE_QUEENS",
+          operator: selectedOperator,
         }),
       })
 
-      if (!response.ok) {
-        throw new Error("Payment failed")
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Payment failed")
       }
 
-      const result = await response.json()
-      const bookingId = result.bookingId
-      */
+      const booking = result.booking
+      const bookingId = booking.id
 
-      // Simulate API call delay (remove this in production)
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      // Store booking data in sessionStorage for confirmation page
-      // In production, this data should come from your database via the confirmation page
-      sessionStorage.setItem(`booking_${bookingId}`, JSON.stringify(bookingData))
-
-      // Log payment data for debugging (remove in production)
-      console.log("Payment data:", {
-        ...bookingData,
-        operator: selectedOperator,
-      })
+      // Store booking data in sessionStorage for confirmation page (Frontend display)
+      sessionStorage.setItem(`booking_${bookingId}`, JSON.stringify({
+        ...booking,
+        eventDate: "30 Novembre 2025",
+        eventLocation: "Pool Paradise, Douala",
+        eventTime: "20h00 - 04h00",
+      }))
 
       // Redirect to confirmation page with booking ID
-      router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(bookingData.fullName)}&phone=${encodeURIComponent(bookingData.phone)}&passType=${encodeURIComponent(bookingData.passType)}&price=${encodeURIComponent(bookingData.price)}`)
+      router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(booking.fullName)}&phone=${encodeURIComponent(booking.phone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(booking.price)}`)
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Payment error:", error)
-      alert("Une erreur est survenue lors du paiement. Veuillez réessayer.")
+      alert(error.message || "Une erreur est survenue lors de la réservation.")
       setIsLoading(false)
     }
   }
