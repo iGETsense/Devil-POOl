@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { MoreHorizontal, ChevronLeft, ChevronRight } from "lucide-react"
 
 export interface Guest {
@@ -13,15 +14,23 @@ interface GuestListProps {
     guests?: Guest[]
 }
 
+const ITEMS_PER_PAGE = 8
+
 export default function GuestList({ guests = [] }: GuestListProps) {
-    // Mock data if none provided, to match image
-    const displayGuests = guests.length > 0 ? guests : [
-        { id: "1", name: "Claire Fontaine", passType: "VIP Gold", status: "Validé" },
-        { id: "2", name: "Thomas Moreau", passType: "Standard", status: "En Attente" },
-        { id: "3", name: "Émilie Roux", passType: "Staff", status: "Validé" },
-        { id: "4", name: "Alexandre Petit", passType: "VIP", status: "En Attente" },
-        { id: "5", name: "Sarah Bernard", passType: "Standard", status: "Validé" },
-    ]
+    const [currentPage, setCurrentPage] = useState(1)
+
+    // Use guests prop directly
+    const allGuests = guests
+
+    const totalPages = Math.ceil(allGuests.length / ITEMS_PER_PAGE)
+
+    // Reset to page 1 if data changes significantly (optional, but good practice if searching reduces count)
+    // For now we'll just handle out of bounds in slice, but usually useEffect is needed.
+    // Simpler: ensure currentPage is valid.
+    const validCurrentPage = Math.min(Math.max(1, currentPage), Math.max(1, totalPages))
+
+    const startIndex = (validCurrentPage - 1) * ITEMS_PER_PAGE
+    const displayGuests = allGuests.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
     const getStatusStyle = (status: string) => {
         switch (status) {
@@ -35,7 +44,7 @@ export default function GuestList({ guests = [] }: GuestListProps) {
     return (
         <div className="bg-[#1a0a2e]/60 backdrop-blur-xl border border-white/10 rounded-3xl p-6 h-full flex flex-col">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-white font-bold">Liste des Invités</h3>
+                <h3 className="text-white font-bold">Liste des Invités ({allGuests.length})</h3>
                 <button className="text-gray-400 hover:text-white"><MoreHorizontal className="w-5 h-5" /></button>
             </div>
 
@@ -49,34 +58,57 @@ export default function GuestList({ guests = [] }: GuestListProps) {
                         </tr>
                     </thead>
                     <tbody className="text-sm">
-                        {displayGuests.map((guest, i) => (
-                            <tr key={i} className="group border-b border-white/5 hover:bg-white/5 transition-colors">
-                                <td className="p-3">
-                                    <span className="text-white font-medium block p-2 rounded-lg bg-white/5 border border-white/5 group-hover:border-purple-500/30 transition-colors">
-                                        {guest.name}
-                                    </span>
-                                </td>
-                                <td className="p-3 text-gray-400 pl-4">{guest.passType}</td>
-                                <td className="p-3 text-right">
-                                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(guest.status)}`}>
-                                        {guest.status}
-                                    </span>
+                        {displayGuests.length > 0 ? (
+                            displayGuests.map((guest, i) => (
+                                <tr key={i} className="group border-b border-white/5 hover:bg-white/5 transition-colors">
+                                    <td className="p-3">
+                                        <span className="text-white font-medium block p-2 rounded-lg bg-white/5 border border-white/5 group-hover:border-purple-500/30 transition-colors">
+                                            {guest.name}
+                                        </span>
+                                    </td>
+                                    <td className="p-3 text-gray-400 pl-4">{guest.passType}</td>
+                                    <td className="p-3 text-right">
+                                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(guest.status)}`}>
+                                            {guest.status}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={3} className="p-8 text-center text-gray-500 italic">
+                                    Aucun invité trouvé
                                 </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-white/5">
-                <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
-                    <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
-                    <ChevronRight className="w-4 h-4" />
-                </button>
-            </div>
+            {totalPages > 1 && (
+                <div className="flex justify-between items-center mt-4 pt-4 border-t border-white/5">
+                    <span className="text-xs text-gray-500">
+                        Page {validCurrentPage} sur {totalPages}
+                    </span>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                            disabled={validCurrentPage === 1}
+                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <ChevronLeft className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                            disabled={validCurrentPage === totalPages}
+                            className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <ChevronRight className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

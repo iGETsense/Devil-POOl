@@ -1,4 +1,4 @@
-import Script from "next/script"
+import AdminLayoutClient from "@/components/admin/AdminLayoutClient"
 
 export default function AdminLayout({
   children,
@@ -6,9 +6,8 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <Script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" strategy="beforeInteractive" />
+    <AdminLayoutClient>
       {children}
-    </>
+    </AdminLayoutClient>
   )
 }

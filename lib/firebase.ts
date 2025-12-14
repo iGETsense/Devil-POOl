@@ -1,9 +1,10 @@
-// Firebase Configuration - Server-side only (not exposed to frontend)
-// This file contains hardcoded Firebase credentials for API routes
+// Firebase Configuration
+// Uses Client SDK (Modular) compatible with Next.js (Client & Server Components)
 
 import { initializeApp, getApps, FirebaseApp } from "firebase/app"
 import { getAuth, Auth } from "firebase/auth"
 import { getDatabase, Database } from "firebase/database"
+import { getAnalytics, Analytics, isSupported } from "firebase/analytics"
 
 // Firebase configuration
 const firebaseConfig = {
@@ -13,7 +14,8 @@ const firebaseConfig = {
     projectId: "studio-907723573-eab8c",
     storageBucket: "studio-907723573-eab8c.firebasestorage.app",
     messagingSenderId: "426702985815",
-    appId: "1:426702985815:web:270b6a363c7ce5114b2112"
+    appId: "1:426702985815:web:270b6a363c7ce5114b2112",
+    measurementId: "G-BW2FPHDBCP"
 }
 
 // Authorized admin user IDs
@@ -24,6 +26,7 @@ export const AUTHORIZED_ADMINS = [
 let app: FirebaseApp
 let auth: Auth
 let database: Database
+let analytics: Analytics
 
 // Initialize Firebase (singleton pattern)
 function getFirebaseApp(): FirebaseApp {
@@ -50,6 +53,19 @@ export function getFirebaseDatabase(): Database {
         database = getDatabase(getFirebaseApp())
     }
     return database
+}
+
+export async function getFirebaseAnalytics(): Promise<Analytics | null> {
+    if (typeof window === "undefined") return null
+
+    if (!analytics) {
+        // Analytics is only supported in browser environments
+        const supported = await isSupported()
+        if (supported) {
+            analytics = getAnalytics(getFirebaseApp())
+        }
+    }
+    return analytics || null
 }
 
 // Check if user is an authorized admin
