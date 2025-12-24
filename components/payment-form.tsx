@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
-import { Loader2, CreditCard } from "lucide-react"
+import { Loader2, CreditCard, Users } from "lucide-react"
 import crypto from "crypto"
 
 interface PaymentFormProps {
@@ -19,13 +19,19 @@ interface PaymentFormProps {
 export default function PaymentForm({ passName, passPrice, passImage }: PaymentFormProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+
+  const isFiveQueens = passName === "FIVE QUEENS"
+
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
+    fullNames: ["", "", "", "", ""], // For Five Queens
   })
+
   const [selectedOperator, setSelectedOperator] = useState<"orange" | "mtn" | null>(null)
   const [errors, setErrors] = useState({
     fullName: "",
+    fullNames: ["", "", "", "", ""],
     phone: "",
     operator: "",
   })
@@ -44,18 +50,33 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
   const validateForm = (): boolean => {
     const newErrors = {
       fullName: "",
+      fullNames: ["", "", "", "", ""],
       phone: "",
       operator: "",
     }
+    let isValid = true
 
-    // Validate full name
-    const sanitizedName = sanitizeInput(formData.fullName)
-    if (!sanitizedName) {
-      newErrors.fullName = "Le nom complet est requis"
-    } else if (sanitizedName.length < 3) {
-      newErrors.fullName = "Le nom doit contenir au moins 3 caractères"
-    } else if (!/^[a-zA-Z\s\-']+$/.test(sanitizedName)) {
-      newErrors.fullName = "Le nom ne doit contenir que des lettres, espaces, tirets et apostrophes"
+    // Validate names
+    if (isFiveQueens) {
+      formData.fullNames.forEach((name, index) => {
+        const sanitizedName = sanitizeInput(name)
+        if (!sanitizedName) {
+          newErrors.fullNames[index] = `Nom de la Queen ${index + 1} requis`
+          isValid = false
+        } else if (sanitizedName.length < 3) {
+          newErrors.fullNames[index] = "3 caractères minimum"
+          isValid = false
+        }
+      })
+    } else {
+      const sanitizedName = sanitizeInput(formData.fullName)
+      if (!sanitizedName) {
+        newErrors.fullName = "Le nom complet est requis"
+        isValid = false
+      } else if (sanitizedName.length < 3) {
+        newErrors.fullName = "Le nom doit contenir au moins 3 caractères"
+        isValid = false
+      }
     }
 
     // Validate phone number (Cameroon format)
@@ -63,17 +84,20 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
     const cleanedPhone = formData.phone.replace(/\s/g, "")
     if (!cleanedPhone) {
       newErrors.phone = "Le numéro de téléphone est requis"
+      isValid = false
     } else if (!phoneRegex.test(cleanedPhone)) {
       newErrors.phone = "Numéro invalide (ex: 6XXXXXXXX ou 237XXXXXXXXX)"
+      isValid = false
     }
 
     // Validate operator selection
     if (!selectedOperator) {
       newErrors.operator = "Veuillez sélectionner un opérateur"
+      isValid = false
     }
 
     setErrors(newErrors)
-    return !newErrors.fullName && !newErrors.phone && !newErrors.operator
+    return isValid
   }
 
   // Format phone number for storage
@@ -87,21 +111,6 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
       return "+237" + cleaned
     }
   }
-
-  // Generate secure booking ID
-  const generateBookingId = (): string => {
-    const timestamp = Date.now().toString(36).toUpperCase()
-    const random = crypto.randomBytes(4).toString('hex').toUpperCase()
-    return `2025-${timestamp}-${random}`
-  }
-
-  // Generate CSRF token
-  const [csrfToken, setCsrfToken] = useState<string>("")
-
-  useEffect(() => {
-    const token = crypto.randomBytes(32).toString('hex')
-    setCsrfToken(token)
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -123,7 +132,8 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fullName: formData.fullName.trim(),
+          fullName: isFiveQueens ? undefined : formData.fullName.trim(),
+          fullNames: isFiveQueens ? formData.fullNames.map(n => n.trim()) : undefined,
           phone: formattedPhone,
           passType: passName === "ONE MAN" ? "ONE_MAN" : passName === "ONE LADY" ? "ONE_LADY" : "FIVE_QUEENS",
           operator: selectedOperator,
@@ -136,19 +146,19 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
         throw new Error(result.message || "Payment failed")
       }
 
-      const booking = result.booking
-      const bookingId = booking.id
+      if (isFiveQueens && result.bookings) {
+        // Handle multiple bookings
+        const bookingIds = result.bookings.map((b: any) => b.id).join(",")
+        const names = formData.fullNames.map(n => n.trim()).join(",")
 
-      // Store booking data in sessionStorage for confirmation page (Frontend display)
-      sessionStorage.setItem(`booking_${bookingId}`, JSON.stringify({
-        ...booking,
-        eventDate: "30 Novembre 2025",
-        eventLocation: "Pool Paradise, Douala",
-        eventTime: "20h00 - 04h00",
-      }))
+        router.push(`/confirmation?bookingIds=${bookingIds}&names=${encodeURIComponent(names)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(result.price)}`)
+      } else {
+        // Handle single booking
+        const booking = result.booking
+        const bookingId = booking.id
 
-      // Redirect to confirmation page with booking ID
-      router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(booking.fullName)}&phone=${encodeURIComponent(booking.phone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(booking.price)}`)
+        router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(booking.fullName)}&phone=${encodeURIComponent(booking.phone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(booking.price)}`)
+      }
 
     } catch (error: any) {
       console.error("Payment error:", error)
@@ -164,6 +174,19 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
     // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: "" }))
+    }
+  }
+
+  const handleArrayNameChange = (index: number, value: string) => {
+    const newNames = [...formData.fullNames]
+    newNames[index] = value
+    setFormData(prev => ({ ...prev, fullNames: newNames }))
+
+    // Clear error
+    if (errors.fullNames[index]) {
+      const newErrors = { ...errors }
+      newErrors.fullNames[index] = ""
+      setErrors(newErrors)
     }
   }
 
@@ -225,29 +248,51 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
         <div className="glass-card rounded-[2rem] p-8 border border-white/10 bg-white/5 backdrop-blur-xl md:sticky md:top-8 animate-slide-left">
           <form onSubmit={handleSubmit} className="space-y-6">
 
-            {/* Name Input */}
-            <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-platinum/80 text-sm tracking-wide">Name</Label>
-              <div className="relative group">
-                <Input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
-                  placeholder="Entrez votre nom"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.fullName ? "border-red-500/50" : ""}`}
-                  disabled={isLoading}
-                  required
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity" />
+            {/* Name Input(s) */}
+            {isFiveQueens ? (
+              <div className="space-y-4">
+                <Label className="text-platinum/80 text-sm tracking-wide flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Noms des 5 Queens
+                </Label>
+                {formData.fullNames.map((name, index) => (
+                  <div key={index} className="space-y-1">
+                    <Input
+                      placeholder={`Nom de la Queen ${index + 1}`}
+                      value={name}
+                      onChange={(e) => handleArrayNameChange(index, e.target.value)}
+                      className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-10 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.fullNames[index] ? "border-red-500/50" : ""}`}
+                      disabled={isLoading}
+                      required
+                    />
+                    {errors.fullNames[index] && <p className="text-red-400 text-xs">{errors.fullNames[index]}</p>}
+                  </div>
+                ))}
               </div>
-              {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
-            </div>
+            ) : (
+              <div className="space-y-2">
+                <Label htmlFor="fullName" className="text-platinum/80 text-sm tracking-wide">Name</Label>
+                <div className="relative group">
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    placeholder="Entrez votre nom"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.fullName ? "border-red-500/50" : ""}`}
+                    disabled={isLoading}
+                    required
+                  />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity" />
+                </div>
+                {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
+              </div>
+            )}
 
             {/* Phone Input */}
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-platinum/80 text-sm tracking-wide">Phone Number</Label>
+              <Label htmlFor="phone" className="text-platinum/80 text-sm tracking-wide">Phone Number (Paiement)</Label>
               <Input
                 id="phone"
                 name="phone"
