@@ -86,8 +86,10 @@ export default function AdminDashboardPage() {
     .map(g => ({
       id: g.id,
       name: g.fullName,
-      passType: g.passType === "ONE_MAN" ? "Standard" : g.passType === "ONE_LADY" ? "Lady" : "Queen",
-      status: (g.status === "validated" ? "Validé" : g.status === "paid" ? "Payé" : g.status === "pending" ? "En Attente" : "Annulé") as Guest["status"]
+      passType: g.passType === "ONE_MAN" ? "ONE MAN" : g.passType === "ONE_LADY" ? "ONE LADY" : "FIVE QUEENS",
+      status: (g.status === "validated" ? "Validé" : g.status === "paid" ? "Payé" : g.status === "pending" ? "En Attente" : "Annulé") as Guest["status"],
+      entriesCount: g.entriesCount,
+      totalEntries: g.totalEntries
     }))
 
   return (

@@ -18,6 +18,12 @@ export interface Booking {
     paidAt?: number
     validatedAt?: number
     validatedBy?: string
+    totalEntries: number
+    entriesCount: number
+    entries?: Array<{
+        timestamp: number
+        adminUid: string
+    }>
 }
 
 export interface BookingInput {
@@ -72,6 +78,8 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
         status: "pending",
         qrCode: generateQRCodeData(bookingId),
         createdAt: Date.now(),
+        totalEntries: input.passType === "FIVE_QUEENS" ? 5 : 1,
+        entriesCount: 0,
     }
 
     // Save to Firebase
@@ -250,22 +258,17 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
         return { success: false, message: "Billet introuvable" }
     }
 
-    if (booking.status === "validated") {
+    // Default values for legacy bookings
+    const totalEntries = booking.totalEntries || (booking.passType === "FIVE_QUEENS" ? 5 : 1)
+    let entriesCount = booking.entriesCount || 0
+
+    if (entriesCount >= totalEntries || booking.status === "validated") {
         return {
             success: false,
-            message: `Ce billet a déjà été scanné le ${new Date(booking.validatedAt!).toLocaleString("fr-FR")}`,
+            message: `Ce billet a déjà été entièrement scanné (${entriesCount}/${totalEntries})`,
             booking
         }
     }
-
-    // ALLOW validation of pending tickets (Scan-to-Pay/Validate)
-    // if (booking.status === "pending") {
-    //     return {
-    //         success: false,
-    //         message: "Ce billet n'a pas encore été payé",
-    //         booking
-    //     }
-    // }
 
     if (booking.status === "cancelled") {
         return {
@@ -275,32 +278,52 @@ export async function validateTicket(bookingId: string, adminUid: string): Promi
         }
     }
 
+    // Update entry tracking
+    entriesCount += 1
+    const newEntry = {
+        timestamp: Date.now(),
+        adminUid: adminUid,
+    }
+    const entries = [...(booking.entries || []), newEntry]
+
     // Capture previous status for stats update
     const previousStatus = booking.status
 
-    // Mark as validated
-    const updates = {
-        status: "validated",
-        validatedAt: Date.now(),
-        validatedBy: adminUid,
+    // Mark as validated only if all entries are used
+    const updates: any = {
+        entriesCount,
+        entries,
+        lastValidatedAt: Date.now(),
+        lastValidatedBy: adminUid,
+    }
+
+    if (entriesCount === totalEntries) {
+        updates.status = "validated"
+        updates.validatedAt = Date.now()
+        updates.validatedBy = adminUid
     }
 
     await update(ref(db, `bookings/${bookingId}`), updates)
 
-    // Update stats
-    await updateStats("increment", "validatedCount")
+    // Update stats only on FIRST entry or completion
+    if (entriesCount === 1) {
+        await updateStats("increment", "validatedCount")
 
-    if (previousStatus === "pending") {
-        await updateStats("decrement", "pendingCount")
-        // If it was pending, it's now effectively "paid" via validation, so add to revenue
-        await updateStats("increment", "totalRevenue", booking.price)
-    } else if (previousStatus === "paid") {
-        await updateStats("decrement", "paidCount")
+        if (previousStatus === "pending") {
+            await updateStats("decrement", "pendingCount")
+            await updateStats("increment", "totalRevenue", booking.price)
+        } else if (previousStatus === "paid") {
+            await updateStats("decrement", "paidCount")
+        }
     }
+
+    const message = totalEntries > 1
+        ? `✅ Entrée ${entriesCount}/${totalEntries} validée !`
+        : "✅ Billet validé ! Accès autorisé"
 
     return {
         success: true,
-        message: "✅ Billet validé ! Accès autorisé",
+        message,
         booking: { ...booking, ...updates } as Booking
     }
 }

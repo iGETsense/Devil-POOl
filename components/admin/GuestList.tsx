@@ -8,6 +8,8 @@ export interface Guest {
     name: string
     passType: string
     status: "Validé" | "En Attente" | "Refusé" | "Payé"
+    entriesCount?: number
+    totalEntries?: number
 }
 
 interface GuestListProps {
@@ -68,9 +70,16 @@ export default function GuestList({ guests = [] }: GuestListProps) {
                                     </td>
                                     <td className="p-3 text-gray-400 pl-4">{guest.passType}</td>
                                     <td className="p-3 text-right">
-                                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(guest.status)}`}>
-                                            {guest.status}
-                                        </span>
+                                        <div className="flex flex-col items-end gap-1">
+                                            <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(guest.status)}`}>
+                                                {guest.status}
+                                            </span>
+                                            {guest.totalEntries && guest.totalEntries > 1 && (
+                                                <span className="text-[10px] text-gray-500 font-mono">
+                                                    {guest.entriesCount || 0}/{guest.totalEntries} Entrées
+                                                </span>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             ))
