@@ -83,6 +83,45 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
     return booking
 }
 
+// Create multiple bookings (Batch)
+export async function createBatchBookings(inputs: BookingInput[]): Promise<Booking[]> {
+    const db = getFirebaseDatabase()
+    const bookings: Booking[] = []
+    const updates: Record<string, any> = {}
+
+    for (const input of inputs) {
+        const bookingId = generateBookingId()
+        let price = PASS_PRICES[input.passType] || 0
+        // Split price for Five Queens pack
+        if (input.passType === "FIVE_QUEENS") {
+            price = Math.floor(price / 5)
+        }
+
+        const booking: Booking = {
+            id: bookingId,
+            fullName: input.fullName,
+            phone: input.phone,
+            passType: input.passType,
+            operator: input.operator,
+            price: price,
+            status: "pending",
+            qrCode: generateQRCodeData(bookingId),
+            createdAt: Date.now(),
+        }
+        bookings.push(booking)
+        updates[`bookings/${bookingId}`] = booking
+    }
+
+    // Atomic update for all bookings
+    await update(ref(db), updates)
+
+    // Update stats (count each ticket as a booking?)
+    // Yes, 5 people = 5 bookings usually for capacity planning.
+    await updateStats("increment", "totalBookings", inputs.length)
+
+    return bookings
+}
+
 // Get booking by ID
 export async function getBooking(bookingId: string): Promise<Booking | null> {
     const db = getFirebaseDatabase()

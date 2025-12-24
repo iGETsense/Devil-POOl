@@ -3,7 +3,7 @@
 // GET /api/bookings - List all bookings (admin only)
 
 import { NextRequest, NextResponse } from "next/server"
-import { createBooking, getBookings, BookingInput, PASS_PRICES } from "@/lib/database"
+import { createBooking, createBatchBookings, getBookings, BookingInput, PASS_PRICES } from "@/lib/database"
 import { verifyIdToken } from "@/lib/firebase-admin"
 import { isAuthorizedAdmin } from "@/lib/firebase"
 
@@ -11,10 +11,10 @@ import { isAuthorizedAdmin } from "@/lib/firebase"
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { fullName, phone, passType, operator } = body
+        const { fullName, fullNames, phone, passType, operator } = body
 
         // Validate required fields
-        if (!fullName || !phone || !passType || !operator) {
+        if ((!fullName && !fullNames) || !phone || !passType || !operator) {
             return NextResponse.json(
                 { success: false, message: "Tous les champs sont requis" },
                 { status: 400 }
@@ -47,7 +47,34 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // Create booking
+        // Handle FIVE_QUEENS with multiple names
+        if (passType === "FIVE_QUEENS") {
+            if (!fullNames || !Array.isArray(fullNames) || fullNames.length !== 5) {
+                return NextResponse.json(
+                    { success: false, message: "5 noms sont requis pour le pass Five Queens" },
+                    { status: 400 }
+                )
+            }
+
+            // Create batch bookings
+            const inputs: BookingInput[] = fullNames.map((name: string) => ({
+                fullName: name.trim(),
+                phone: cleanPhone,
+                passType,
+                operator,
+            }))
+
+            const bookings = await createBatchBookings(inputs)
+
+            return NextResponse.json({
+                success: true,
+                message: "Réservations créées avec succès",
+                bookings, // Return array
+                price: PASS_PRICES[passType],
+            })
+        }
+
+        // Standard Single Booking
         const bookingInput: BookingInput = {
             fullName: fullName.trim(),
             phone: cleanPhone,
