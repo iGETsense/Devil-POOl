@@ -4,7 +4,7 @@ export default function OneManPage() {
   return (
     <PaymentForm
       passName="ONE MAN"
-      passPrice="15 000 FCFA"
+      passPrice="50 FCFA"
       passImage="/one-man-neon.png"
     />
   )
