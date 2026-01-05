@@ -114,6 +114,9 @@ export default function HomePage() {
                     <p className="text-stardust/60 text-sm mt-4">
                         © 2024 Genesis. Hawaiian Summer Party.
                     </p>
+                    <Link href="/retrieve" className="text-xs text-white/30 hover:text-purple-400 mt-2 inline-block transition-colors">
+                        Billet perdu ? Récupérer ici
+                    </Link>
                 </div>
             </footer>
         </main>
