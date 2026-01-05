@@ -1,4 +1,4 @@
-import { PaymentOperation } from '@hachther/mesomb'
+import { PaymentOperation, Application } from '@hachther/mesomb'
 
 // Env Variables
 const APPLICATION_KEY = process.env.MESOMB_APPLICATION_KEY

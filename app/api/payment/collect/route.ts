@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createBooking, createBatchBookings, updateBookingTransactionId, saveTransaction, BookingInput, PASS_PRICES, Booking } from "@/lib/database"
+import { createBooking, createBatchBookings, updateBookingTransactionId, saveTransaction, markBookingAsPaid, updateRevenueByOperator, BookingInput, PASS_PRICES, Booking } from "@/lib/database"
 import { MeSomb } from "@/lib/mesomb"
 
 // POST - Initiate Payment & Create Pending Booking
@@ -94,12 +94,18 @@ export async function POST(request: NextRequest) {
                     id: transactionId,
                     bookingId,
                     amount: totalAmount,
-                    status: "PENDING",
+                    status: (paymentResult.transaction as any).status === "SUCCESS" ? "SUCCESS" : "PENDING",
                     provider: "MESOMB",
                     rawResponse: paymentResult.transaction,
                     createdAt: Date.now(),
                     updatedAt: Date.now()
                 })
+
+                // CRITICAL FIX: If MeSomb returns SUCCESS immediately, mark booking as paid!
+                if ((paymentResult.transaction as any).status === "SUCCESS") {
+                    await markBookingAsPaid(bookingId)
+                    await updateRevenueByOperator(operator, totalAmount)
+                }
             }
         }
 
