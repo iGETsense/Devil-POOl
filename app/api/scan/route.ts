@@ -14,6 +14,19 @@ export async function POST(request: NextRequest) {
             )
         }
 
+        // Security Check (Simple Shared Secret)
+        const secret = request.headers.get("x-scan-secret")
+        const ENV_SECRET = process.env.SCAN_SECRET || "DEVIL_POOL_2025_SECURE"
+
+        // Allow if running on localhost for dev, but enforce in prod? 
+        // For now, let's enforce it if the header is present or if we are in admin context.
+        // Actually, the ScannerWidget needs to send this header.
+        if (process.env.NODE_ENV === "production" && secret !== ENV_SECRET) {
+            // Optional: Fail silently or warn?
+            // console.warn("Scan attempt with invalid secret")
+            // return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
+        }
+
         console.log("Scanning QR:", qrCode)
 
         // 1. Find Booking

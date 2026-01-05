@@ -163,6 +163,28 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
       }
 
       const bookingId = collectResult.bookingId
+      const bookings = collectResult.bookings
+
+      // CHECK FOR IMMEDIATE SUCCESS
+      // If the backend already confirmed the payment (synchronous capture), 
+      // the booking status might be "paid" or the transaction status "SUCCESS".
+      const isImmediatelyPaid =
+        (collectResult.transaction && collectResult.transaction.status === "SUCCESS") ||
+        (bookings && bookings.length > 0 && bookings[0].status === "paid");
+
+      if (isImmediatelyPaid) {
+        setPaymentStatus("success")
+        await new Promise(r => setTimeout(r, 1000))
+
+        if (isFiveQueens && bookings) {
+          const bookingIds = bookings.map((b: any) => b.id).join(",")
+          const names = formData.fullNames.map(n => n.trim()).join(",")
+          router.push(`/confirmation?bookingIds=${bookingIds}&names=${encodeURIComponent(names)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
+        } else {
+          router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(formData.fullName.trim())}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
+        }
+        return
+      }
 
       // STEP 3: WAITING FOR USER ACTION
       setPaymentStatus("waiting")
