@@ -43,12 +43,19 @@ export default function HomePage() {
                     </p>
 
                     {/* CTA Button - Glowing Pill */}
-                    <div className="mb-24 animate-reveal delay-300">
+                    <div className="mb-24 animate-reveal delay-300 flex flex-col md:flex-row gap-4 items-center justify-center w-full px-4">
                         <Link
                             href="/passes"
-                            className="inline-block px-12 py-4 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#d946ef] text-white text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] hover:scale-105 transition-all duration-300 border border-white/20"
+                            className="inline-block px-12 py-4 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#d946ef] text-white text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] hover:scale-105 transition-all duration-300 border border-white/20 w-full md:w-auto"
                         >
                             Réserver maintenant
+                        </Link>
+
+                        <Link
+                            href="/retrieve"
+                            className="inline-block px-12 py-4 rounded-full bg-black/40 backdrop-blur-md text-white text-lg font-bold tracking-wide border border-white/20 hover:bg-white/10 hover:border-purple-500/50 hover:scale-105 transition-all duration-300 w-full md:w-auto"
+                        >
+                            Retrouver mon billet
                         </Link>
                     </div>
 

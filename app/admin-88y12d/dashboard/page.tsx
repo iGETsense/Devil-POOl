@@ -46,8 +46,8 @@ export default function AdminDashboardPage() {
         if (d.updated > 0) fetchData() // Reload data if updates found
       }).catch(e => console.error("Sync trigger error", e))
 
-      // Fetch Stats
-      const statsRes = await fetch('/api/stats')
+      // Fetch Stats (Force recalculation to ensure accuracy)
+      const statsRes = await fetch('/api/stats?recalculate=true')
       const statsData = await statsRes.json()
       if (statsData.success) {
         setStats(statsData.stats)
@@ -174,9 +174,9 @@ export default function AdminDashboardPage() {
           </Link>
 
           <button
-            onClick={fetchData}
+            onClick={() => fetchData()}
             className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#1a0a2e] border border-white/10 text-gray-400 hover:text-white transition-colors hover:border-purple-500/50"
-            title="Rafraîchir"
+            title="Rafraîchir les données (Recalculer)"
           >
             <Loader2 className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
           </button>
