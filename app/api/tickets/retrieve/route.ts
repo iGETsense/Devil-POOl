@@ -19,37 +19,28 @@ export async function POST(request: NextRequest) {
         // Search in Firebase
         const db = getFirebaseDatabase()
         const bookingsRef = ref(db, "bookings")
-        // We might need to index 'phone' in firebase rules for this to work efficiently in prod,
-        // but for <1000 items it's fine without index in some cases, or we filter client side if necessary.
-        // Actually, let's use the query.
-        const q = query(bookingsRef, orderByChild("phone"), equalTo(formattedPhone))
 
-        const snapshot = await get(q)
+        // Fetch ALL bookings and filter in memory to avoid "Index not defined" error
+        const snapshot = await get(bookingsRef)
 
         let foundBookings: Booking[] = []
 
         if (snapshot.exists()) {
             snapshot.forEach((child) => {
                 const b = child.val() as Booking
-                // Only return paid or validated tickets
-                if (b.status === "paid" || b.status === "validated") {
+
+                // Check phone match (loose check for formats)
+                // Normalize DB phone and Search phone
+                const dbPhone = b.phone ? b.phone.replace(/\s/g, "") : ""
+                const searchPhone = formattedPhone.replace(/\s/g, "")
+
+                // Check if search phone is contained in DB phone or vice versa (e.g. +237)
+                const isMatch = dbPhone.includes(searchPhone) || searchPhone.includes(dbPhone)
+
+                if (isMatch && (b.status === "paid" || b.status === "validated")) {
                     foundBookings.push(b)
                 }
             })
-        }
-
-        // Also try with/without +237 if no results?
-        if (foundBookings.length === 0 && !formattedPhone.startsWith("+")) {
-            const q2 = query(bookingsRef, orderByChild("phone"), equalTo("+" + formattedPhone))
-            const snap2 = await get(q2)
-            if (snap2.exists()) {
-                snap2.forEach((child) => {
-                    const b = child.val() as Booking
-                    if (b.status === "paid" || b.status === "validated") {
-                        foundBookings.push(b)
-                    }
-                })
-            }
         }
 
         if (foundBookings.length === 0) {
