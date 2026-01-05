@@ -133,12 +133,51 @@ export default function AdminDashboardPage() {
         toast.success("Succès ! Paiement confirmé.", { id: toastId })
         fetchData() // Refresh data
       } else if (data.status === "FAILED") {
-        toast.error("Le paiement a échoué ou n'a pas été débité.", { id: toastId })
+        toast.error(`Échec: ${data.message || "Paiement refusé"}`, { id: toastId })
       } else {
-        toast.info(`Statut actuel: ${data.status}`, { id: toastId })
+        // Still pending
+        const msg = data.debug_detail || "Toujours en attente..."
+
+        // Allow manual force if it's stuck without transaction ID
+        if (msg.includes("Aucun Transaction ID")) {
+          toast.error(
+            <div className="flex flex-col gap-2">
+              <span>{msg}</span>
+              <button
+                onClick={() => handleForcePay(bookingId)}
+                className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600"
+              >
+                Forcer "Payé" (Manuel)
+              </button>
+            </div>
+            , { id: toastId, duration: 5000 })
+        } else {
+          toast.info(`Statut: ${data.status}. ${msg}`, { id: toastId })
+        }
       }
     } catch (error) {
       toast.error("Erreur lors de la vérification")
+    }
+  }
+
+  const handleForcePay = async (bookingId: string) => {
+    if (!confirm("Attention: Êtes-vous sûr de vouloir forcer ce statut à 'PAYÉ' ? Seulement si vous avez reçu l'argent.")) return
+
+    try {
+      const res = await fetch('/api/payment/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId })
+      })
+      const d = await res.json()
+      if (d.success) {
+        toast.success("Forcé avec succès")
+        fetchData()
+      } else {
+        toast.error("Erreur: " + d.message)
+      }
+    } catch (error) {
+      toast.error("Erreur commande manuelle")
     }
   }
 

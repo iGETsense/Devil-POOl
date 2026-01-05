@@ -60,15 +60,17 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({
                 success: true,
                 status: statusResult.status || "PENDING",
-                message: statusResult.message
+                message: statusResult.message,
+                debug_detail: `MeSomb returned status: ${statusResult.status}`
             })
         }
 
-        // No transaction ID, just return current booking status
+        // No transaction ID
         return NextResponse.json({
             success: true,
             status: booking.status === "pending" ? "PENDING" : booking.status.toUpperCase(),
-            booking
+            booking,
+            debug_detail: "Aucun Transaction ID associé à cette réservation (Vérification impossible automatiqement)"
         })
 
     } catch (error: any) {
