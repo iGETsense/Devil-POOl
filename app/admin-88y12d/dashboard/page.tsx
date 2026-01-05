@@ -21,6 +21,8 @@ export default function AdminDashboardPage() {
   const [stats, setStats] = useState({
     totalBookings: 0,
     totalRevenue: 0,
+    revenueOrange: 0,
+    revenueMTN: 0,
     validatedCount: 0,
     pendingCount: 0,
     paidCount: 0,
@@ -38,6 +40,12 @@ export default function AdminDashboardPage() {
     try {
       setLoading(true)
 
+      // 1. Sync Pending Transactions Logic
+      // Fire and forget - don't await blocking the UI for this
+      fetch('/api/finance/sync').then(r => r.json()).then(d => {
+        if (d.updated > 0) fetchData() // Reload data if updates found
+      }).catch(e => console.error("Sync trigger error", e))
+
       // Fetch Stats
       const statsRes = await fetch('/api/stats')
       const statsData = await statsRes.json()
@@ -52,6 +60,38 @@ export default function AdminDashboardPage() {
         setGuests(guestsData.reservations)
       }
 
+      // Fetch Real MeSomb Balance
+      try {
+        const balanceRes = await fetch('/api/finance/balance')
+        const balanceData = await balanceRes.json()
+        if (balanceData.success && balanceData.balance) {
+          // Handle various response types (Array of accounts or direct object)
+          let totalLive = 0
+          const b = balanceData.balance
+
+          // If array of accounts (common in some SDKs)
+          if (Array.isArray(b)) {
+            totalLive = b.reduce((acc: number, curr: any) => acc + (parseFloat(curr.balance) || 0), 0)
+          } else if (typeof b === 'object' && b !== null) {
+            // Try to find values by summing up known currencies or keys
+            const values = Object.values(b)
+            if (values.length > 0) {
+              // Check if it's a simple key-value of numbers
+              values.forEach((val: any) => {
+                if (typeof val === 'number') totalLive += val
+                else if (typeof val === 'string') totalLive += parseFloat(val)
+              })
+            }
+          } else {
+            totalLive = Number(b) || 0
+          }
+
+          if (totalLive > 0) {
+            setStats(prev => ({ ...prev, totalRevenue: totalLive }))
+          }
+        }
+      } catch (e) { console.error("Balance fetch error", e) }
+
     } catch (error) {
       console.error("Failed to fetch dashboard data", error)
     } finally {
@@ -61,11 +101,10 @@ export default function AdminDashboardPage() {
 
   if (!mounted) return null
 
-  // Process Transactions from Guests (Filter Paid/Validated)
+  // Process all Transactions (Pending, Failed, Paid)
   const transactions: Transaction[] = guests
-    .filter(g => g.status === 'paid' || g.status === 'validated')
-    .sort((a, b) => (b.paidAt || 0) - (a.paidAt || 0))
-    .slice(0, 10) // Last 10
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) // Sort by newest first
+    .slice(0, 15) // Show last 15
     .map(g => ({
       id: g.id,
       bookingId: g.id,
@@ -73,9 +112,35 @@ export default function AdminDashboardPage() {
       amount: g.price,
       method: g.operator || 'orange',
       type: 'payment',
-      status: 'success',
-      timestamp: g.paidAt || g.createdAt
+      status: g.status === 'paid' ? 'success' : g.status === 'validated' ? 'validated' : g.status === 'pending' ? 'pending' : 'failed',
+      timestamp: g.createdAt,
+      transactionId: (g as any).transactionId // Assume this field exists on Guest/Booking from DB
     }))
+
+  const handleVerifyPayment = async (bookingId: string) => {
+    try {
+      // Find the booking to get transaction ID is optional if implicit, 
+      // but API route handles check via bookingId if implemented, or we need transactionId.
+      // Current API /api/payment/status check accepts transactionId
+      // Let's assume we can check by bookingId if transaction ID is saved in backend.
+
+      const toastId = toast.loading("Vérification avec Mesomb...")
+
+      const res = await fetch(`/api/payment/status?bookingId=${bookingId}`)
+      const data = await res.json()
+
+      if (data.status === "SUCCESS") {
+        toast.success("Succès ! Paiement confirmé.", { id: toastId })
+        fetchData() // Refresh data
+      } else if (data.status === "FAILED") {
+        toast.error("Le paiement a échoué ou n'a pas été débité.", { id: toastId })
+      } else {
+        toast.info(`Statut actuel: ${data.status}`, { id: toastId })
+      }
+    } catch (error) {
+      toast.error("Erreur lors de la vérification")
+    }
+  }
 
   // Map guests to display format
   const displayGuests = guests
@@ -139,6 +204,10 @@ export default function AdminDashboardPage() {
             trend="Live"
             trendUp={true}
             color="blue"
+            subValues={[
+              { label: "Orange", value: `${(stats.revenueOrange || 0).toLocaleString()} FCFA`, color: "text-orange-400" },
+              { label: "MTN", value: `${(stats.revenueMTN || 0).toLocaleString()} FCFA`, color: "text-yellow-400" }
+            ]}
           />
           <StatsCard
             title="Billets Validés"
@@ -170,7 +239,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[600px]">
           {/* Left Column: Realtime Transactions (4 cols) */}
           <div className="lg:col-span-5 h-full">
-            <TransactionFeed transactions={transactions} />
+            <TransactionFeed transactions={transactions} onVerify={handleVerifyPayment} />
           </div>
 
           {/* Right Column: Guest Control List (8 cols) */}

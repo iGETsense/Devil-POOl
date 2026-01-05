@@ -7,9 +7,10 @@ interface StatsCardProps {
     trend: string
     trendUp: boolean
     color: "purple" | "green" | "yellow" | "blue"
+    subValues?: { label: string; value: string; color?: string }[]
 }
 
-export default function StatsCard({ title, value, icon: Icon, trend, trendUp, color }: StatsCardProps) {
+export default function StatsCard({ title, value, icon: Icon, trend, trendUp, color, subValues }: StatsCardProps) {
     const getGradient = () => {
         switch (color) {
             case "purple": return "from-purple-500/20 to-fuchsia-500/20 border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
@@ -44,6 +45,17 @@ export default function StatsCard({ title, value, icon: Icon, trend, trendUp, co
             <div className="mb-2">
                 <h3 className="text-3xl font-bold text-white">{value}</h3>
             </div>
+
+            {/* Sub-values for breakdown */}
+            {subValues && subValues.length > 0 && (
+                <div className="flex flex-wrap gap-3 mb-2 text-xs">
+                    {subValues.map((sub, idx) => (
+                        <span key={idx} className={sub.color || "text-gray-400"}>
+                            {sub.label}: <span className="font-semibold text-white">{sub.value}</span>
+                        </span>
+                    ))}
+                </div>
+            )}
 
             <div className="flex items-center gap-2">
                 <span className={`text-xs font-bold ${trendUp ? 'text-green-400' : 'text-red-400'}`}>

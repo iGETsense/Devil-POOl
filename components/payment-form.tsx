@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
-import { Loader2, CreditCard, Users } from "lucide-react"
+import { Loader2, CreditCard, Users, Smartphone, CheckCircle } from "lucide-react"
 import crypto from "crypto"
 
 interface PaymentFormProps {
@@ -16,8 +16,18 @@ interface PaymentFormProps {
   passImage: string
 }
 
+const STEPS = [
+  { id: "init", label: "Initialisation sécurisée", icon: Loader2 },
+  { id: "sending", label: "Contact de l'opérateur", icon: Users },
+  { id: "waiting", label: "Validation sur votre téléphone", icon: Smartphone },
+  { id: "confirming", label: "Confirmation du paiement", icon: CheckCircle },
+]
+
 export default function PaymentForm({ passName, passPrice, passImage }: PaymentFormProps) {
   const router = useRouter()
+  // State for interactive modal
+  const [paymentStatus, setPaymentStatus] = useState<"idle" | "init" | "sending" | "waiting" | "confirming" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
   const isFiveQueens = passName === "FIVE QUEENS"
@@ -34,6 +44,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
     fullNames: ["", "", "", "", ""],
     phone: "",
     operator: "",
+    form: "",
   })
 
   // Sanitize input to prevent XSS
@@ -53,6 +64,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
       fullNames: ["", "", "", "", ""],
       phone: "",
       operator: "",
+      form: "",
     }
     let isValid = true
 
@@ -115,55 +127,92 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Validate form
-    if (!validateForm()) {
-      return
-    }
+    if (!validateForm()) return
 
-    setIsLoading(true)
+    // RESET STATE
+    setPaymentStatus("init")
+    setErrorMessage("")
 
     try {
       const formattedPhone = formatPhoneNumber(formData.phone)
+      const passTypeCode = passName === "ONE MAN" ? "ONE_MAN" : passName === "ONE LADY" ? "ONE_LADY" : "FIVE_QUEENS"
 
-      // 🔴 REAL BACKEND CALL
-      const response = await fetch("/api/bookings", {
+      // STEP 1: INITIALIZATION
+      // Artificial delay for UX (so user sees the step)
+      await new Promise(r => setTimeout(r, 800))
+
+      setPaymentStatus("sending")
+
+      // STEP 2: SEND REQUEST TO BACKEND
+      const collectResponse = await fetch("/api/payment/collect", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName: isFiveQueens ? undefined : formData.fullName.trim(),
           fullNames: isFiveQueens ? formData.fullNames.map(n => n.trim()) : undefined,
           phone: formattedPhone,
-          passType: passName === "ONE MAN" ? "ONE_MAN" : passName === "ONE LADY" ? "ONE_LADY" : "FIVE_QUEENS",
+          passType: passTypeCode,
           operator: selectedOperator,
         }),
       })
 
-      const result = await response.json()
+      const collectResult = await collectResponse.json()
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Payment failed")
+      if (!collectResponse.ok || !collectResult.success) {
+        throw new Error(collectResult.message || "Échec de l'initialisation")
       }
 
-      if (isFiveQueens && result.bookings) {
-        // Handle multiple bookings
-        const bookingIds = result.bookings.map((b: any) => b.id).join(",")
-        const names = formData.fullNames.map(n => n.trim()).join(",")
+      const bookingId = collectResult.bookingId
 
-        router.push(`/confirmation?bookingIds=${bookingIds}&names=${encodeURIComponent(names)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(result.price)}`)
-      } else {
-        // Handle single booking
-        const booking = result.booking
-        const bookingId = booking.id
+      // STEP 3: WAITING FOR USER ACTION
+      setPaymentStatus("waiting")
 
-        router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(booking.fullName)}&phone=${encodeURIComponent(booking.phone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(booking.price)}`)
+      // Poll for Payment Status
+      let attempts = 0
+      const maxAttempts = 120 // 2 minutes (1s interval)
+
+      const pollStatus = async (): Promise<boolean> => {
+        while (attempts < maxAttempts) {
+          attempts++
+          // Fast polling: 1 second
+          await new Promise(resolve => setTimeout(resolve, 1000))
+
+          const statusResponse = await fetch(`/api/payment/status?bookingId=${bookingId}`)
+          const statusResult = await statusResponse.json()
+
+          if (statusResult.status === "SUCCESS") {
+            return true
+          } else if (statusResult.status === "FAILED") {
+            throw new Error("Paiement refusé ou échoué")
+          }
+          // If still pending, loop continues
+        }
+        throw new Error("Délai d'attente dépassé. Vérifiez votre téléphone.")
+      }
+
+      const paymentSuccess = await pollStatus()
+
+      setPaymentStatus("confirming")
+      await new Promise(r => setTimeout(r, 1000))
+
+      if (paymentSuccess) {
+        setPaymentStatus("success")
+        // Delay redirect slightly to show success state
+        await new Promise(r => setTimeout(r, 1500))
+
+        if (isFiveQueens && collectResult.bookings) {
+          const bookingIds = collectResult.bookings.map((b: any) => b.id).join(",")
+          const names = formData.fullNames.map(n => n.trim()).join(",")
+          router.push(`/confirmation?bookingIds=${bookingIds}&names=${encodeURIComponent(names)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
+        } else {
+          router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(formData.fullName.trim())}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
+        }
       }
 
     } catch (error: any) {
       console.error("Payment error:", error)
-      alert(error.message || "Une erreur est survenue lors de la réservation.")
-      setIsLoading(false)
+      setPaymentStatus("error")
+      setErrorMessage(error.message || "Une erreur est survenue")
     }
   }
 
@@ -215,6 +264,79 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
         <div className="absolute bottom-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-600/5 rounded-full blur-[100px]" />
       </div>
 
+      {/* OVERLAY MODAL FOR PAYMENT STATUS */}
+      {paymentStatus !== "idle" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-300">
+          <div className="w-full max-w-md bg-[#1a1a2e] border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+            {/* Decorative glows */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-2">
+                {paymentStatus === "error" ? "Oups ! Erreur" :
+                  paymentStatus === "success" ? "Paiement Réussi !" :
+                    "Traitement en cours..."}
+              </h3>
+              <p className="text-gray-400 text-sm">
+                {paymentStatus === "waiting" ? "Veuillez valider la transaction sur votre téléphone." :
+                  paymentStatus === "error" ? "La transaction a échoué." :
+                    "Ne fermez pas cette page."}
+              </p>
+            </div>
+
+            {/* Steps Visualization */}
+            <div className="space-y-4 relative">
+              {/* Connecting Line */}
+              <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-white/10" />
+
+              {STEPS.map((step, idx) => {
+                const isActive = paymentStatus === step.id
+                const isCompleted = ["sending", "waiting", "confirming", "success"].includes(paymentStatus) && idx < STEPS.findIndex(s => s.id === paymentStatus)
+                const isError = paymentStatus === "error" && isActive
+
+                let iconColor = "text-gray-600"
+                let glow = ""
+                if (paymentStatus === "success") { iconColor = "text-green-400"; glow = "shadow-[0_0_15px_rgba(74,222,128,0.2)]" }
+                else if (isCompleted) { iconColor = "text-green-400" }
+                else if (isActive) { iconColor = "text-blue-400 animate-spin-slow"; glow = "shadow-[0_0_15px_rgba(96,165,250,0.3)]" }
+
+                if (paymentStatus === "error" && step.id === "init") iconColor = "text-red-400"
+
+                return (
+                  <div key={step.id} className="relative flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
+                    <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center bg-[#0a0a12] border border-white/10 ${glow}`}>
+                      <step.icon className={`w-4 h-4 ${iconColor}`} />
+                    </div>
+                    <span className={`${isActive || isCompleted ? "text-white" : "text-gray-500"} font-medium transition-colors`}>
+                      {step.label}
+                    </span>
+                    {isActive && paymentStatus === "waiting" && (
+                      <div className="absolute right-4 w-2 h-2 rounded-full bg-yellow-400 animate-ping" />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Error Message & Close Action */}
+            {paymentStatus === "error" && (
+              <div className="mt-6 animate-in slide-in-from-bottom-2">
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl mb-4">
+                  <p className="text-red-400 text-sm font-medium text-center">{errorMessage}</p>
+                </div>
+                <Button
+                  onClick={() => setPaymentStatus("idle")}
+                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-4 rounded-xl"
+                >
+                  Réessayer
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Main Content Grid */}
       <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
         {/* LEFT COLUMN: Pass Image & Description Card */}
@@ -262,7 +384,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                       value={name}
                       onChange={(e) => handleArrayNameChange(index, e.target.value)}
                       className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-10 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.fullNames[index] ? "border-red-500/50" : ""}`}
-                      disabled={isLoading}
+                      disabled={paymentStatus !== "idle"}
                       required
                     />
                     {errors.fullNames[index] && <p className="text-red-400 text-xs">{errors.fullNames[index]}</p>}
@@ -281,7 +403,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                     value={formData.fullName}
                     onChange={handleInputChange}
                     className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.fullName ? "border-red-500/50" : ""}`}
-                    disabled={isLoading}
+                    disabled={paymentStatus !== "idle"}
                     required
                   />
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity" />
@@ -301,7 +423,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                 value={formData.phone}
                 onChange={handleInputChange}
                 className={`bg-black/20 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:border-neon-purple/50 focus:ring-neon-purple/20 transition-all ${errors.phone ? "border-red-500/50" : ""}`}
-                disabled={isLoading}
+                disabled={paymentStatus !== "idle"}
                 required
               />
               {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
@@ -328,7 +450,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                 {/* MTN */}
                 <button
                   type="button"
-                  onClick={() => !isLoading && handleOperatorSelect("mtn")}
+                  onClick={() => paymentStatus === "idle" && handleOperatorSelect("mtn")}
                   className={`relative p-3 rounded-xl border transition-all duration-300 flex items-center justify-center group overflow-hidden ${selectedOperator === "mtn"
                     ? "bg-yellow-500/20 border-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.3)]"
                     : "bg-black/20 border-white/10 hover:bg-white/5 hover:border-white/30"
@@ -340,7 +462,7 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
                 {/* Orange */}
                 <button
                   type="button"
-                  onClick={() => !isLoading && handleOperatorSelect("orange")}
+                  onClick={() => paymentStatus === "idle" && handleOperatorSelect("orange")}
                   className={`relative p-3 rounded-xl border transition-all duration-300 flex items-center justify-center group overflow-hidden ${selectedOperator === "orange"
                     ? "bg-orange-500/20 border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.3)]"
                     : "bg-black/20 border-white/10 hover:bg-white/5 hover:border-white/30"
@@ -361,20 +483,28 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
               {errors.operator && <p className="text-red-400 text-xs text-center">{errors.operator}</p>}
             </div>
 
+            {/* General Form Error */}
+            {errors.form && (
+              <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-4 flex items-start gap-3 animate-shake">
+                <div className="p-1 bg-red-500/20 rounded-full">
+                  <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-red-500 font-bold text-sm">Échec du paiement</h4>
+                  <p className="text-red-400 text-xs mt-0.5">{errors.form}</p>
+                </div>
+              </div>
+            )}
+
             {/* Submit Button */}
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold tracking-wider py-6 rounded-xl shadow-lg shadow-purple-900/40 transition-all hover:scale-[1.02] mt-4"
-              disabled={isLoading}
+              disabled={paymentStatus !== "idle"}
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  PROCESSING...
-                </>
-              ) : (
-                "CONFIRM BOOKING"
-              )}
+              Confirmer le Paiement
             </Button>
 
           </form>

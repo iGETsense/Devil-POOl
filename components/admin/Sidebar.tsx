@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Users, Smartphone, Calendar, BarChart2, Settings } from "lucide-react"
+import { Home, Users, Smartphone, Book } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -15,7 +15,9 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
         { icon: Home, label: "Vue d'ensemble", path: "/admin-88y12d/dashboard" },
         { icon: Users, label: "Réservations", path: "/admin-88y12d/guests" },
         { icon: Smartphone, label: "Scanner Billet", path: "/admin-88y12d/scanner" },
+        { icon: Book, label: "Guide & Aide", path: "/admin-88y12d/guide" },
     ]
+
 
     return (
         <div className="h-full flex flex-col p-6">

@@ -24,6 +24,7 @@ export interface Booking {
         timestamp: number
         adminUid: string
     }>
+    transactionId?: string
 }
 
 export interface BookingInput {
@@ -36,6 +37,8 @@ export interface BookingInput {
 export interface Stats {
     totalBookings: number
     totalRevenue: number
+    revenueOrange: number
+    revenueMTN: number
     validatedCount: number
     pendingCount: number
     paidCount: number
@@ -44,9 +47,9 @@ export interface Stats {
 
 // Pass prices in FCFA
 export const PASS_PRICES: Record<string, number> = {
-    "ONE_MAN": 15000,
-    "ONE_LADY": 10000,
-    "FIVE_QUEENS": 5000,
+    "ONE_MAN": 50,
+    "ONE_LADY": 50,
+    "FIVE_QUEENS": 50,
 }
 
 // Generate unique booking ID
@@ -59,6 +62,37 @@ function generateBookingId(): string {
 // Generate QR code data string
 function generateQRCodeData(bookingId: string): string {
     return `GENESIS-${bookingId}`
+}
+
+export interface TransactionRecord {
+    id: string
+    bookingId: string
+    amount: number
+    status: "PENDING" | "SUCCESS" | "FAILED"
+    message?: string
+    provider: "MESOMB"
+    rawResponse?: any
+    createdAt: number
+    updatedAt: number
+}
+
+// ============ TRANSACTION OPERATIONS ============
+
+export async function saveTransaction(record: TransactionRecord): Promise<void> {
+    const db = getFirebaseDatabase()
+    await set(ref(db, `transactions/${record.id}`), record)
+}
+
+export async function updateTransactionStatus(transactionId: string, status: "SUCCESS" | "FAILED", rawResponse?: any): Promise<void> {
+    const db = getFirebaseDatabase()
+    const updates: any = {
+        status,
+        updatedAt: Date.now()
+    }
+    if (rawResponse) {
+        updates.rawResponse = rawResponse
+    }
+    await update(ref(db, `transactions/${transactionId}`), updates)
 }
 
 // ============ BOOKING OPERATIONS ============
@@ -115,6 +149,8 @@ export async function createBatchBookings(inputs: BookingInput[]): Promise<Booki
             status: "pending",
             qrCode: generateQRCodeData(bookingId),
             createdAt: Date.now(),
+            totalEntries: 1,
+            entriesCount: 0,
         }
         bookings.push(booking)
         updates[`bookings/${bookingId}`] = booking
@@ -249,6 +285,30 @@ export async function markBookingAsPaid(bookingId: string): Promise<Booking | nu
     return { ...booking, ...updates } as Booking
 }
 
+// Update Booking with Transaction ID
+export async function updateBookingTransactionId(bookingId: string, transactionId: string): Promise<void> {
+    const db = getFirebaseDatabase()
+    const bookingRef = ref(db, `bookings/${bookingId}`)
+    await update(bookingRef, { transactionId })
+}
+
+// Get all pending bookings
+export async function getPendingBookings(): Promise<Booking[]> {
+    const db = getFirebaseDatabase()
+    const bookingsRef = ref(db, 'bookings')
+    const pendingQuery = query(bookingsRef, orderByChild('status'), equalTo('pending'))
+
+    const snapshot = await get(pendingQuery)
+    if (snapshot.exists()) {
+        const bookings: Booking[] = []
+        snapshot.forEach((child) => {
+            bookings.push(child.val())
+        })
+        return bookings
+    }
+    return []
+}
+
 // Validate ticket (scan at entry)
 export async function validateTicket(bookingId: string, adminUid: string): Promise<{ success: boolean; message: string; booking?: Booking }> {
     const db = getFirebaseDatabase()
@@ -359,6 +419,8 @@ export async function getStats(): Promise<Stats> {
     return {
         totalBookings: 0,
         totalRevenue: 0,
+        revenueOrange: 0,
+        revenueMTN: 0,
         validatedCount: 0,
         pendingCount: 0,
         paidCount: 0,
@@ -375,6 +437,8 @@ async function updateStats(operation: "increment" | "decrement", field: keyof St
     const currentStats = snapshot.exists() ? snapshot.val() : {
         totalBookings: 0,
         totalRevenue: 0,
+        revenueOrange: 0,
+        revenueMTN: 0,
         validatedCount: 0,
         pendingCount: 0,
         paidCount: 0,
@@ -391,6 +455,33 @@ async function updateStats(operation: "increment" | "decrement", field: keyof St
     await set(statsRef, currentStats)
 }
 
+// Update revenue by operator
+export async function updateRevenueByOperator(operator: "orange" | "mtn" | "cash", amount: number) {
+    const db = getFirebaseDatabase()
+    const statsRef = ref(db, "stats/event_genesis_vol1")
+
+    const snapshot = await get(statsRef)
+    const currentStats = snapshot.exists() ? snapshot.val() : {
+        totalBookings: 0,
+        totalRevenue: 0,
+        revenueOrange: 0,
+        revenueMTN: 0,
+        validatedCount: 0,
+        pendingCount: 0,
+        paidCount: 0,
+        lastUpdated: Date.now(),
+    }
+
+    if (operator === "orange") {
+        currentStats.revenueOrange = (currentStats.revenueOrange || 0) + amount
+    } else if (operator === "mtn") {
+        currentStats.revenueMTN = (currentStats.revenueMTN || 0) + amount
+    }
+    currentStats.lastUpdated = Date.now()
+
+    await set(statsRef, currentStats)
+}
+
 // Recalculate stats from all bookings (use if stats get out of sync)
 export async function recalculateStats(): Promise<Stats> {
     const bookings = await getBookings()
@@ -399,6 +490,12 @@ export async function recalculateStats(): Promise<Stats> {
         totalBookings: bookings.length,
         totalRevenue: bookings
             .filter(b => b.status === "paid" || b.status === "validated")
+            .reduce((sum, b) => sum + b.price, 0),
+        revenueOrange: bookings
+            .filter(b => (b.status === "paid" || b.status === "validated") && b.operator === "orange")
+            .reduce((sum, b) => sum + b.price, 0),
+        revenueMTN: bookings
+            .filter(b => (b.status === "paid" || b.status === "validated") && b.operator === "mtn")
             .reduce((sum, b) => sum + b.price, 0),
         validatedCount: bookings.filter(b => b.status === "validated").length,
         pendingCount: bookings.filter(b => b.status === "pending").length,
