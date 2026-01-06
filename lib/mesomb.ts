@@ -71,6 +71,48 @@ export class MeSomb {
                 status: "FAILED"
             }
         }
+    /**
+     * Deposit Payment (Withdrawal from MeSomb to User)
+     */
+    static async deposit(request: PaymentRequest): Promise<PaymentResponse> {
+        if (!APPLICATION_KEY || !ACCESS_KEY || !SECRET_KEY) {
+            return { success: false, message: "Missing API Keys" }
+        }
+
+        try {
+            const payment = new PaymentOperation({
+                applicationKey: APPLICATION_KEY,
+                accessKey: ACCESS_KEY,
+                secretKey: SECRET_KEY,
+            })
+
+            const receiver = request.payer.replace("+", "").replace(/\s/g, "")
+            console.log("MeSomb: Initiating withdrawal (deposit)", { amount: request.amount, receiver })
+
+            const response = await payment.makeDeposit({
+                amount: request.amount,
+                service: request.service,
+                receiver: receiver,
+                message: request.description || "Withdrawal from Genesis Event",
+            })
+
+            console.log("MeSomb: Withdrawal response", JSON.stringify(response, null, 2))
+
+            return {
+                success: response.isOperationSuccess(),
+                message: response.message || "Withdrawal processed",
+                transaction: response,
+                status: response.isOperationSuccess() ? "SUCCESS" : "FAILED"
+            }
+
+        } catch (error: any) {
+            console.error("MeSomb Withdrawal Error:", error)
+            return {
+                success: false,
+                message: error.message || "Withdrawal failed",
+                status: "FAILED"
+            }
+        }
     }
 
     /**
