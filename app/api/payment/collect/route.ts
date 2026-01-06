@@ -84,6 +84,7 @@ export async function POST(request: NextRequest) {
             const transactionId = tx.pk || tx.id;
 
             if (transactionId) {
+                console.log(`[CollectAPI] Saving Transaction ID: ${transactionId} for Booking ID: ${reservedBookingId}`)
                 await saveTransaction({
                     id: transactionId,
                     bookingId: reservedBookingId, // Label only

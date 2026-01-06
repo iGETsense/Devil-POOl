@@ -47,9 +47,9 @@ export interface Stats {
 
 // Pass prices in FCFA
 export const PASS_PRICES: Record<string, number> = {
-    "ONE_MAN": 50,
-    "ONE_LADY": 50,
-    "FIVE_QUEENS": 50,
+    "ONE_MAN": 10,
+    "ONE_LADY": 10,
+    "FIVE_QUEENS": 10,
 }
 
 // Generate unique booking ID
@@ -84,8 +84,15 @@ export interface TransactionRecord {
 // ============ TRANSACTION OPERATIONS ============
 
 export async function saveTransaction(record: TransactionRecord): Promise<void> {
-    const db = getFirebaseDatabase()
-    await set(ref(db, `transactions/${record.id}`), record)
+    console.log(`[DB] Attempting to save transaction ${record.id}...`)
+    try {
+        const db = getFirebaseDatabase()
+        await set(ref(db, `transactions/${record.id}`), record)
+        console.log(`[DB] Transaction ${record.id} saved successfully.`)
+    } catch (e) {
+        console.error(`[DB] FAILED to save transaction ${record.id}:`, e)
+        throw e
+    }
 }
 
 export async function updateTransactionStatus(transactionId: string, status: "SUCCESS" | "FAILED", rawResponse?: any): Promise<void> {

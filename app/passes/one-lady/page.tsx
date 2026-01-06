@@ -4,7 +4,7 @@ export default function OneLadyPage() {
   return (
     <PaymentForm
       passName="ONE LADY"
-      passPrice="50 FCFA"
+      passPrice="10 FCFA"
       passImage="/one-lady-neon.png"
     />
   )

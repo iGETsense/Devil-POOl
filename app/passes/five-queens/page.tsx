@@ -4,7 +4,7 @@ export default function FiveQueensPage() {
   return (
     <PaymentForm
       passName="FIVE QUEENS"
-      passPrice="50 FCFA"
+      passPrice="10 FCFA"
       passImage="/five-queens-neon.png"
     />
   )
