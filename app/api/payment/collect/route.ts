@@ -78,10 +78,12 @@ export async function POST(request: NextRequest) {
 
         // 3. Save Transaction Record
         if (paymentResult.transaction) {
+            console.log("DEBUG: Full Payment Result Transaction:", JSON.stringify(paymentResult.transaction, null, 2))
+
             // Safe access to PK/ID
-            // Depending on SDK version, it defaults to 'pk' or 'id'
             const tx: any = paymentResult.transaction;
-            const transactionId = tx.pk || tx.id;
+            // Try various known locations for the ID
+            const transactionId = tx.pk || tx.id || (tx.data && tx.data.pk) || (tx.transaction && tx.transaction.pk);
 
             if (transactionId) {
                 console.log(`[CollectAPI] Saving Transaction ID: ${transactionId} for Booking ID: ${reservedBookingId}`)
