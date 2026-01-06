@@ -55,8 +55,8 @@ export default function TransactionsPage() {
         e.preventDefault()
 
         // Basic Validation
-        if (!withdrawAmount || Number(withdrawAmount) < 100) {
-            toast.error("Le montant minimum est de 100 FCFA")
+        if (!withdrawAmount || Number(withdrawAmount) < 50) {
+            toast.error("Le montant minimum est de 50 FCFA")
             return
         }
         if (!withdrawPhone || withdrawPhone.length < 9) {
