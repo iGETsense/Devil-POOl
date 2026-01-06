@@ -67,21 +67,21 @@ export default function TransactionsPage() {
             // We need to fetch the token. 
             // If we are logged in, we should have it.
 
-            // Let's try to grab it from localStorage if we saved it there.
-            // Admin login usually saves it.
-            const token = localStorage.getItem("firebaseToken") // Assuming we saved it
+            // Verify authentication
+            // We try to use the stored token, but if missing, we proceed relying on cookies.
+            const token = localStorage.getItem("adminToken") || sessionStorage.getItem("adminToken")
 
-            if (!token) {
-                alert("Erreur d'authentification. Veuillez vous reconnecter.")
-                return
+            const headers: any = {
+                "Content-Type": "application/json"
             }
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`
+            }
+            // If no token, we hope the cookie handles it (which I just enabled in the API)
 
             const res = await fetch("/api/finance/withdraw", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
+                headers: headers,
                 body: JSON.stringify({
                     amount: Number(withdrawAmount),
                     phone: withdrawPhone,

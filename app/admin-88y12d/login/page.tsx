@@ -38,8 +38,10 @@ export default function AdminLoginPage() {
 
       if (response.ok && data.success) {
         // Store ID token for API requests
+        localStorage.setItem("adminToken", idToken)
+        localStorage.setItem("adminAuth", "true")
+        // Also keep session for backward comp if needed, but local is priority
         sessionStorage.setItem("adminToken", idToken)
-        sessionStorage.setItem("adminAuth", "true")
         router.push("/admin-88y12d/dashboard")
       } else {
         // Sign out if not authorized

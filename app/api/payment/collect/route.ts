@@ -52,8 +52,9 @@ export async function POST(request: NextRequest) {
         const reservedBookingId = `GEN-${timestamp}-${random}`
 
         // Prepare metadata for transaction
+        // FIX: Firebase set() does not allow 'undefined' values. We must provide a string.
         const metadata = {
-            name: names_list.length === 1 ? names_list[0] : undefined,
+            name: names_list.length > 0 ? names_list[0] : "Client",
             phone: phone,
             passType: passType,
             operator: operator,
