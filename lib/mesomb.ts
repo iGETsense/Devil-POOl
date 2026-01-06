@@ -71,6 +71,8 @@ export class MeSomb {
                 status: "FAILED"
             }
         }
+    }
+
     /**
      * Deposit Payment (Withdrawal from MeSomb to User)
      */
