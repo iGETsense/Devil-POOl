@@ -47,9 +47,9 @@ export interface Stats {
 
 // Pass prices in FCFA
 export const PASS_PRICES: Record<string, number> = {
-    "ONE_MAN": 10,
-    "ONE_LADY": 10,
-    "FIVE_QUEENS": 10,
+    "ONE_MAN": 50,
+    "ONE_LADY": 50,
+    "FIVE_QUEENS": 50,
 }
 
 // Generate unique booking ID

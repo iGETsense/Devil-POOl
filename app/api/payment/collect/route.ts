@@ -71,9 +71,15 @@ export async function POST(request: NextRequest) {
         })
 
         if (!paymentResult.success) {
+            console.error("[CollectAPI] Payment Initialization Failed:", {
+                message: paymentResult.message,
+                status: paymentResult.status,
+                phone: phone,
+                operator: operator
+            })
             return NextResponse.json(
                 { success: false, message: paymentResult.message || "Échec de l'initialisation du paiement" },
-                { status: 400 } // Changed from 500 to 400 for expected failures
+                { status: 400 }
             )
         }
 
