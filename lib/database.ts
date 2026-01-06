@@ -74,6 +74,11 @@ export interface TransactionRecord {
     rawResponse?: any
     createdAt: number
     updatedAt: number
+    metadata?: {
+        name: string // Stored to create booking later if successful
+        phone: string
+        passType: string
+    }
 }
 
 // ============ TRANSACTION OPERATIONS ============
@@ -93,6 +98,19 @@ export async function updateTransactionStatus(transactionId: string, status: "SU
         updates.rawResponse = rawResponse
     }
     await update(ref(db, `transactions/${transactionId}`), updates)
+}
+
+// Get all raw transactions
+export async function getTransactions(): Promise<TransactionRecord[]> {
+    const db = getFirebaseDatabase()
+    const snapshot = await get(ref(db, 'transactions'))
+
+    if (snapshot.exists()) {
+        const transMap = snapshot.val()
+        // Convert object to array and sort by date desc
+        return Object.values(transMap).sort((a: any, b: any) => b.createdAt - a.createdAt) as TransactionRecord[]
+    }
+    return []
 }
 
 // ============ BOOKING OPERATIONS ============

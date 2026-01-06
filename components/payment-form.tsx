@@ -162,79 +162,65 @@ export default function PaymentForm({ passName, passPrice, passImage }: PaymentF
         throw new Error(collectResult.message || "Échec de l'initialisation")
       }
 
-      const bookingId = collectResult.bookingId
-      const bookings = collectResult.bookings
+      const bookingId = collectResult.bookingId // This is now a RESERVED ID, maybe not real yet
+      const transactionId = collectResult.transactionId // NEW: Use this for polling
+      let bookings = collectResult.bookings || []
 
       // CHECK FOR IMMEDIATE SUCCESS
-      // If the backend already confirmed the payment (synchronous capture), 
-      // the booking status might be "paid" or the transaction status "SUCCESS".
       const isImmediatelyPaid =
-        (collectResult.transaction && collectResult.transaction.status === "SUCCESS") ||
+        (collectResult.status === "SUCCESS") ||
         (bookings && bookings.length > 0 && bookings[0].status === "paid");
 
       if (isImmediatelyPaid) {
         setPaymentStatus("success")
-        await new Promise(r => setTimeout(r, 1000))
+        // Build URL parameters for confirmation
+        const bIds = bookings.map((b: any) => b.id).join(",")
+        const bNames = bookings.map((b: any) => b.fullName).join(",")
 
-        if (isFiveQueens && bookings) {
-          const bookingIds = bookings.map((b: any) => b.id).join(",")
-          const names = formData.fullNames.map(n => n.trim()).join(",")
-          router.push(`/confirmation?bookingIds=${bookingIds}&names=${encodeURIComponent(names)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
-        } else {
-          router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(formData.fullName.trim())}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
-        }
+        await new Promise(r => setTimeout(r, 1000))
+        router.push(`/confirmation?bookingIds=${bIds}&names=${encodeURIComponent(bNames)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${passPrice}`)
         return
       }
 
       // STEP 3: WAITING FOR USER ACTION
       setPaymentStatus("waiting")
 
-      // Poll for Payment Status
-      let attempts = 0
-      const maxAttempts = 120 // 2 minutes (1s interval)
-
-      const pollStatus = async (): Promise<boolean> => {
-        while (attempts < maxAttempts) {
-          attempts++
-          // Fast polling: 1 second
-          await new Promise(resolve => setTimeout(resolve, 1000))
-
-          const statusResponse = await fetch(`/api/payment/status?bookingId=${bookingId}`)
-          const statusResult = await statusResponse.json()
+      // Poll for status
+      const pollInterval = setInterval(async () => {
+        try {
+          // Poll using transactionId if available (Strict Mode), else bookingId
+          const statusRes = await fetch(`/api/payment/status?${transactionId ? `transactionId=${transactionId}` : `bookingId=${bookingId}`}`)
+          const statusResult = await statusRes.json()
 
           if (statusResult.status === "SUCCESS") {
-            return true
+            clearInterval(pollInterval)
+            setPaymentStatus("success")
+
+            // JIT Bookings are returned here!
+            const finalBookings = statusResult.bookings || []
+
+            const bIds = finalBookings.map((b: any) => b.id).join(",")
+            const bNames = finalBookings.map((b: any) => b.fullName).join(",")
+
+            await new Promise(r => setTimeout(r, 2000))
+            router.push(`/confirmation?bookingIds=${bIds}&names=${encodeURIComponent(bNames)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${passPrice}`)
           } else if (statusResult.status === "FAILED") {
-            throw new Error("Paiement refusé ou échoué")
+            clearInterval(pollInterval)
+            setPaymentStatus("error")
+            setErrorMessage("Paiement échoué ou annulé.")
           }
-          // If still pending, loop continues
+        } catch (error: any) {
+          console.error("Payment error:", error)
+          // Don't show error to user immediately during polling usually, unless critical
+          // But here we set error state if checking failed? No, keep retry.
+          // setPaymentStatus("error") 
         }
-        throw new Error("Délai d'attente dépassé. Vérifiez votre téléphone.")
-      }
-
-      const paymentSuccess = await pollStatus()
-
-      setPaymentStatus("confirming")
-      await new Promise(r => setTimeout(r, 1000))
-
-      if (paymentSuccess) {
-        setPaymentStatus("success")
-        // Delay redirect slightly to show success state
-        await new Promise(r => setTimeout(r, 1500))
-
-        if (isFiveQueens && collectResult.bookings) {
-          const bookingIds = collectResult.bookings.map((b: any) => b.id).join(",")
-          const names = formData.fullNames.map(n => n.trim()).join(",")
-          router.push(`/confirmation?bookingIds=${bookingIds}&names=${encodeURIComponent(names)}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
-        } else {
-          router.push(`/confirmation?bookingId=${bookingId}&name=${encodeURIComponent(formData.fullName.trim())}&phone=${encodeURIComponent(formattedPhone)}&passType=${encodeURIComponent(passName)}&price=${encodeURIComponent(collectResult.amount)}`)
-        }
-      }
+      }, 5000)
 
     } catch (error: any) {
-      console.error("Payment error:", error)
+      console.error("Submission error:", error)
       setPaymentStatus("error")
-      setErrorMessage(error.message || "Une erreur est survenue")
+      setErrorMessage(error.message || "Erreur de soumission")
     }
   }
 

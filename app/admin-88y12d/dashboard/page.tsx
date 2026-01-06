@@ -8,6 +8,7 @@ import Link from "next/link"
 import StatsCard from "@/components/admin/StatsCard"
 import GuestList, { Guest } from "@/components/admin/GuestList"
 import TransactionFeed, { Transaction } from "@/components/admin/TransactionFeed"
+import LiveMeSombFeed from "@/components/admin/LiveMeSombFeed"
 import { toast } from "sonner"
 
 export default function AdminDashboardPage() {
@@ -274,7 +275,7 @@ export default function AdminDashboardPage() {
           />
         </div>
 
-        {/* Main Grid: Transactions (Left 40%) & List (Right 60%) - Enterprise Style */}
+        {/* Main Grid: Live Logs (Left 35%) & Guest List (Right 65%) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[600px]">
           {/* Left Column: Realtime Transactions (4 cols) */}
           <div className="lg:col-span-5 h-full">

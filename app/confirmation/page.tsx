@@ -124,6 +124,33 @@ function ConfirmationContent() {
   }, [searchParams, router])
 
 
+  const generateSinglePDF = async (index: number) => {
+    if (!ticketsContainerRef.current) return
+
+    try {
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [800, 350]
+      })
+
+      const ticketElement = ticketsContainerRef.current.children[index] as HTMLElement
+      const canvas = await html2canvas(ticketElement, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+        logging: false
+      })
+
+      const imgData = canvas.toDataURL('image/png', 1.0)
+      pdf.addImage(imgData, 'PNG', 0, 0, 800, 350)
+      pdf.save(`Genesis-Ticket-${bookings[index].fullName.replace(/\s+/g, '-')}.pdf`)
+    } catch (err) {
+      console.error("Single PDF Gen Error", err)
+      alert("Erreur génération PDF")
+    }
+  }
+
   const generatePDF = async () => {
     if (!ticketsContainerRef.current || bookings.length === 0) return
 
@@ -156,7 +183,7 @@ function ConfirmationContent() {
         pdf.addImage(imgData, 'PNG', 0, 0, 800, 350)
       }
 
-      pdf.save(`Genesis-Tickets-${bookings[0].id}.pdf`)
+      pdf.save(`Genesis-Tickets-ALL-${bookings[0].id}.pdf`)
 
     } catch (err) {
       console.error("PDF Generation failed", err)
@@ -197,10 +224,10 @@ function ConfirmationContent() {
         </p>
       </div>
 
-      {/* TICKETS DISPLAY LIST */}
       <div className="relative z-10 w-full max-w-5xl flex flex-col gap-8 items-center mb-12 px-4">
         {bookings.map((booking, index) => (
-          <div key={booking.id} className="w-full max-w-md md:max-w-4xl bg-[#0a0a0a] rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl border border-purple-500/30">
+          <div key={booking.id} className="w-full max-w-md md:max-w-4xl bg-[#0a0a0a] rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl border border-purple-500/30 relative group">
+
             {/* Image Section */}
             <div className="w-full md:w-[300px] h-48 md:h-auto relative shrink-0">
               <Image
@@ -249,6 +276,41 @@ function ConfirmationContent() {
 
               <div className="mt-auto flex flex-col md:flex-row justify-between items-center md:items-end gap-6">
                 <div className="space-y-3 w-full md:w-auto">
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {/* Individual Actions */}
+                    <Button
+                      onClick={() => generateSinglePDF(index)}
+                      size="sm"
+                      variant="outline"
+                      className="bg-white/5 border-white/20 hover:bg-white/10 text-xs h-8 text-white"
+                    >
+                      <Download className="w-3 h-3 mr-2" /> PDF Individuel
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        // Generate a smart link that reconstructs this specific ticket view
+                        const params = new URLSearchParams()
+                        params.set("bookingId", booking.id)
+                        params.set("name", booking.fullName)
+                        params.set("passType", booking.passType)
+                        params.set("price", booking.price)
+                        // Note: phone logic in confirmation usually expects original buyer phone, 
+                        // but for single display it relies on params. We include it if available or keep it clean.
+                        if (booking.phone) params.set("phone", booking.phone)
+
+                        const directLik = `${window.location.origin}/confirmation?${params.toString()}`
+
+                        const msg = `Salut ${booking.fullName}! Voici ton ticket pour la GENESIS POOL PARTY 🍾.\n\nCode Accès: *${booking.id}*\n\nCLIQUE ICI pour voir ton billet: \n${directLik}`
+
+                        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
+                      }}
+                      size="sm"
+                      className="bg-[#25D366] hover:bg-[#128C7E] text-white border-none text-xs h-8"
+                    >
+                      <span className="mr-2">WhatsApp</span> Partager
+                    </Button>
+                  </div>
+
                   <div className="flex items-center gap-3 text-gray-300 text-sm bg-white/5 p-2 rounded-lg md:bg-transparent md:p-0">
                     <Calendar className="w-4 h-4 text-purple-400 shrink-0" />
                     <span>{booking.eventDate}</span>
@@ -267,7 +329,6 @@ function ConfirmationContent() {
         ))}
       </div>
 
-      {/* HIDDEN PDF SOURCE (Renders ALL tickets for PDF generation) */}
       <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
         <div ref={ticketsContainerRef}>
           {bookings.map((booking) => (
@@ -344,7 +405,7 @@ function ConfirmationContent() {
           className="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white px-8 py-6 rounded-full shadow-[0_0_20px_rgba(192,132,252,0.4)] font-bold tracking-wide w-full md:w-auto"
         >
           <Download className="mr-2 h-5 w-5" />
-          Télécharger les Billets (PDF)
+          Télécharger TOUT (PDF)
         </Button>
       </div>
 

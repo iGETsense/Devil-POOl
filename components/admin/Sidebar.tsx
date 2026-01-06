@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Users, Smartphone, Book } from "lucide-react"
+import { Home, Users, Smartphone, Book, LayoutDashboard, Activity } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -12,10 +12,11 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
     const pathname = usePathname()
 
     const menuItems = [
-        { icon: Home, label: "Vue d'ensemble", path: "/admin-88y12d/dashboard" },
-        { icon: Users, label: "Réservations", path: "/admin-88y12d/guests" },
-        { icon: Smartphone, label: "Scanner Billet", path: "/admin-88y12d/scanner" },
-        { icon: Book, label: "Guide & Aide", path: "/admin-88y12d/guide" },
+        { icon: LayoutDashboard, label: "Vue d'ensemble", href: "/admin-88y12d/dashboard" },
+        { icon: Activity, label: "Transactions Live", href: "/admin-88y12d/transactions" },
+        { icon: Users, label: "Réservations", href: "/admin-88y12d/dashboard" }, // Fixed to point to dash or list if guest list is there
+        { icon: Smartphone, label: "Scanner Billet", href: "/admin-88y12d/scanner" },
+        { icon: Book, label: "Guide & Aide", href: "/admin-88y12d/guide" },
     ]
 
 
@@ -35,12 +36,12 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
             {/* Menu */}
             <nav className="space-y-2 flex-1">
                 {menuItems.map((item, index) => {
-                    const isActive = pathname === item.path || (item.path !== "/admin-88y12d/dashboard" && pathname.startsWith(item.path))
+                    const isActive = pathname === item.href || (item.href !== "/admin-88y12d/dashboard" && pathname.startsWith(item.href))
 
                     return (
                         <Link
                             key={index}
-                            href={item.path}
+                            href={item.href}
                             onClick={onItemClick}
                             className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group ${isActive
                                 ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]"
