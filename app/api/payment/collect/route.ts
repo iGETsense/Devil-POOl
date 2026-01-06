@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
         if (!paymentResult.success) {
             return NextResponse.json(
                 { success: false, message: paymentResult.message || "Échec de l'initialisation du paiement" },
-                { status: 500 }
+                { status: 400 } // Changed from 500 to 400 for expected failures
             )
         }
 
