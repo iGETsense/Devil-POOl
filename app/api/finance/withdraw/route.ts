@@ -1,23 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
-import { MeSomb } from "@/lib/mesomb"
-import { verifyIdToken } from "@/lib/firebase-admin"
-import { isAuthorizedAdmin } from "@/lib/firebase"
+import { makeWithdrawal } from "@/lib/mesomb-direct"
+import crypto from 'crypto'
 
 // POST - Withdraw funds
 export async function POST(request: NextRequest) {
     try {
-        let token = ""
-
-        // 1. Check Bearer Token
-        // AUTHENTICATION DISABLED AS REQUESTED BY USER
-        // For production, uncomment the auth verification below.
-        /*
-        let decodedToken = await verifyIdToken(token) 
-        // ... (previous auth logic)
-        if (!decodedToken || !isAuthorizedAdmin(decodedToken.uid)) {
-             return NextResponse.json({ success: false, message: "Non autorisé" }, { status: 403 })
-        }
-        */
         console.warn("⚠️ WITHDRAWAL AUTHENTICATION DISABLED - PROCEEDING WITHOUT CHECKS")
 
         const body = await request.json()
@@ -28,22 +15,25 @@ export async function POST(request: NextRequest) {
         }
 
         // Initiate Withdrawal
-        const result = await MeSomb.deposit({
+        const nonce = crypto.randomBytes(16).toString('hex')
+        const receiver = phone.replace("+", "").replace(/\s/g, "")
+
+        const result = await makeWithdrawal({
             amount: Number(amount),
-            payer: phone, // In deposit context, this is receiver
+            receiver: receiver,
             service: service,
-            reference: `WITHDRAW-${Date.now()}`,
-            description: "Admin Withdrawal"
+            nonce: nonce,
         })
 
         if (!result.success) {
-            return NextResponse.json({ success: false, message: result.message }, { status: 500 })
+            // Forward the exact error from MeSomb
+            return NextResponse.json({ success: false, message: result.error || result.message || "Unknown Error" }, { status: 500 })
         }
 
         return NextResponse.json({
             success: true,
             message: "Retrait effectué avec succès",
-            transaction: result.transaction
+            transaction: result.reference
         })
 
     } catch (error: any) {

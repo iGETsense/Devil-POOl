@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server"
-import { MeSomb } from "@/lib/mesomb"
+import { getAccountBalance } from "@/lib/mesomb-direct"
 
 export async function GET() {
     try {
-        const balance = await MeSomb.getBalance()
+        const result = await getAccountBalance()
+
         return NextResponse.json({
-            success: true,
-            balance: balance
+            success: result.success,
+            balance: result.balance, // Direct parsed total
+            balances: result.balances, // breakdown if needed
+            message: result.error // Forward error message
         })
     } catch (error: any) {
         return NextResponse.json({
@@ -15,3 +18,4 @@ export async function GET() {
         }, { status: 500 })
     }
 }
+

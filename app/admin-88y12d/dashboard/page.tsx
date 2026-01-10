@@ -32,71 +32,67 @@ export default function AdminDashboardPage() {
   const [guests, setGuests] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Auto-refresh interval (15 seconds)
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+
+    if (mounted) {
+      // Initial fetch
+      fetchData()
+
+      // Set up polling
+      interval = setInterval(() => {
+        fetchData(true) // Pass true to indicate silent update
+      }, 15000)
+    }
+
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [mounted, router])
+
   useEffect(() => {
     setMounted(true)
-    fetchData()
-  }, [router])
+  }, [])
 
-  const fetchData = async () => {
+  const fetchData = async (silent = false) => {
     try {
-      setLoading(true)
+      if (!silent) setLoading(true)
 
       // 1. Sync Pending Transactions Logic
       // Fire and forget - don't await blocking the UI for this
-      fetch('/api/finance/sync').then(r => r.json()).then(d => {
-        if (d.updated > 0) fetchData() // Reload data if updates found
-      }).catch(e => console.error("Sync trigger error", e))
+      fetch('/api/finance/sync').catch(e => console.error("Sync trigger error", e))
 
-      // Fetch Stats (Force recalculation to ensure accuracy)
-      const statsRes = await fetch('/api/stats?recalculate=true')
-      const statsData = await statsRes.json()
+      // Parallel Fetching for Performance
+      const [statsRes, guestsRes, balanceRes] = await Promise.all([
+        fetch('/api/stats?recalculate=true'),
+        fetch('/api/guests'),
+        fetch('/api/finance/balance')
+      ])
+
+      const [statsData, guestsData, balanceData] = await Promise.all([
+        statsRes.json(),
+        guestsRes.json(),
+        balanceRes.json()
+      ])
+
+      // Process Stats
       if (statsData.success) {
         setStats(statsData.stats)
       }
 
-      // Fetch Guests
-      const guestsRes = await fetch('/api/guests')
-      const guestsData = await guestsRes.json()
+      // Process Guests
       if (guestsData.success) {
         setGuests(guestsData.reservations)
       }
 
-      // Fetch Real MeSomb Balance
-      try {
-        const balanceRes = await fetch('/api/finance/balance')
-        const balanceData = await balanceRes.json()
-        if (balanceData.success && balanceData.balance) {
-          // Handle various response types (Array of accounts or direct object)
-          let totalLive = 0
-          const b = balanceData.balance
-
-          // If array of accounts (common in some SDKs)
-          if (Array.isArray(b)) {
-            totalLive = b.reduce((acc: number, curr: any) => acc + (parseFloat(curr.balance) || 0), 0)
-          } else if (typeof b === 'object' && b !== null) {
-            // Try to find values by summing up known currencies or keys
-            const values = Object.values(b)
-            if (values.length > 0) {
-              // Check if it's a simple key-value of numbers
-              values.forEach((val: any) => {
-                if (typeof val === 'number') totalLive += val
-                else if (typeof val === 'string') totalLive += parseFloat(val)
-              })
-            }
-          } else {
-            totalLive = Number(b) || 0
-          }
-
-          if (totalLive > 0) {
-            setStats(prev => ({ ...prev, totalRevenue: totalLive }))
-          }
-        }
-      } catch (e) { console.error("Balance fetch error", e) }
+      // Process MeSomb Balance (Ignored for Revenue Calculation)
+      // The user wants 'Total Revenue' to be strictly from scanned tickets stats
 
     } catch (error) {
       console.error("Failed to fetch dashboard data", error)
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
 
@@ -233,21 +229,17 @@ export default function AdminDashboardPage() {
       </header>
 
       {/* Dashboard Content */}
-      <div className="space-y-6">
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
 
         {/* Stats Cards Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatsCard
             title="Revenus Total"
-            value={`${stats.totalRevenue.toLocaleString()} FCFA`}
+            value={stats.totalRevenue > 0 ? `${stats.totalRevenue.toLocaleString()} FCFA` : "0 FCFA"}
             icon={DollarSign}
             trend="Live"
             trendUp={true}
             color="blue"
-            subValues={[
-              { label: "Orange", value: `${(stats.revenueOrange || 0).toLocaleString()} FCFA`, color: "text-orange-400" },
-              { label: "MTN", value: `${(stats.revenueMTN || 0).toLocaleString()} FCFA`, color: "text-yellow-400" }
-            ]}
           />
           <StatsCard
             title="Billets Validés"
@@ -276,7 +268,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Main Grid: Live Logs (Left 35%) & Guest List (Right 65%) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[600px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[600px] animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200 fill-mode-backwards">
           {/* Left Column: Realtime Transactions (4 cols) */}
           <div className="lg:col-span-5 h-full">
             <TransactionFeed transactions={transactions} onVerify={handleVerifyPayment} />

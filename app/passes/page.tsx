@@ -60,6 +60,8 @@ export default function PassesPage() {
                                     src="/one-man-neon.png"
                                     alt="One Man"
                                     fill
+                                    priority
+                                    sizes="(max-width: 768px) 100vw, 33vw"
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                             </div>
@@ -91,6 +93,7 @@ export default function PassesPage() {
                                     src="/one-lady-neon.png"
                                     alt="One Lady"
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 33vw"
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                             </div>
@@ -122,6 +125,7 @@ export default function PassesPage() {
                                     src="/five-queens-neon.png"
                                     alt="Five Queens"
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 33vw"
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                             </div>

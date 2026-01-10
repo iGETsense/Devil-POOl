@@ -15,6 +15,7 @@ export default function HomePage() {
                         fill
                         className="object-cover"
                         priority
+                        sizes="100vw"
                         style={{
                             filter: "brightness(0.6) contrast(1.2) saturate(1.4)",
                         }}
@@ -27,7 +28,7 @@ export default function HomePage() {
 
                     {/* Main Title - Outline Neon Style */}
                     <div className="mb-8 animate-reveal">
-                        <h1 className="text-6xl sm:text-7xl md:text-9xl font-bold tracking-wider text-transparent stroke-neon"
+                        <h1 className="text-6xl sm:text-7xl md:text-9xl font-bold tracking-wider text-transparent stroke-neon hover:stroke-white transition-colors duration-500 cursor-default"
                             style={{
                                 fontFamily: "var(--font-inter), sans-serif",
                                 WebkitTextStroke: "2px #a855f7",
@@ -62,25 +63,25 @@ export default function HomePage() {
                     {/* Bottom Info Cards - Glass Pills */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl animate-reveal delay-500">
                         {/* Date Card */}
-                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 transition-colors group">
+                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 hover:border-neon-purple/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] transition-all duration-300 group cursor-default">
                             <div className="p-3 rounded-lg bg-white/5 mb-3 group-hover:bg-neon-purple/20 transition-colors">
-                                <Calendar className="w-6 h-6 text-neon-purple" />
+                                <Calendar className="w-6 h-6 text-neon-purple group-hover:scale-110 transition-transform" />
                             </div>
                             <p className="text-platinum text-lg font-medium">27 décembre - 2024</p>
                         </div>
 
                         {/* Lineup Card */}
-                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 transition-colors group">
+                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 hover:border-neon-purple/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] transition-all duration-300 group cursor-default">
                             <div className="p-3 rounded-lg bg-white/5 mb-3 group-hover:bg-neon-purple/20 transition-colors">
-                                <Music className="w-6 h-6 text-neon-purple" />
+                                <Music className="w-6 h-6 text-neon-purple group-hover:scale-110 transition-transform" />
                             </div>
                             <p className="text-platinum text-lg font-medium">Lineup dévoilé</p>
                         </div>
 
                         {/* Dress Code Card */}
-                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 transition-colors group">
+                        <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[140px] hover:bg-white/5 hover:border-neon-purple/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] transition-all duration-300 group cursor-default">
                             <div className="p-3 rounded-lg bg-white/5 mb-3 group-hover:bg-neon-purple/20 transition-colors">
-                                <MapPin className="w-6 h-6 text-neon-purple" />
+                                <MapPin className="w-6 h-6 text-neon-purple group-hover:scale-110 transition-transform" />
                             </div>
                             <p className="text-platinum text-lg font-medium">Hawaiian party</p>
                         </div>

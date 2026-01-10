@@ -62,7 +62,7 @@ export default function GuestList({ guests = [] }: GuestListProps) {
                     <tbody className="text-sm">
                         {displayGuests.length > 0 ? (
                             displayGuests.map((guest, i) => (
-                                <tr key={i} className="group border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <tr key={i} className="group border-b border-white/5 hover:bg-white/5 transition-colors animate-in slide-in-from-bottom-2 fade-in duration-500 fill-mode-backwards" style={{ animationDelay: `${i * 50}ms` }}>
                                     <td className="p-3">
                                         <span className="text-white font-medium block p-2 rounded-lg bg-white/5 border border-white/5 group-hover:border-purple-500/30 transition-colors">
                                             {guest.name}
